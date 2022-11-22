@@ -50,6 +50,9 @@ dependencies {
     implementation("androidx.compose.material3:material3-window-size-class:1.1.0-alpha02")
     implementation("androidx.navigation:navigation-compose:2.5.3")
 
+    // datetime
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+
     // room
     implementation("androidx.room:room-runtime:2.4.3")
     kapt("androidx.room:room-compiler:2.4.3")

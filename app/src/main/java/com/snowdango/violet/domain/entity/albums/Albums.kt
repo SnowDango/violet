@@ -8,8 +8,8 @@ const val AlbumsTableName = "albums"
 
 @Entity(tableName = AlbumsTableName)
 data class Albums(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long,
-    @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "artist_id") val artistId: Long,
-    @ColumnInfo(name = "thumbnail_url") val thumbnailUrl: String
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0,
+    @ColumnInfo(name = "title") val title: String = "",
+    @ColumnInfo(name = "artist_id") val artistId: Long = 0,
+    @ColumnInfo(name = "thumbnail_url") val thumbnailUrl: String = ""
 )
