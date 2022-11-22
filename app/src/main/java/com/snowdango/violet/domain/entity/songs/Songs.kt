@@ -2,7 +2,6 @@ package com.snowdango.violet.domain.entity.songs
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Fts4
 import androidx.room.PrimaryKey
 
 const val SongsTableName = "songs"
