@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 const val PlatformsTableName = "platforms"
 
 @Entity(tableName = PlatformsTableName)
-data class Platforms(
+data class Platform(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long = 0,
