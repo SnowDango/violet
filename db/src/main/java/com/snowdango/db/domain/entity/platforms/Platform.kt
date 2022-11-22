@@ -15,6 +15,8 @@ data class Platform(
     val songId: Long = -1,
     @ColumnInfo(name = "platform")
     val platform: String = "",
+    @ColumnInfo(name = "media_id")
+    val mediaId: String = "",
     @ColumnInfo(name = "url")
     val url: String? = null
 )
