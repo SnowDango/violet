@@ -12,7 +12,7 @@ data class Platform(
     @ColumnInfo(name = "id")
     val id: Long = 0,
     @ColumnInfo(name = "song_id")
-    val songId: Long = 0,
+    val songId: Long = -1,
     @ColumnInfo(name = "platform")
     val platform: String = "",
     @ColumnInfo(name = "url")

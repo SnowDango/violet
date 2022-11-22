@@ -13,7 +13,7 @@ data class History(
     @ColumnInfo(name = "id")
     val id: Long = 0,
     @ColumnInfo(name = "song_id")
-    val songId: Long = 0,
+    val songId: Long = -1,
     @ColumnInfo(name = "datetime")
     val dateTime: LocalDateTime,
 )

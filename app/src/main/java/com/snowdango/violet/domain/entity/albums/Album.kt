@@ -10,6 +10,6 @@ const val AlbumsTableName = "albums"
 data class Album(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0,
     @ColumnInfo(name = "title") val title: String = "",
-    @ColumnInfo(name = "artist_id") val artistId: Long = 0,
+    @ColumnInfo(name = "artist_id") val artistId: Long = -1,
     @ColumnInfo(name = "thumbnail_url") val thumbnailUrl: String = ""
 )
