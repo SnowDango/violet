@@ -1,10 +1,12 @@
 package com.snowdango.db.repository.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.snowdango.db.domain.entity.platforms.Platform
 import com.snowdango.db.domain.entity.platforms.PlatformsTableName
 
+@Dao
 interface PlatformDao {
 
     @Insert

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Fts4(contentEntity = Song::class)
 @Entity(tableName = SongsTableName + "TitleFts")
 data class SongTitleFts(
-    @PrimaryKey @ColumnInfo(name = "id")
+    @PrimaryKey @ColumnInfo(name = "rowid")
     val id: Long,
     @ColumnInfo(name = "title")
     val title: String
