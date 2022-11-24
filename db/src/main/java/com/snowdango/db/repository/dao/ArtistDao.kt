@@ -1,19 +1,17 @@
 package com.snowdango.db.repository.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.snowdango.db.domain.entity.artists.Artist
 import com.snowdango.db.domain.entity.artists.ArtistsTableName
+import com.snowdango.db.domain.relation.ArtistWithAlbums
 
 @Dao
 interface ArtistDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertArtist(artist: Artist): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertArtists(artists: List<Artist>): List<Long>
 
     @Delete
@@ -27,5 +25,8 @@ interface ArtistDao {
 
     @Query("SELECT COUNT(id) FROM `$ArtistsTableName`")
     suspend fun getCount(): Long
-    
+
+    @Query("SELECT * FROM `$ArtistsTableName` WHERE id = :id")
+    suspend fun getArtistWithAlbums(id: Long): List<ArtistWithAlbums>
+
 }

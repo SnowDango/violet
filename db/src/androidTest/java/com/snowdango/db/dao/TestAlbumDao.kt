@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
-class TestArtistDao {
+class TestAlbumDao {
 
     private lateinit var db: SongHistoryDatabase
 
@@ -31,41 +31,35 @@ class TestArtistDao {
 
     @Test
     fun insertAndGetAndDelete() = runBlocking {
-        val mockData = MockArtist.singleData()
-        db.artistDao.insertArtist(mockData)
-        val singleList = db.artistDao.getArtist(id = 1)
-        println(singleList.toString())
-        assertEquals(singleList.first().name, mockData.name)
-        db.artistDao.deleteArtist(singleList.first())
-        val count = db.artistDao.getCount()
-        assertEquals(count, 0)
+        val mockData = MockAlbum.singleData()
+        db.albumDao.insertAlbum(mockData)
+        assertEquals(db.albumDao.getCount(), 1)
+        val singleList = db.albumDao.getAlbum(id = 1)
+        assertEquals(singleList[0].title, mockData.title)
+        db.albumDao.deleteAlbum(singleList.first())
+        assertEquals(db.albumDao.getCount(), 0)
     }
 
     @Test
     fun over100DataInsert() = runBlocking {
-        val mockList = MockArtist.over100Data()
-        db.artistDao.insertArtists(mockList)
-        val count = db.artistDao.getCount()
-        assertEquals(count, mockList.size.toLong())
+        val mockList = MockAlbum.over100Data()
+        db.albumDao.insertAlbums(mockList)
+        assertEquals(db.albumDao.getCount(), mockList.size.toLong())
     }
 
     @Test
-    fun getArtistWithAlbum() = runBlocking {
-        db.albumDao.insertAlbums(MockAlbum.dataList)
+    fun getAlbumWithArtist() = runBlocking {
         db.artistDao.insertArtists(MockArtist.dataList)
-        val artistWithAlbums = db.artistDao.getArtistWithAlbums(id = 2)
-        val albums = MockAlbum.dataList.filter { it.artistId == 2L }
-        println(artistWithAlbums)
-        albums.forEach { album ->
-            assertEquals(
-                artistWithAlbums.first().albums.any { it.title == album.title },
-                true
-            )
-        }
+        db.albumDao.insertAlbums(MockAlbum.dataList)
+        val albumWithArtist = db.albumDao.getAlbumWithArtist(id = 1)
+        val artist = db.artistDao.getArtist(albumWithArtist.first().album.artistId)
+        assertEquals(albumWithArtist.first().artist.name, artist.first().name)
     }
 
+
     @After
-    fun clear() {
+    fun close() {
         db.close()
     }
+
 }

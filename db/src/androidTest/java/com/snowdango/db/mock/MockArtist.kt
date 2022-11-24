@@ -8,13 +8,13 @@ object MockArtist {
 
     fun over100Data(): List<Artist> {
         val mutableList = mutableListOf<Artist>()
-        repeat(5) {
+        repeat(6) {
             mutableList.addAll(dataList)
         }
         return mutableList.toList()
     }
 
-    private val dataList = listOf(
+    val dataList = listOf(
         Artist(name = "稗田寧々"),
         Artist(name = "Tacitly"),
         Artist(name = "Palette Project"),
@@ -34,8 +34,6 @@ object MockArtist {
         Artist(name = "水瀬いのり"),
         Artist(name = "大橋彩香"),
         Artist(name = "睦月周平"),
-        Artist(name = "La priere"),
-        Artist(name = "MaiR"),
-        Artist(name = "水樹奈々")
+        Artist(name = "La priere")
     )
 }
