@@ -17,8 +17,14 @@ interface ArtistDao {
     @Delete
     suspend fun deleteArtist(artist: Artist)
 
+    @Delete
+    suspend fun deleteArtists(artists: List<Artist>)
+
     @Query("SELECT * FROM `$ArtistsTableName` WHERE id = :id")
     suspend fun getArtist(id: Long): List<Artist>
+
+    @Query("SELECT * FROM $ArtistsTableName")
+    suspend fun getArtistsAll(): List<Artist>
 
     @Query("DELETE FROM `$ArtistsTableName` WHERE id = :id")
     suspend fun deleteById(id: Long)

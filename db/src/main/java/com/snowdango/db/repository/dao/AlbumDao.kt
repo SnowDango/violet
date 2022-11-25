@@ -18,12 +18,18 @@ interface AlbumDao {
     @Delete
     suspend fun deleteAlbum(album: Album)
 
+    @Delete
+    suspend fun deleteAlbums(albums: List<Album>)
+
     @Query("SELECT * FROM `$AlbumsTableName` WHERE id = :id")
     suspend fun getAlbum(id: Long): List<Album>
 
     @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :offset,100")
     suspend fun getAlbumListLimit100(offset: Long): List<Album>
 
+    @Query("SELECT * FROM $AlbumsTableName")
+    suspend fun getAlbumsAll(): List<Album>
+    
     @Query("DELETE FROM `$AlbumsTableName` WHERE id = :id")
     suspend fun deleteAlbumById(id: Long)
 

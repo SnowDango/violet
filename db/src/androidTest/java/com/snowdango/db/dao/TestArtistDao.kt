@@ -34,11 +34,9 @@ class TestArtistDao {
         val mockData = MockArtist.singleData()
         db.artistDao.insertArtist(mockData)
         val singleList = db.artistDao.getArtist(id = 1)
-        println(singleList.toString())
         assertEquals(singleList.first().name, mockData.name)
         db.artistDao.deleteArtist(singleList.first())
-        val count = db.artistDao.getCount()
-        assertEquals(count, 0)
+        checkClearDb()
     }
 
     @Test
@@ -47,6 +45,8 @@ class TestArtistDao {
         db.artistDao.insertArtists(mockList)
         val count = db.artistDao.getCount()
         assertEquals(count, mockList.size.toLong())
+        db.artistDao.deleteArtists(db.artistDao.getArtistsAll())
+        checkClearDb()
     }
 
     @Test
@@ -62,6 +62,21 @@ class TestArtistDao {
                 true
             )
         }
+        db.albumDao.deleteAlbums(db.albumDao.getAlbumsAll())
+        db.artistDao.deleteArtists(db.artistDao.getArtistsAll())
+        checkClearDb()
+    }
+
+    @Test
+    fun getArtistWithNothingAlbum() = runBlocking {
+        db.artistDao.insertArtists(MockArtist.dataList)
+        val artistWithAlbums = db.artistDao.getArtistWithAlbums(id = 1)
+        println(artistWithAlbums)
+    }
+
+    private suspend fun checkClearDb() {
+        assertEquals(db.artistDao.getCount(), 0)
+        assertEquals(db.albumDao.getCount(), 0)
     }
 
     @After
