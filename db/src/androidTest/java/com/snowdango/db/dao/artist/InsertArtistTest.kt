@@ -1,10 +1,9 @@
-package com.snowdango.db.dao
+package com.snowdango.db.dao.artist
 
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.snowdango.db.mock.MockAlbum
 import com.snowdango.db.mock.MockArtist
 import com.snowdango.db.repository.SongHistoryDatabase
 import junit.framework.TestCase.assertEquals
@@ -17,7 +16,7 @@ import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
-class TestAlbumDao {
+class InsertArtistTest {
 
     private lateinit var db: SongHistoryDatabase
 
@@ -30,32 +29,18 @@ class TestAlbumDao {
     }
 
     @Test
-    fun insertAndGetAndDelete() = runBlocking {
-        val mockData = MockAlbum.singleData()
-        db.albumDao.insertAlbum(mockData)
-        assertEquals(db.albumDao.getCount(), 1)
-        val singleList = db.albumDao.getAlbum(id = 1)
-        assertEquals(singleList[0].title, mockData.title)
-        db.albumDao.deleteAlbum(singleList.first())
+    fun insertArtist() = runBlocking {
         assertEquals(db.albumDao.getCount(), 0)
+        db.artistDao.insertArtist(MockArtist.singleData())
+        assertEquals(db.artistDao.getCount(), 1)
     }
 
     @Test
-    fun over100DataInsert() = runBlocking {
-        val mockList = MockAlbum.over100Data()
-        db.albumDao.insertAlbums(mockList)
-        assertEquals(db.albumDao.getCount(), mockList.size.toLong())
-    }
-
-    @Test
-    fun getAlbumWithArtist() = runBlocking {
+    fun insertArtists() = runBlocking {
+        val defCount = db.artistDao.getCount()
         db.artistDao.insertArtists(MockArtist.dataList)
-        db.albumDao.insertAlbums(MockAlbum.dataList)
-        val albumWithArtist = db.albumDao.getAlbumWithArtist(id = 1)
-        val artist = db.artistDao.getArtist(albumWithArtist.first().album.artistId)
-        assertEquals(albumWithArtist.first().artist.name, artist.first().name)
+        assertEquals(db.artistDao.getCount(), defCount + MockArtist.dataList.size)
     }
-
 
     @After
     fun close() {

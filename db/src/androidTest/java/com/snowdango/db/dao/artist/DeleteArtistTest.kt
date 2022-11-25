@@ -1,9 +1,10 @@
-package com.snowdango.db.dao.album
+package com.snowdango.db.dao.artist
 
+import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.snowdango.db.mock.MockAlbum
+import com.snowdango.db.mock.MockArtist
 import com.snowdango.db.repository.SongHistoryDatabase
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,28 +16,24 @@ import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
-class GetAlbumTest {
+class DeleteArtistTest {
+
     private lateinit var db: SongHistoryDatabase
 
     @Before
-    fun setUp() {
+    fun setup() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(), SongHistoryDatabase::class.java
+            context, SongHistoryDatabase::class.java
         ).build()
     }
 
     @Test
-    fun getByIdAlbum() = runBlocking {
-        val mockList = MockAlbum.dataList
-        db.albumDao.insertAlbums(mockList)
-        val single = db.albumDao.getAlbum(id = 5)
-        assertEquals(single.first().title, mockList[4].title)
-    }
-
-    @Test
-    fun getAlbumLimit100() = runBlocking {
-        db.albumDao.insertAlbums(MockAlbum.over100Data())
-        assertEquals(db.albumDao.getAlbumListLimit100(1).size, 100)
+    fun deleteArtist() = runBlocking {
+        db.artistDao.insertArtist(MockArtist.singleData())
+        assertEquals(db.artistDao.getCount(), 1)
+        db.artistDao.deleteById(id = 1)
+        assertEquals(db.artistDao.getCount(), 0)
     }
 
     @After
