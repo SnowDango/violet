@@ -13,5 +13,5 @@ data class Song(
     @ColumnInfo(name = "album_id") val albumId: Long = 0,
     @ColumnInfo(name = "artist_id") val artistId: Long = 0,
     @ColumnInfo(name = "thumbnail_url") val thumbnailUrl: String = "",
-    @ColumnInfo(name = "genre") val genre: String
+    @ColumnInfo(name = "genre") val genre: String = ""
 )
