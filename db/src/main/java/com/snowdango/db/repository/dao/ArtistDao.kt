@@ -32,9 +32,11 @@ interface ArtistDao {
     @Query("SELECT COUNT(id) FROM `$ArtistsTableName`")
     suspend fun getCount(): Long
 
+    @Transaction
     @Query("SELECT * FROM `$ArtistsTableName` WHERE id = :id")
     suspend fun getArtistWithAlbums(id: Long): List<ArtistWithAlbums>
 
+    @Transaction
     @Query("SELECT * FROM $ArtistsTableName ORDER BY name ASC LIMIT :offset,100")
     suspend fun getArtistWithAlbumsLimit100(offset: Long): List<ArtistWithAlbums>
 

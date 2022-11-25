@@ -27,9 +27,6 @@ interface AlbumDao {
     @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :offset,100")
     suspend fun getAlbumListLimit100(offset: Long): List<Album>
 
-    @Query("SELECT * FROM $AlbumsTableName")
-    suspend fun getAlbumsAll(): List<Album>
-    
     @Query("DELETE FROM `$AlbumsTableName` WHERE id = :id")
     suspend fun deleteAlbumById(id: Long)
 
@@ -50,7 +47,7 @@ interface AlbumDao {
 
     @Transaction
     @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :offset,100")
-    suspend fun getAlbumWithSongsListLimit100(offset: Long): List<AlbumWithSongs>
+    suspend fun getAlbumsWithSongsLimit100(offset: Long): List<AlbumWithSongs>
 
 
 }

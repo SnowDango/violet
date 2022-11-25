@@ -47,7 +47,7 @@ class GetArtistWithAlbum {
     fun getArtistsWithAlbumsLimit100() = runBlocking {
         db.artistDao.insertArtists(MockArtist.over100Data())
         db.albumDao.insertAlbums(MockAlbum.dataList)
-        assertEquals(db.artistDao.getArtistsLimit100(0).size, 100)
+        assertEquals(db.artistDao.getArtistWithAlbumsLimit100(0).size, 100)
     }
 
     @After
