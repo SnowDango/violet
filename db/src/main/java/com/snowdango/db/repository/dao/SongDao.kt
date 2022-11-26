@@ -19,6 +19,12 @@ interface SongDao {
     @Delete
     suspend fun deleteSong(song: Song)
 
+    @Query("DELETE FROM $SongsTableName WHERE id = :id")
+    suspend fun deleteSongById(id: Long)
+
+    @Query("SELECT COUNT(id) FROM $SongsTableName")
+    suspend fun getCount(): Long
+
     @Query("SELECT * FROM `$SongsTableName` WHERE id = :id")
     suspend fun getSong(id: Long): List<Song>
 
@@ -31,7 +37,7 @@ interface SongDao {
 
     @Transaction
     @Query("SELECT * FROM `$SongsTableName` ORDER BY id DESC LIMIT :offset,100")
-    suspend fun getSongWithArtistListLimit100(offset: Long): List<SongWithArtist>
+    suspend fun getSongsWithArtistLimit100(offset: Long): List<SongWithArtist>
 
     @Transaction
     @Query("SELECT * FROM `$SongsTableName` WHERE id = :id")
@@ -39,7 +45,7 @@ interface SongDao {
 
     @Transaction
     @Query("SELECT * FROM `$SongsTableName` ORDER BY id DESC LIMIT :offset,100")
-    suspend fun getSongAllMetaListLimit100(offset: Long): List<SongAllMeta>
+    suspend fun getSongsAllMetaLimit100(offset: Long): List<SongAllMeta>
 
     @Transaction
     @Query("SELECT * FROM `$SongsTableName` WHERE id = :id")
