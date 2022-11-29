@@ -5,7 +5,7 @@ import androidx.room.Relation
 import com.snowdango.db.domain.entity.platforms.Platform
 import com.snowdango.db.domain.entity.songs.Song
 
-data class SongWithPlatform(
+data class SongWithPlatforms(
     @Embedded val song: Song,
 
     @Relation(

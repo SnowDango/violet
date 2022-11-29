@@ -5,7 +5,7 @@ import com.snowdango.db.domain.entity.songs.Song
 import com.snowdango.db.domain.entity.songs.SongsTableName
 import com.snowdango.db.domain.relation.SongAllMeta
 import com.snowdango.db.domain.relation.SongWithArtist
-import com.snowdango.db.domain.relation.SongWithPlatform
+import com.snowdango.db.domain.relation.SongWithPlatforms
 
 @Dao
 interface SongDao {
@@ -49,6 +49,9 @@ interface SongDao {
 
     @Transaction
     @Query("SELECT * FROM `$SongsTableName` WHERE id = :id")
-    suspend fun getSongWithPlatform(id: Long): List<SongWithPlatform>
+    suspend fun getSongWithPlatforms(id: Long): List<SongWithPlatforms>
 
+    @Transaction
+    @Query("SELECT * FROM $SongsTableName ORDER BY id DESC LIMIT :offset, 100")
+    suspend fun getSongsWithPlatforms(offset: Long): List<SongWithPlatforms>
 }

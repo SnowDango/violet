@@ -12,6 +12,9 @@ interface PlatformDao {
     @Insert
     suspend fun insertPlatform(platform: Platform): Long
 
+    @Insert
+    suspend fun insertPlatforms(platforms: List<Platform>): List<Long>
+
     @Query("SELECT * FROM `$PlatformsTableName` WHERE id = :id")
     suspend fun getPlatform(id: Long): List<Platform>
 
