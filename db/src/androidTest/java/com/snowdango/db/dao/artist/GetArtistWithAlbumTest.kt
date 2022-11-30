@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
-class GetArtistWithAlbum {
+class GetArtistWithAlbumTest {
 
     private lateinit var db: SongHistoryDatabase
 
