@@ -8,14 +8,26 @@ import com.snowdango.db.domain.relation.HistoryWithSong
 @Dao
 interface HistoryDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     suspend fun insertHistory(history: History): Long
+
+    @Insert
+    suspend fun insertHistories(histories: List<History>): List<Long>
+
+    @Delete
+    suspend fun deleteHistory(history: History)
+
+    @Query("DELETE FROM $HistoriesTableName WHERE id = :id")
+    suspend fun deleteById(id: Long)
+
+    @Query("SELECT COUNT(id) FROM $HistoriesTableName")
+    suspend fun getCount(): Long
 
     @Query("SELECT * FROM `$HistoriesTableName` WHERE id = :id")
     suspend fun getHistory(id: Long): List<History>
 
     @Query("SELECT * FROM `$HistoriesTableName` ORDER BY datetime desc limit :offset,100")
-    suspend fun getHistoryLimit100(offset: Long = 0): List<History>
+    suspend fun getHistoriesLimit100(offset: Long = 0): List<History>
 
     @Transaction
     @Query("SELECT * FROM `$HistoriesTableName` WHERE id = :id")
@@ -23,6 +35,6 @@ interface HistoryDao {
 
     @Transaction
     @Query("SELECT * FROM `$HistoriesTableName` ORDER BY datetime desc limit :offset,100")
-    suspend fun getHistoryWithSongLimit100(offset: Long): List<HistoryWithSong>
+    suspend fun getHistoriesWithSongLimit100(offset: Long): List<HistoryWithSong>
 
 }
