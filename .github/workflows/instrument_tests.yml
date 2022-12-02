@@ -5,10 +5,12 @@ on:
     branches: [ "master", "develop", "feature/*" ]
 
 jobs:
-  build:
-
-    runs-on: macos-latest
-
+  container-tests:
+    runs-on: ubuntu-latest
+    container:
+      image: us-docker.pkg.dev/android-emulator-268719/images/28-playstore-x64:30.1.2
+      ports:
+        - "5555:5555"
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -17,17 +19,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.0.5
-      - name: Build project
-        run: ./gradlew assemble --stacktrace
-      - name: Run instrumentation tests
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
-        with:
-          cmd: ./gradlew connectedCheck --stacktrace
-          api: 33
-          tag: default
-          abi: x86_64
+      - name: Connect ADB
+        run: adb connect localhost:5555 && adb wait-for-device && ./gradlew connectedDebugAndroidTest
