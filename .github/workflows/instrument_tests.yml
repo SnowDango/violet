@@ -5,7 +5,7 @@ on:
     branches: [ "master", "develop", "feature/*" ]
 
 jobs:
-  container-tests:
+  instrument-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,3 +24,9 @@ jobs:
           ndk: 21.0.6113669
           cmake: 3.10.2.4988404
           script: ./gradlew connectedAndroidTest
+      - name: Upload Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test-Reports
+          path: app/build/reports
+        if: always()
