@@ -7,10 +7,6 @@ on:
 jobs:
   container-tests:
     runs-on: ubuntu-latest
-    container:
-      image: us-docker.pkg.dev/android-emulator-268719/images/28-playstore-x64:30.1.2
-      ports:
-        - "5555:5555"
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
