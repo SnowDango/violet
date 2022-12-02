@@ -19,17 +19,20 @@ android {
     }
 
     buildTypes {
-        getByName("debug"){
+        debug {
             isMinifyEnabled = false
         }
-        getByName("release") {
+        release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
-        sourceCompatibility =  JavaVersion.VERSION_11
-        targetCompatibility =  JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -37,6 +40,9 @@ android {
 }
 
 dependencies {
+    // module
+    implementation(project(":db"))
+
     // default
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.5.1")
