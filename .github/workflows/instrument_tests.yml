@@ -19,9 +19,6 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Verify JDK11
-          run: java -fullversion 2>&1 | grep '11.0'
-          shell: bash
       - name: Instrumentation Tests
           uses: reactivecircus/android-emulator-runner@v2
           with:
