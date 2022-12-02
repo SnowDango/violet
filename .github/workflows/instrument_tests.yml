@@ -23,6 +23,5 @@ jobs:
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          arch: arm64-v8a
+          api-level: 30
           script: ./gradlew connectedAndroidTest
