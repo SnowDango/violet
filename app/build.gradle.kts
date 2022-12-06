@@ -41,7 +41,7 @@ android {
 
 dependencies {
     // module
-    implementation(project(":db"))
+    implementation(project(":repository"))
 
     // default
     implementation("androidx.core:core-ktx:1.9.0")

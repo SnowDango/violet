@@ -1,3 +1,5 @@
-include(":app")
 rootProject.name = "violet"
-include(":db")
+include(":app")
+include(":usecase")
+include(":repository")
+include(":domain")
