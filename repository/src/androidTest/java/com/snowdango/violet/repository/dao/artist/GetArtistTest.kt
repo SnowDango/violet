@@ -37,9 +37,9 @@ class GetArtistTest {
     }
 
     @Test
-    fun getArtistsLimit100() = runBlocking {
+    fun getArtists() = runBlocking {
         db.artistDao.insertArtists(MockArtist.over100Data())
-        val listArtist = db.artistDao.getArtistsLimit100(0)
+        val listArtist = db.artistDao.getArtists(0, 100)
         assertEquals(listArtist.size, 100)
     }
 

@@ -43,7 +43,7 @@ class GetSongWithArtist {
     fun getSongWithArtistLimit100() = runBlocking {
         db.songDao.insertSongs(MockSong.over100Data())
         db.artistDao.insertArtists(MockArtist.over100Data())
-        val songsWithArtist = db.songDao.getSongsWithArtistLimit100(0)
+        val songsWithArtist = db.songDao.getSongsWithArtist(0, 100)
         assertEquals(songsWithArtist.size, 100)
     }
 

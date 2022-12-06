@@ -23,8 +23,8 @@ interface ArtistDao {
     @Query("SELECT * FROM `$ArtistsTableName` WHERE id = :id")
     suspend fun getArtist(id: Long): List<Artist>
 
-    @Query("SELECT * FROM $ArtistsTableName ORDER BY name ASC LIMIT :offset,100")
-    suspend fun getArtistsLimit100(offset: Long): List<Artist>
+    @Query("SELECT * FROM $ArtistsTableName ORDER BY name ASC LIMIT :from,:size")
+    suspend fun getArtists(from: Long, size: Long): List<Artist>
 
     @Query("DELETE FROM `$ArtistsTableName` WHERE id = :id")
     suspend fun deleteById(id: Long)
@@ -37,7 +37,6 @@ interface ArtistDao {
     suspend fun getArtistWithAlbums(id: Long): List<ArtistWithAlbums>
 
     @Transaction
-    @Query("SELECT * FROM $ArtistsTableName ORDER BY name ASC LIMIT :offset,100")
-    suspend fun getArtistWithAlbumsLimit100(offset: Long): List<ArtistWithAlbums>
-
+    @Query("SELECT * FROM $ArtistsTableName ORDER BY name ASC LIMIT :from,:size")
+    suspend fun getArtistsWithAlbums(from: Long, size: Long): List<ArtistWithAlbums>
 }

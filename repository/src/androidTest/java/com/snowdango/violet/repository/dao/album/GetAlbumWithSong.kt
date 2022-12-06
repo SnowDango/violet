@@ -40,10 +40,10 @@ class GetAlbumWithSong {
     }
 
     @Test
-    fun getAlbumsWithSongsLimit100() = runBlocking {
+    fun getAlbumsWithSongs() = runBlocking {
         db.albumDao.insertAlbums(MockAlbum.over100Data())
         db.songDao.insertSongs(MockSong.dataList)
-        val albumsWithSongs = db.albumDao.getAlbumsWithSongsLimit100(0)
+        val albumsWithSongs = db.albumDao.getAlbumsWithSongs(0, 100)
         assertEquals(albumsWithSongs.size, 100)
     }
 

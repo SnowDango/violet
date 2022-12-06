@@ -34,9 +34,9 @@ class GetAlbumTest {
     }
 
     @Test
-    fun getAlbumLimit100() = runBlocking {
+    fun getAlbums() = runBlocking {
         db.albumDao.insertAlbums(MockAlbum.over100Data())
-        assertEquals(db.albumDao.getAlbumListLimit100(1).size, 100)
+        assertEquals(db.albumDao.getAlbums(0, 100).size, 100)
     }
 
     @After

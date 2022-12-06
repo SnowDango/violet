@@ -24,8 +24,8 @@ interface AlbumDao {
     @Query("SELECT * FROM `$AlbumsTableName` WHERE id = :id")
     suspend fun getAlbum(id: Long): List<Album>
 
-    @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :offset,100")
-    suspend fun getAlbumListLimit100(offset: Long): List<Album>
+    @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :from,:size")
+    suspend fun getAlbums(from: Long, size: Long): List<Album>
 
     @Query("DELETE FROM `$AlbumsTableName` WHERE id = :id")
     suspend fun deleteAlbumById(id: Long)
@@ -38,16 +38,16 @@ interface AlbumDao {
     suspend fun getAlbumWithArtist(id: Long): List<AlbumWithArtist>
 
     @Transaction
-    @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :offset,100")
-    suspend fun getAlbumWithArtistListLimit100(offset: Long): List<AlbumWithArtist>
+    @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :from,:size")
+    suspend fun getAlbumsWithArtist(from: Long, size: Long): List<AlbumWithArtist>
 
     @Transaction
     @Query("SELECT * FROM `$AlbumsTableName` WHERE id = :id")
     suspend fun getAlbumWithSongs(id: Long): List<AlbumWithSongs>
 
     @Transaction
-    @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :offset,100")
-    suspend fun getAlbumsWithSongsLimit100(offset: Long): List<AlbumWithSongs>
+    @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :from,:size")
+    suspend fun getAlbumsWithSongs(from: Long, size: Long): List<AlbumWithSongs>
 
 
 }

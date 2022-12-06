@@ -26,15 +26,15 @@ interface HistoryDao {
     @Query("SELECT * FROM `$HistoriesTableName` WHERE id = :id")
     suspend fun getHistory(id: Long): List<History>
 
-    @Query("SELECT * FROM `$HistoriesTableName` ORDER BY datetime desc limit :offset,100")
-    suspend fun getHistoriesLimit100(offset: Long = 0): List<History>
+    @Query("SELECT * FROM `$HistoriesTableName` ORDER BY datetime desc limit :from,:size")
+    suspend fun getHistories(from: Long, size: Long): List<History>
 
     @Transaction
     @Query("SELECT * FROM `$HistoriesTableName` WHERE id = :id")
     suspend fun getHistoryWithSong(id: Long): List<HistoryWithSong>
 
     @Transaction
-    @Query("SELECT * FROM `$HistoriesTableName` ORDER BY datetime desc limit :offset,100")
-    suspend fun getHistoriesWithSongLimit100(offset: Long): List<HistoryWithSong>
+    @Query("SELECT * FROM `$HistoriesTableName` ORDER BY datetime desc limit :from,:size")
+    suspend fun getHistoriesWithSong(from: Long, size: Long): List<HistoryWithSong>
 
 }

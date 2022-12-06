@@ -40,7 +40,7 @@ class GetHistoryWithSongTest {
     fun getHistoriesWithSongLimit100() = runBlocking {
         db.historyDao.insertHistories(MockHistory.over100Data())
         db.songDao.insertSongs(MockSong.over100Data())
-        val historiesWithSong = db.historyDao.getHistoriesWithSongLimit100(1)
+        val historiesWithSong = db.historyDao.getHistoriesWithSong(0, 100)
         assertEquals(historiesWithSong.size, 100)
     }
 

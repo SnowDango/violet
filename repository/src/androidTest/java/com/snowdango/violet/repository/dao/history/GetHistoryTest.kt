@@ -40,7 +40,7 @@ class GetHistoryTest {
     @Test
     fun getHistories() = runBlocking {
         db.historyDao.insertHistories(MockHistory.over100Data())
-        val histories = db.historyDao.getHistoriesLimit100(0)
+        val histories = db.historyDao.getHistories(0, 100)
         assertEquals(histories.size, 100)
     }
 

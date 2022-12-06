@@ -28,30 +28,30 @@ interface SongDao {
     @Query("SELECT * FROM `$SongsTableName` WHERE id = :id")
     suspend fun getSong(id: Long): List<Song>
 
-    @Query("SELECT * FROM `$SongsTableName` ORDER BY id DESC LIMIT :offset,100")
-    suspend fun getSongListLimit100(offset: Long): List<Song>
+    @Query("SELECT * FROM `$SongsTableName` ORDER BY id DESC LIMIT :from,:size")
+    suspend fun getSongs(from: Long, size: Long): List<Song>
 
     @Transaction
     @Query("SELECT * FROM `$SongsTableName` WHERE id = :id")
     suspend fun getSongWithArtist(id: Long): List<SongWithArtist>
 
     @Transaction
-    @Query("SELECT * FROM `$SongsTableName` ORDER BY id DESC LIMIT :offset,100")
-    suspend fun getSongsWithArtistLimit100(offset: Long): List<SongWithArtist>
+    @Query("SELECT * FROM `$SongsTableName` ORDER BY id DESC LIMIT :from,:size")
+    suspend fun getSongsWithArtist(from: Long, size: Long): List<SongWithArtist>
 
     @Transaction
     @Query("SELECT * FROM `$SongsTableName` WHERE id = :id")
     suspend fun getSongAllMeta(id: Long): List<SongAllMeta>
 
     @Transaction
-    @Query("SELECT * FROM `$SongsTableName` ORDER BY id DESC LIMIT :offset,100")
-    suspend fun getSongsAllMetaLimit100(offset: Long): List<SongAllMeta>
+    @Query("SELECT * FROM `$SongsTableName` ORDER BY id DESC LIMIT :from,:size")
+    suspend fun getSongsAllMeta(from: Long, size: Long): List<SongAllMeta>
 
     @Transaction
     @Query("SELECT * FROM `$SongsTableName` WHERE id = :id")
     suspend fun getSongWithPlatforms(id: Long): List<SongWithPlatforms>
 
     @Transaction
-    @Query("SELECT * FROM $SongsTableName ORDER BY id DESC LIMIT :offset, 100")
-    suspend fun getSongsWithPlatforms(offset: Long): List<SongWithPlatforms>
+    @Query("SELECT * FROM $SongsTableName ORDER BY id DESC LIMIT :from,:size")
+    suspend fun getSongsWithPlatforms(from: Long, size: Long): List<SongWithPlatforms>
 }

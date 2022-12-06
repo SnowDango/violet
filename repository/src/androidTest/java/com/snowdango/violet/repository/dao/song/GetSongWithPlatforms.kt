@@ -43,7 +43,7 @@ class GetSongWithPlatforms {
     fun getSongsWithPlatformsLimit100() = runBlocking {
         db.songDao.insertSongs(MockSong.over100Data())
         db.platformDao.insertPlatforms(MockPlatform.over100Data())
-        val songsWithPlatforms = db.songDao.getSongsWithPlatforms(0)
+        val songsWithPlatforms = db.songDao.getSongsWithPlatforms(0, 100)
         assertEquals(songsWithPlatforms.size, 100)
     }
 

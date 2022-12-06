@@ -39,7 +39,7 @@ class GetSongTest {
     @Test
     fun getSongsLimit100() = runBlocking {
         db.songDao.insertSongs(MockSong.over100Data())
-        val songs = db.songDao.getSongListLimit100(0)
+        val songs = db.songDao.getSongs(0, 100)
         assertEquals(songs.size, 100)
     }
 

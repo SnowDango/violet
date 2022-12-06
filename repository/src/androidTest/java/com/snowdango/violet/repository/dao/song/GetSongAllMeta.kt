@@ -48,7 +48,7 @@ class GetSongAllMeta {
         db.songDao.insertSongs(MockSong.over100Data())
         db.artistDao.insertArtists(MockArtist.over100Data())
         db.albumDao.insertAlbums(MockAlbum.over100Data())
-        val songsAllMeta = db.songDao.getSongsAllMetaLimit100(0)
+        val songsAllMeta = db.songDao.getSongsAllMeta(0, 100)
         assertEquals(songsAllMeta.size, 100)
     }
 
