@@ -62,7 +62,7 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.3.1")
 
     // debug
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.1")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.2")
 
     // test
     testImplementation("junit:junit:4.13.2")
