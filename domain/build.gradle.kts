@@ -37,14 +37,16 @@ android {
 dependencies {
 
     // room
-    implementation("androidx.room:room-runtime:2.4.3")
-    kapt("androidx.room:room-compiler:2.4.3")
-    implementation("androidx.room:room-ktx:2.4.3")
+    implementation(libs.bundles.room)
+    kapt(libs.bundles.roomKapt)
 
     // datetime
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation(libs.bundles.datetime)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.4")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+
+    testImplementation(libs.bundles.junit5Test)
+    testRuntimeOnly(libs.bundles.junit5TestRuntime)
+
+    // android test
+    androidTestImplementation(libs.bundles.androidxTest)
 }

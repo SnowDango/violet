@@ -1,6 +1,11 @@
+import de.mannodermaus.gradle.plugins.junit5.junitPlatform
+
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
+    kotlin("kapt")
+    id("jacoco")
+    id("de.mannodermaus.android-junit5")
 }
 
 android {
@@ -25,20 +30,40 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
+    }
+
+    testOptions {
+        junitPlatform {
+            filters {
+                includeEngines("spek2")
+            }
+        }
+        unitTests {
+            isIncludeAndroidResources = true
+        }
     }
 }
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("com.google.android.material:material:1.7.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.4")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+    // repository
+    implementation(project(":repository"))
+    // domain
+    implementation(project(":domain"))
+
+    // room
+    implementation(libs.bundles.room)
+    kapt(libs.bundles.roomKapt)
+
+    //assertion
+    testImplementation(libs.bundles.kotlinTest)
+
+    // spek
+    testImplementation(libs.bundles.spekTest)
+    testRuntimeOnly(libs.bundles.spekTestRuntime)
 }
