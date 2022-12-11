@@ -1,6 +1,9 @@
 rootProject.name = "violet"
 
 pluginManagement {
+    repositories {
+        mavenCentral()
+    }
     dependencyResolutionManagement {
         versionCatalogs {
             create("vers") {
