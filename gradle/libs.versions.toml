@@ -1,4 +1,10 @@
 [versions]
+# version
+sdk = "33"
+minsdk = "28"
+versionCode = "1"
+versionName = "0.0.1"
+
 # plugin
 android-gradle = "7.3.1"
 kotlin = "1.7.22"
@@ -20,9 +26,11 @@ room = "2.4.3"
 datetime = "0.4.0"
 
 junit5 = "5.8.2"
+android-junit5 = "1.2.2"
 croutine-test = "1.6.4"
 spek = "2.0.19"
 mockk = "1.13.3"
+androidx-test = "1.4.0"
 androidx-junit = "1.1.4"
 androidx-espresso = "3.5.0"
 
@@ -67,12 +75,17 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 # croutine test
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "croutine-test" }
 
-#junit5
+# junit5
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit5" }
 
+# android junit5
+android-junit5-test-core = { module = "de.mannodermaus.junit5:android-test-core", version.ref = "android-junit5" }
+android-junit5-test-runner = { module = "de.mannodermaus.junit5:android-test-runner", version.ref = "android-junit5" }
+
 # androidx test
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso" }
 
@@ -109,7 +122,10 @@ junit5Test = ["junit-jupiter-api"]
 
 kotlinTest = ["kotlin-test", "kotlin-reflection"]
 
-androidxTest = ["androidx-junit", "androidx-espresso-core"]
+androidxTest = ["androidx-test-runner", "androidx-junit", "androidx-espresso-core"]
+
+androidJunit5 = ["android-junit5-test-core"]
+androidJunit5Runner = ["android-junit5-test-runner"]
 
 spekTest = ["spek-dsl-jvm"]
 spekTestRuntime = ["spek-runner-junit5"]

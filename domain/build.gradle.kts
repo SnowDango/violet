@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "com.snowdango.violet.domain"
-    compileSdk = 33
+    compileSdk = libs.versions.sdk.get().toInt()
 
     defaultConfig {
-        minSdk = 28
-        targetSdk = 33
+        minSdk = libs.versions.minsdk.get().toInt()
+        targetSdk = libs.versions.sdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
