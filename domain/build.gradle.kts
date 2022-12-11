@@ -1,16 +1,16 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
+    id(plugs.plugins.library.get().pluginId)
+    id(plugs.plugins.kotlinAndroid.get().pluginId)
+    id(plugs.plugins.kotlinKapt.get().pluginId)
 }
 
 android {
     namespace = "com.snowdango.violet.domain"
-    compileSdk = libs.versions.sdk.get().toInt()
+    compileSdk = vers.versions.sdk.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.minsdk.get().toInt()
-        targetSdk = libs.versions.sdk.get().toInt()
+        minSdk = vers.versions.minsdk.get().toInt()
+        targetSdk = vers.versions.sdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -46,7 +46,6 @@ dependencies {
     // junit5
     testImplementation(libs.bundles.junit5Test)
     testRuntimeOnly(libs.bundles.junit5TestRuntime)
-
 
     // android test
     androidTestImplementation(libs.bundles.androidxTest)

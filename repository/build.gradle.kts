@@ -1,17 +1,18 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("de.mannodermaus.android-junit5")
+    id(plugs.plugins.library.get().pluginId)
+    id(plugs.plugins.kotlinAndroid.get().pluginId)
+    id(plugs.plugins.kotlinKapt.get().pluginId)
+    id(plugs.plugins.androidJunit5.get().pluginId)
+    id(plugs.plugins.jacoco.get().pluginId)
 }
 
 android {
     namespace = "com.snowdango.violet.repository"
-    compileSdk = libs.versions.sdk.get().toInt()
+    compileSdk = vers.versions.sdk.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.minsdk.get().toInt()
-        targetSdk = libs.versions.sdk.get().toInt()
+        minSdk = vers.versions.minsdk.get().toInt()
+        targetSdk = vers.versions.sdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["runnerBuilder"] =
