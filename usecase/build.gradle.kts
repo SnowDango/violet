@@ -60,6 +60,13 @@ dependencies {
     implementation(libs.bundles.room)
     kapt(libs.bundles.roomKapt)
 
+    // junit
+    testRuntimeOnly(libs.bundles.junit5TestRuntime)
+    testImplementation(libs.bundles.junit5Test)
+
+    // android test
+    androidTestImplementation(libs.bundles.androidxTest)
+
     //assertion
     testImplementation(libs.bundles.kotlinTest)
 
