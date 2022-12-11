@@ -1,0 +1,119 @@
+[versions]
+# plugin
+android-gradle = "7.3.1"
+kotlin = "1.7.22"
+jacoco = "0.8.1"
+gradle-junit5 = "1.8.2.1"
+
+androidx-core-ktx = "1.9.0"
+androidx-appcompat = "1.5.1"
+android-material = "1.7.0"
+constraintlayout = "2.1.4"
+
+compose = "1.3.1"
+compose-material3 = "1.0.1"
+compose-navigation = "2.5.3"
+compose-activity = "1.6.1"
+compose-viewmodel = "2.5.1"
+compose-runtime = "1.3.1"
+room = "2.4.3"
+datetime = "0.4.0"
+
+junit5 = "5.8.2"
+croutine-test = "1.6.4"
+spek = "2.0.19"
+mockk = "1.13.3"
+androidx-junit = "1.1.4"
+androidx-espresso = "3.5.0"
+
+[plugins]
+
+
+[libraries]
+# gradle
+android-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "android-gradle" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+gradle-junit5-plugin = { module = "de.mannodermaus.gradle.plugins:android-junit5", version.ref = "gradle-junit5" }
+
+# jacoco
+jacoco-core = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco" }
+
+# androidx
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+android-material = { module = "com.google.android.material:material", version.ref = "android-material" }
+
+# compose
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-material3" }
+compose-material-window = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
+life-cycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-viewmodel" }
+runtime-livedata-compose = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose-runtime" }
+compose-ui-test-mani = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+
+# Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+
+# datetime
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+
+# croutine test
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "croutine-test" }
+
+#junit5
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit5" }
+
+# androidx test
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso" }
+
+# kotlin test
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-reflection = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+
+# spek
+spek-dsl-jvm = { module = "org.spekframework.spek2:spek-dsl-jvm", version.ref = "spek" }
+spek-runner-junit5 = { module = "org.spekframework.spek2:spek-runner-junit5", version.ref = "spek" }
+
+#mockk
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+[bundles]
+gradle = ["android-build-gradle", "kotlin-gradle-plugin", "gradle-junit5-plugin"]
+jacoco = ["jacoco-core"]
+
+androidxDef = ["androidx-core-ktx", "androidx-appcompat", "androidx-constraintlayout", "android-material"]
+
+compose = ["compose-ui", "compose-material3", "compose-material-icons-extended", "compose-material-window", "compose-navigation", "activity-compose", "life-cycle-viewmodel-compose", "runtime-livedata-compose"]
+composeDebug = ["compose-ui-test-mani"]
+
+room = ["room-runtime", "room-ktx"]
+roomKapt = ["room-compiler"]
+roomTest = ["room-testing"]
+
+datetime = ["kotlinx-datetime"]
+
+coroutinesTest = ["kotlinx-coroutines-test"]
+
+junit5TestRuntime = ["junit-jupiter-engine", "junit-vintage-engine"]
+junit5Test = ["junit-jupiter-api"]
+
+kotlinTest = ["kotlin-test", "kotlin-reflection"]
+
+androidxTest = ["androidx-junit", "androidx-espresso-core"]
+
+spekTest = ["spek-dsl-jvm"]
+spekTestRuntime = ["spek-runner-junit5"]
+
+mockkTest = ["mockk"]
+
+

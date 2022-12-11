@@ -1,29 +1,24 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     kotlin("android")
     kotlin("kapt")
 }
 
 android {
-    namespace = "com.snowdango.violet"
+    namespace = "com.snowdango.violet.repository"
     compileSdk = 33
-    buildToolsVersion = "33.0.0"
 
     defaultConfig {
-        applicationId = "com.snowdango.violet"
         minSdk = 28
         targetSdk = 33
-        versionCode = 1
-        versionName = "0.0.1"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        debug {
-            isMinifyEnabled = false
-        }
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -40,22 +35,33 @@ android {
 }
 
 dependencies {
-    // module
-    implementation(project(":repository"))
+    // domain
+    implementation(project(":domain"))
 
-    // default
-    implementation(libs.bundles.androidxDef)
+    // room
+    implementation(libs.bundles.room)
+    kapt(libs.bundles.roomKapt)
 
-    // compose
-    implementation(libs.bundles.compose)
+    // datetime
+    implementation(libs.bundles.datetime)
 
-    // debug
-    debugImplementation(libs.bundles.composeDebug)
+    // coroutine test
+    testImplementation(libs.bundles.coroutinesTest)
 
-    // junit5
-    testImplementation(libs.bundles.junit5Test)
+    // junit
     testRuntimeOnly(libs.bundles.junit5TestRuntime)
+    testImplementation(libs.bundles.junit5Test)
 
     // android test
     androidTestImplementation(libs.bundles.androidxTest)
+
+    //assertion
+    testImplementation(libs.bundles.kotlinTest)
+
+    // spek
+    testImplementation(libs.bundles.spekTest)
+    testRuntimeOnly(libs.bundles.spekTestRuntime)
+
+    // mockk
+    testImplementation(libs.bundles.mockkTest)
 }

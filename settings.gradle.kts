@@ -1,3 +1,6 @@
-include(":app")
 rootProject.name = "violet"
-include(":db")
+enableFeaturePreview("VERSION_CATALOGS")
+include(":app")
+include(":usecase")
+include(":repository")
+include(":domain")
