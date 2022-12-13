@@ -9,7 +9,7 @@ plugins {
 android {
     namespace = "com.snowdango.violet"
     compileSdk = vers.versions.sdk.get().toInt()
-    buildToolsVersion = "33.0.0"
+    buildToolsVersion = vers.versions.buildToolsVersion.get()
 
     defaultConfig {
         applicationId = "com.snowdango.violet"
