@@ -36,7 +36,6 @@ jobs:
             COMMIT_HASH=$(git log --format="%H" -n 1 | cut -c 1-8)
             USERNAME=SnowDango
             curl -F "file=@${APK_PATH}" -F "token=${DeployGate_Token}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/${DeployGate_UserName}/apps
-
   deploy-release:
     steps:
       - checkout
@@ -55,5 +54,4 @@ workflows:
   sample:
     jobs:
       - test
-      - test-deploy
       - deploy-release
