@@ -7,6 +7,7 @@ buildscript {
     dependencies {
         classpath(libs.bundles.gradle)
         classpath(libs.bundles.jacoco)
+        classpath(libs.bundles.deployGate)
     }
 }
 

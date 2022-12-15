@@ -1,8 +1,8 @@
 [plugins]
-
 library = { id = "com.android.library" }
 application = { id = "com.android.application" }
 kotlinAndroid = { id = "kotlin-android" }
 kotlinKapt = { id = "kotlin-kapt" }
 jacoco = { id = "jacoco" }
 androidJunit5 = { id = "de.mannodermaus.android-junit5" }
+deployGate = { id = "deploygate" }

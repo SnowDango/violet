@@ -4,6 +4,7 @@ plugins {
     id(plugs.plugins.kotlinKapt.get().pluginId)
     id(plugs.plugins.androidJunit5.get().pluginId)
     id(plugs.plugins.jacoco.get().pluginId)
+    id(plugs.plugins.deployGate.get().pluginId)
 }
 
 android {
