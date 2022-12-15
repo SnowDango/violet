@@ -17,7 +17,7 @@ jobs:
       - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-29;google_apis;x86_64
-  test-deploy:
+  deploy-gate:
     executor:
       name: android/android-machine
     steps:
@@ -27,8 +27,8 @@ jobs:
           command: chmod +x ./gradlew
       - run:
           name: Upload to DeployGate
-          command: ./gradlew deployGateUploadStaging
-  deploy-release:
+          command: ./gradlew uploadDeployGateStaging
+  release-deploy:
     executor:
       name: android/android-machine
     steps:
@@ -46,8 +46,25 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  sample:
+  tests:
     jobs:
       - test
-      - test-deploy
-      - deploy-release
+      filters:
+        branches:
+          only:
+            - develop
+            - release/*
+  deploy-staging:
+    jobs:
+      - deploy-gate
+      filters:
+        branches:
+          only:
+            - release/*
+  release:
+    jobs:
+      - release-deploy
+      filters:
+        branches:
+          only:
+            - master
