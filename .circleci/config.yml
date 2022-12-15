@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   android: circleci/android@1.0.3
-  deploygate: jmatsu/deploygate-upload-app@0.0.1
 
 jobs:
   test:
