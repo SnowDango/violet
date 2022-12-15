@@ -26,6 +26,9 @@ jobs:
           name: chmod gradle
           command: chmod +x ./gradlew
       - run:
+          name: Build APK
+          command: ./gradlew assembleStaging
+      - run:
           name: Upload to DeployGate
           command: ./gradlew uploadDeployGateStaging
   release-deploy:
