@@ -29,6 +29,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("staging") {
+            isMinifyEnabled = true
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
