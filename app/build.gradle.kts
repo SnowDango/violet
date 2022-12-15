@@ -65,13 +65,13 @@ deploygate {
     token = System.getenv("DeployGate_Token")
     apks {
         create("release") {
-            sourceFile = file("app/build/outputs/apk/release/app-release.apk")
+            sourceFile = file("build/outputs/apk/release/app-release.apk")
         }
         create("debug") {
-            sourceFile = file("app/build/outputs/apk/debug/app-debug.apk")
+            sourceFile = file("build/outputs/apk/debug/app-debug.apk")
         }
         create("staging") {
-            sourceFile = file("app/build/outputs/apk/staging/app-staging.apk")
+            sourceFile = file("build/outputs/apk/staging/app-staging.apk")
         }
     }
 }
