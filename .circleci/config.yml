@@ -19,7 +19,7 @@ jobs:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-29;google_apis;x86_64
 
-  testdeploy:
+  test-deploy:
     steps:
       - checkout
       - run:
@@ -27,16 +27,27 @@ jobs:
           command: chmod +x ./gradlew
       - run:
           name: build apk
-          command: ./gradlew assembleRelease
+          command: ./gradlew assembleStaging
       - run:
           name: deploy apk
           command: |
-            APK_PATH=app/build/outputs/apk/release/app-release.apk
+            APK_PATH=app/build/outputs/apk/staging/app-staging.apk
             TIME=$(date "+%Y/%m/%d %H:%M")
             COMMIT_HASH=$(git log --format="%H" -n 1 | cut -c 1-8)
             USERNAME=SnowDango
-            curl -F "file=@${APK_PATH}" -F "token=${DG_API_KEY}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/${USERNAME}/apps
+            curl -F "file=@${APK_PATH}" -F "token=${DeployGate_Token}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/${DeployGate_UserName}/apps
 
+  deploy-release:
+    steps:
+      - checkout
+      - run: chmod gradle
+        command: chmod +x ./gradlew
+      - run:
+          name: deocede jks
+          command: touch release.jks && echo $Jks_Base64 | base64 -d > release.jks
+      - run:
+          name: build apk
+          command: ./gradlew assembleRelease
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -44,3 +55,5 @@ workflows:
   sample:
     jobs:
       - test
+      - test-deploy
+      - deploy-release

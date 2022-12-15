@@ -26,6 +26,15 @@ android {
             "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("../release.jks")
+            storePassword = System.getenv("Key_Pass")
+            keyAlias = System.getenv("Key_Alias")
+            keyPassword = System.getenv("Key_Pass")
+        }
+    }
+
     buildTypes {
         debug {
             isMinifyEnabled = false
@@ -39,6 +48,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -51,13 +61,13 @@ android {
 }
 
 deploygate {
-    userName = System.getenv("DEPLOYGATE_USER_NAME")
-    token = System.getenv("DEPLOYGATE_TOKEN")
+    userName = System.getenv("DeployGate_UserName")
+    token = System.getenv("DeployGate_Token")
     apks {
         create("release") {
             sourceFile = file("app/build/outputs/apk/release/app-release.apk")
         }
-        create("develop") {
+        create("debug") {
             sourceFile = file("app/build/outputs/apk/debug/app-debug.apk")
         }
         create("staging") {
