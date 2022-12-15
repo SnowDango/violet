@@ -46,7 +46,7 @@ jobs:
 workflows:
   tests:
     jobs:
-      - unit-and-ui-tests
+      - unit-and-ui-tests:
         filters:
           branches:
             only:
@@ -54,14 +54,14 @@ workflows:
               - release/*
   deploy-staging:
     jobs:
-      - deploy-gate
+      - deploy-gate:
         filters:
           branches:
             only:
               - release/*
   release:
     jobs:
-      - release-deploy
+      - release-deploy:
         filters:
           branches:
             only:
