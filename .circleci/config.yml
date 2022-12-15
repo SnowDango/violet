@@ -19,6 +19,8 @@ jobs:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-29;google_apis;x86_64
   test-deploy:
+    executor:
+      name: android/android-machine
     steps:
       - checkout
       - run:
@@ -36,6 +38,8 @@ jobs:
             USERNAME=SnowDango
             curl -F "file=@${APK_PATH}" -F "token=${DeployGate_Token}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/${DeployGate_UserName}/apps
   deploy-release:
+    executor:
+      name: android/android-machine
     steps:
       - checkout
       - run:
