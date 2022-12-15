@@ -39,8 +39,9 @@ jobs:
   deploy-release:
     steps:
       - checkout
-      - run: chmod gradle
-        command: chmod +x ./gradlew
+      - run:
+          name: chmod gradle
+          command: chmod +x ./gradlew
       - run:
           name: deocede jks
           command: touch release.jks && echo $Jks_Base64 | base64 -d > release.jks
