@@ -4,7 +4,7 @@ orbs:
   android: circleci/android@1.0.3
 
 jobs:
-  test:
+  unit-and-ui-tests:
     executor:
       name: android/android-machine
     steps:
@@ -46,7 +46,7 @@ jobs:
 workflows:
   tests:
     jobs:
-      - test
+      - unit-and-ui-tests
       filters:
         branches:
           only:
