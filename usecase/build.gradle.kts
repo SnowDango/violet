@@ -1,11 +1,10 @@
 import de.mannodermaus.gradle.plugins.junit5.junitPlatform
 
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("jacoco")
-    id("de.mannodermaus.android-junit5")
+    id(plugs.plugins.library.get().pluginId)
+    id(plugs.plugins.kotlinAndroid.get().pluginId)
+    id(plugs.plugins.kotlinKapt.get().pluginId)
+    id(plugs.plugins.androidJunit5.get().pluginId)
 }
 
 android {

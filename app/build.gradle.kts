@@ -1,21 +1,28 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
+    id(plugs.plugins.application.get().pluginId)
+    id(plugs.plugins.kotlinAndroid.get().pluginId)
+    id(plugs.plugins.kotlinKapt.get().pluginId)
+    id(plugs.plugins.androidJunit5.get().pluginId)
+    id(plugs.plugins.jacoco.get().pluginId)
 }
 
 android {
     namespace = "com.snowdango.violet"
-    compileSdk = 33
-    buildToolsVersion = "33.0.0"
+    compileSdk = vers.versions.sdk.get().toInt()
+    buildToolsVersion = vers.versions.buildToolsVersion.get()
 
     defaultConfig {
         applicationId = "com.snowdango.violet"
-        minSdk = 28
-        targetSdk = 33
-        versionCode = 1
-        versionName = "0.0.1"
+
+        minSdk = vers.versions.minsdk.get().toInt()
+        targetSdk = vers.versions.sdk.get().toInt()
+
+        versionCode = vers.versions.versionCode.get().toInt()
+        versionName = vers.versions.versionName.get()
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["runnerBuilder"] =
+            "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
     buildTypes {
@@ -58,4 +65,8 @@ dependencies {
 
     // android test
     androidTestImplementation(libs.bundles.androidxTest)
+
+    // android junit5
+    androidTestImplementation(libs.bundles.androidJunit5)
+    androidTestRuntimeOnly(libs.bundles.androidJunit5Runner)
 }

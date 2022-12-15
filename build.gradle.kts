@@ -16,6 +16,7 @@ allprojects {
         mavenCentral()
         maven(url = "https://dl.bintray.com/spekframework/spek-dev")
     }
+
 }
 
 task("clean", Delete::class) {

@@ -1,0 +1,7 @@
+[versions]
+# version
+sdk = "33"
+minsdk = "28"
+versionCode = "1"
+versionName = "0.0.1"
+buildToolsVersion = "33.0.0"
