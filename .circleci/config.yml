@@ -57,4 +57,5 @@ workflows:
   sample:
     jobs:
       - test
+      - test-deploy
       - deploy-release
