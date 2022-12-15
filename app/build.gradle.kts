@@ -30,6 +30,9 @@ android {
         debug {
             isMinifyEnabled = false
         }
+        create("staging") {
+            isMinifyEnabled = false
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(
@@ -44,6 +47,22 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+}
+
+deploygate {
+    userName = System.getenv("DEPLOYGATE_USER_NAME")
+    token = System.getenv("DEPLOYGATE_TOKEN")
+    apks {
+        create("release") {
+            sourceFile = file("app/build/outputs/apk/release/app-release.apk")
+        }
+        create("develop") {
+            sourceFile = file("app/build/outputs/apk/debug/app-debug.apk")
+        }
+        create("staging") {
+            sourceFile = file("app/build/outputs/apk/staging/app-staging.apk")
+        }
     }
 }
 

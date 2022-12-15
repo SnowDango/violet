@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   android: circleci/android@1.0.3
+  deploygate: jmatsu/deploygate-upload-app@0.0.1
 
 jobs:
   test:
@@ -18,18 +19,24 @@ jobs:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-29;google_apis;x86_64
 
-  deploygate:
-    executor:
-      name: android/android-machine
+  testdeploy:
     steps:
       - checkout
-      - android/buildRelease:
-          apk-path: app/build/outputs/apk/release/app-release.apk
-          apk-name: app-release.apk
-      - android/deploygate:
-          apk-path: app/build/outputs/apk/debug/app-debug.apk
-          api-token: $DEPLOYGATE_API_TOKEN
-          message: $CIRCLE_SHA1
+      - run:
+          name: chmod gradle
+          command: chmod +x ./gradlew
+      - run:
+          name: build apk
+          command: ./gradlew assembleRelease
+      - run:
+          name: deploy apk
+          command: |
+            APK_PATH=app/build/outputs/apk/release/app-release.apk
+            TIME=$(date "+%Y/%m/%d %H:%M")
+            COMMIT_HASH=$(git log --format="%H" -n 1 | cut -c 1-8)
+            USERNAME=SnowDango
+            curl -F "file=@${APK_PATH}" -F "token=${DG_API_KEY}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/${USERNAME}/apps
+
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
