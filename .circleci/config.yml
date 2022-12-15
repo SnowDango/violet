@@ -26,11 +26,11 @@ jobs:
           name: chmod gradle
           command: chmod +x ./gradlew
       - run:
-          name: Build APK
-          command: ./gradlew assembleStaging
+          name: deocede jks
+          command: touch release.jks && echo -n "${Jks_Base64}" | base64 -d > release.jks
       - run:
           name: Upload to DeployGate
-          command: ./gradlew uploadDeployGateStaging
+          command: ./gradlew uploadDeployGateRelease
   release-deploy:
     executor:
       name: android/android-machine
