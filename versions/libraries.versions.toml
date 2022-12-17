@@ -28,6 +28,8 @@ androidx-test = "1.4.0"
 androidx-junit = "1.1.4"
 androidx-espresso = "3.5.0"
 
+deploy-gate = "2.5.0"
+
 [plugins]
 
 
@@ -94,6 +96,9 @@ spek-runner-junit5 = { module = "org.spekframework.spek2:spek-runner-junit5", ve
 #mockk
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
+# deploy gate
+deploygate = { module = "com.deploygate:gradle", version.ref = "deploy-gate" }
+
 [bundles]
 gradle = ["android-build-gradle", "kotlin-gradle-plugin", "gradle-junit5-plugin"]
 jacoco = ["jacoco-core"]
@@ -125,3 +130,5 @@ spekTest = ["spek-dsl-jvm"]
 spekTestRuntime = ["spek-runner-junit5"]
 
 mockkTest = ["mockk"]
+
+deployGate = ["deploygate"]

@@ -4,6 +4,7 @@ plugins {
     id(plugs.plugins.kotlinKapt.get().pluginId)
     id(plugs.plugins.androidJunit5.get().pluginId)
     id(plugs.plugins.jacoco.get().pluginId)
+    id(plugs.plugins.deployGate.get().pluginId)
 }
 
 android {
@@ -25,8 +26,20 @@ android {
             "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("../release.jks")
+            storePassword = System.getenv("Key_Pass")
+            keyAlias = System.getenv("Key_Alias")
+            keyPassword = System.getenv("Key_Pass")
+        }
+    }
+
     buildTypes {
         debug {
+            isMinifyEnabled = false
+        }
+        create("staging") {
             isMinifyEnabled = false
         }
         release {
@@ -35,6 +48,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -43,6 +57,22 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+}
+
+deploygate {
+    userName = System.getenv("DeployGate_UserName")
+    token = System.getenv("DeployGate_Token")
+    apks {
+        create("release") {
+            sourceFile = file("build/outputs/apk/release/app-release.apk")
+        }
+        create("debug") {
+            sourceFile = file("build/outputs/apk/debug/app-debug.apk")
+        }
+        create("staging") {
+            sourceFile = file("build/outputs/apk/staging/app-staging.apk")
+        }
     }
 }
 
