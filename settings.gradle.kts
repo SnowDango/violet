@@ -20,7 +20,6 @@ pluginManagement {
 }
 
 include(":app")
-
 include(":repository")
 include(":domain")
 include(":usecase")
