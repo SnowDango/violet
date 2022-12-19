@@ -33,7 +33,7 @@ class DeleteHistoryTest {
     fun deleteHistory() = runBlocking {
         db.historyDao.insertHistory(MockHistory.singleData())
         assertEquals(db.historyDao.getCount(), 1)
-        db.historyDao.deleteById(id = 1)
+        db.historyDao.deleteHistoryById(id = 1)
         assertEquals(db.historyDao.getCount(), 0)
     }
 

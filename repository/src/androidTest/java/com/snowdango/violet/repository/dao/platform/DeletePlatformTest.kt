@@ -32,7 +32,7 @@ class DeletePlatformTest {
     fun deletePlatform() = runBlocking {
         db.platformDao.insertPlatform(MockPlatform.singleData())
         assertEquals(db.platformDao.getCount(), 1)
-        db.platformDao.deleteById(id = 1)
+        db.platformDao.deletePlatformById(id = 1)
         assertEquals(db.platformDao.getCount(), 0)
     }
 

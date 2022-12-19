@@ -15,4 +15,8 @@ class GetPlatform(private val db: SongHistoryDatabase) {
         return@withContext db.platformDao.getPlatformByMediaId(mediaId).firstOrNull()
     }
 
+    suspend fun getPlatformCount(): Long = withContext(Dispatchers.IO) {
+        return@withContext db.platformDao.getCount()
+    }
+
 }
