@@ -1,19 +1,16 @@
-import de.mannodermaus.gradle.plugins.junit5.junitPlatform
-
 plugins {
     id(plugs.plugins.library.get().pluginId)
     id(plugs.plugins.kotlinAndroid.get().pluginId)
     id(plugs.plugins.kotlinKapt.get().pluginId)
-    id(plugs.plugins.androidJunit5.get().pluginId)
 }
 
 android {
-    namespace = "com.snowdango.usecase"
-    compileSdk = 33
+    namespace = "com.snowdango.violet.usecase"
+    compileSdk = vers.versions.sdk.get().toInt()
 
     defaultConfig {
-        minSdk = 28
-        targetSdk = 33
+        minSdk = vers.versions.minsdk.get().toInt()
+        targetSdk = vers.versions.sdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -38,41 +35,28 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
-    testOptions {
-        junitPlatform {
-            filters {
-                includeEngines("spek2")
-            }
-        }
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
 }
 
 dependencies {
 
-    // repository
-    implementation(project(":repository"))
     // domain
     implementation(project(":domain"))
+
+    // repository
+    implementation(project(":repository"))
 
     // room
     implementation(libs.bundles.room)
     kapt(libs.bundles.roomKapt)
 
-    // junit
-    testRuntimeOnly(libs.bundles.junit5TestRuntime)
+    // datetime
+    implementation(libs.bundles.datetime)
+
+    // junit5
     testImplementation(libs.bundles.junit5Test)
+    testRuntimeOnly(libs.bundles.junit5TestRuntime)
 
     // android test
     androidTestImplementation(libs.bundles.androidxTest)
 
-    //assertion
-    testImplementation(libs.bundles.kotlinTest)
-
-    // spek
-    testImplementation(libs.bundles.spekTest)
-    testRuntimeOnly(libs.bundles.spekTestRuntime)
 }
