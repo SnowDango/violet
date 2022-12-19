@@ -29,6 +29,6 @@ interface PlatformDao {
     suspend fun getPlatform(id: Long): List<Platform>
 
     @Query("SELECT * FROM `$PlatformsTableName` WHERE media_id = :mediaId")
-    suspend fun getPlatforms(mediaId: String): List<Platform>
+    suspend fun getPlatformByMediaId(mediaId: String): List<Platform>
 
 }

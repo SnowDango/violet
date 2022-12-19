@@ -8,8 +8,8 @@ import kotlinx.coroutines.withContext
 
 class GetArtist(private val db: SongHistoryDatabase) {
 
-    suspend fun getArtist(id: Long = 1L): Artist = withContext(Dispatchers.IO) {
-        return@withContext db.artistDao.getArtist(id).first()
+    suspend fun getArtist(id: Long = 1L): Artist? = withContext(Dispatchers.IO) {
+        return@withContext db.artistDao.getArtist(id).firstOrNull()
     }
 
     suspend fun getArtists(from: Long, size: Long): List<Artist> = withContext(Dispatchers.IO) {
@@ -20,13 +20,14 @@ class GetArtist(private val db: SongHistoryDatabase) {
         return@withContext db.artistDao.getCount()
     }
 
-    suspend fun getArtistWithAlbums(id: Long = 1L): ArtistWithAlbums = withContext(Dispatchers.IO) {
-        return@withContext db.artistDao.getArtistWithAlbums(id).first()
-    }
+    suspend fun getArtistWithAlbums(id: Long = 1L): ArtistWithAlbums? =
+        withContext(Dispatchers.IO) {
+            return@withContext db.artistDao.getArtistWithAlbums(id).firstOrNull()
+        }
 
     suspend fun getArtistsWithAlbums(from: Long, size: Long): List<ArtistWithAlbums> =
         withContext(Dispatchers.IO) {
             return@withContext db.artistDao.getArtistsWithAlbums(from, size)
         }
-    
+
 }

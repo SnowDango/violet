@@ -39,7 +39,7 @@ class GetPlatformTest {
     fun getPlatforms() = runBlocking {
         db.platformDao.insertPlatforms(MockPlatform.dataList)
         assertEquals(
-            db.platformDao.getPlatforms("niophoikjolfasf").size,
+            db.platformDao.getPlatformByMediaId("niophoikjolfasf").size,
             MockPlatform.dataList.filter { it.mediaId == "niophoikjolfasf" }.size
         )
     }
