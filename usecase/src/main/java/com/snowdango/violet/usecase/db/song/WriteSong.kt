@@ -11,7 +11,7 @@ class WriteSong(private val db: SongHistoryDatabase) {
         db.songDao.insertSong(song)
     }
 
-    suspend fun insetsSongs(songs: List<Song>) = withContext(Dispatchers.IO) {
+    suspend fun insertSongs(songs: List<Song>) = withContext(Dispatchers.IO) {
         db.songDao.insertSongs(songs)
     }
 
