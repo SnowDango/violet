@@ -20,7 +20,7 @@ interface PlatformDao {
     suspend fun deletePlatform(platform: Platform)
 
     @Query("DELETE FROM $PlatformsTableName WHERE id = :id")
-    suspend fun deleteById(id: Long)
+    suspend fun deletePlatformById(id: Long)
 
     @Query("SELECT COUNT(id) FROM $PlatformsTableName")
     suspend fun getCount(): Long
@@ -29,6 +29,6 @@ interface PlatformDao {
     suspend fun getPlatform(id: Long): List<Platform>
 
     @Query("SELECT * FROM `$PlatformsTableName` WHERE media_id = :mediaId")
-    suspend fun getPlatforms(mediaId: String): List<Platform>
+    suspend fun getPlatformByMediaId(mediaId: String): List<Platform>
 
 }

@@ -78,7 +78,7 @@ deploygate {
 
 dependencies {
     // module
-    implementation(project(":repository"))
+    implementation(project(":usecase"))
 
     // default
     implementation(libs.bundles.androidxDef)
