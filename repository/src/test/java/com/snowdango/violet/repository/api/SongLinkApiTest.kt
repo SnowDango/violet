@@ -5,6 +5,7 @@ import com.snowdango.violet.repository.api.provide.ApiProvider
 import kotlinx.coroutines.runBlocking
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
@@ -28,8 +29,20 @@ class SongLinkApiTest : Spek({
                 }
             }
 
-            Then("return 200") {
+            Then("return 200 and get uniqueId") {
                 assertNotNull(response)
+                assertEquals(
+                    response?.linksByPlatform?.appleMusic?.entityUniqueId,
+                    "ITUNES_SONG::1497506561"
+                )
+                assertEquals(
+                    response?.linksByPlatform?.youtubeMusic?.entityUniqueId,
+                    "YOUTUBE_VIDEO::B5yWiieucoc"
+                )
+                assertEquals(
+                    response?.linksByPlatform?.spotify?.entityUniqueId,
+                    "SPOTIFY_SONG::0gEeGR3yJU7YrnNrSHHWMb"
+                )
             }
         }
 
