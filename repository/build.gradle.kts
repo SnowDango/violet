@@ -50,6 +50,13 @@ dependencies {
     implementation(libs.bundles.room)
     kapt(libs.bundles.roomKapt)
 
+    // moshi
+    implementation(libs.bundles.moshi)
+    // retrofit
+    implementation(libs.bundles.retrofit)
+    // okhttp
+    implementation(libs.bundles.okhttp)
+
     // datetime
     implementation(libs.bundles.datetime)
 
