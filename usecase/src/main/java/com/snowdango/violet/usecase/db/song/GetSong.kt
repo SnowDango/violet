@@ -4,7 +4,7 @@ import com.snowdango.violet.domain.entity.songs.Song
 import com.snowdango.violet.domain.relation.SongAllMeta
 import com.snowdango.violet.domain.relation.SongWithArtist
 import com.snowdango.violet.domain.relation.SongWithPlatforms
-import com.snowdango.violet.repository.SongHistoryDatabase
+import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

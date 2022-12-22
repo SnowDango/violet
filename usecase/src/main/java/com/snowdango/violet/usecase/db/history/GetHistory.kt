@@ -2,7 +2,7 @@ package com.snowdango.violet.usecase.db.history
 
 import com.snowdango.violet.domain.entity.histories.History
 import com.snowdango.violet.domain.relation.HistoryWithSong
-import com.snowdango.violet.repository.SongHistoryDatabase
+import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

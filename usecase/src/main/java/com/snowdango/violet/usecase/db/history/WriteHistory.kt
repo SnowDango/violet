@@ -1,7 +1,7 @@
 package com.snowdango.violet.usecase.db.history
 
 import com.snowdango.violet.domain.entity.histories.History
-import com.snowdango.violet.repository.SongHistoryDatabase
+import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -23,5 +23,5 @@ class WriteHistory(private val db: SongHistoryDatabase) {
     suspend fun deleteHistoryById(id: Long) = withContext(Dispatchers.IO) {
         db.historyDao.deleteHistoryById(id)
     }
-    
+
 }

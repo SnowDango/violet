@@ -3,7 +3,7 @@ package com.snowdango.violet.usecase.db.album
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.snowdango.violet.repository.SongHistoryDatabase
+import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.usecase.db.artist.GetArtist
 import com.snowdango.violet.usecase.db.artist.WriteArtist
 import com.snowdango.violet.usecase.db.mock.MockAlbum
@@ -60,5 +60,5 @@ class GetAlbumWithArtistTest {
     fun clear() {
         db.close()
     }
-    
+
 }
