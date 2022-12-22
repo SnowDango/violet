@@ -1,12 +1,13 @@
 version: 2.1
 
 orbs:
-  android: circleci/android@1.0.3
+  android: circleci/android@2.1.2
 
 jobs:
   unit-and-ui-tests:
     executor:
       name: android/android-machine
+      tag: 2021.10.1
     steps:
       - checkout
       - run:
@@ -20,6 +21,7 @@ jobs:
   deploy-gate:
     executor:
       name: android/android-machine
+      tag: 2021.10.1
     steps:
       - checkout
       - run:
@@ -34,6 +36,7 @@ jobs:
   release-deploy:
     executor:
       name: android/android-machine
+      tag: 2021.10.1
     steps:
       - checkout
       - run:
