@@ -43,6 +43,8 @@ dependencies {
     implementation(libs.bundles.room)
     kapt(libs.bundles.roomKapt)
 
+    implementation(libs.bundles.moshi)
+
     // datetime
     implementation(libs.bundles.datetime)
 
