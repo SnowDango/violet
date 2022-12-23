@@ -50,4 +50,8 @@ class GetSong(private val db: SongHistoryDatabase) {
             return@withContext db.songDao.getSongsAllMeta(from, size)
         }
 
+    suspend fun containsById(id: Long): Boolean = withContext(Dispatchers.IO) {
+        return@withContext db.songDao.getSong(id).isNotEmpty()
+    }
+
 }

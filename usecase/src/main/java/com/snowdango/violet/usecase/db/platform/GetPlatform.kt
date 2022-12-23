@@ -19,4 +19,14 @@ class GetPlatform(private val db: SongHistoryDatabase) {
         return@withContext db.platformDao.getCount()
     }
 
+    suspend fun containsById(id: Long): Boolean = withContext(Dispatchers.IO) {
+        return@withContext db.platformDao.getPlatform(id).isNotEmpty()
+    }
+
+    suspend fun containsByMediaId(mediaId: String, platform: String): Boolean =
+        withContext(Dispatchers.IO) {
+            return@withContext db.platformDao.getPlatformByMediaId(mediaId)
+                .any { it.platform == platform }
+        }
+
 }
