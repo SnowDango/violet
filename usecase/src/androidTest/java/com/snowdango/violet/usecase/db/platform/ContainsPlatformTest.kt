@@ -39,9 +39,10 @@ class ContainsPlatformTest {
 
     @Test
     fun containsByMediaIdTest() = runBlocking {
-        val data = getPlatform.getPlatform(1)!!
-        assertEquals(getPlatform.containsByMediaId(data.mediaId, data.platform), true)
-        assertEquals(getPlatform.containsByMediaId("test", "jiopoajfaf"), false)
+        val mock = MockPlatform.singleData()
+        writePlatform.insertPlatform(mock)
+        assertEquals(getPlatform.containsByMediaId(mock.mediaId, mock.platform), true)
+        assertEquals(getPlatform.containsByMediaId("test", "ojiopjqaofa"), false)
     }
 
     @After
