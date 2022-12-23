@@ -44,6 +44,7 @@ class SongLinkApiTest : Spek({
                     "SPOTIFY_SONG::0gEeGR3yJU7YrnNrSHHWMb"
                 )
             }
+
         }
 
         Scenario(" should return other 200") {
