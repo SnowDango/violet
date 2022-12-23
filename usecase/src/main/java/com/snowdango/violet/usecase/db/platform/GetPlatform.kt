@@ -1,7 +1,7 @@
 package com.snowdango.violet.usecase.db.platform
 
 import com.snowdango.violet.domain.entity.platforms.Platform
-import com.snowdango.violet.repository.SongHistoryDatabase
+import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

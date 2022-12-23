@@ -3,7 +3,7 @@ package com.snowdango.violet.usecase.db.song
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.snowdango.violet.repository.SongHistoryDatabase
+import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.usecase.db.mock.MockSong
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,7 +21,7 @@ class InsertSongTest {
     private lateinit var writeSong: WriteSong
     private lateinit var getSong: GetSong
     private lateinit var db: SongHistoryDatabase
-    
+
     @Before
     fun setUp() {
         db = Room.inMemoryDatabaseBuilder(

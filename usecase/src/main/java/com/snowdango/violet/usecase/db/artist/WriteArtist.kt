@@ -1,7 +1,7 @@
 package com.snowdango.violet.usecase.db.artist
 
 import com.snowdango.violet.domain.entity.artists.Artist
-import com.snowdango.violet.repository.SongHistoryDatabase
+import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

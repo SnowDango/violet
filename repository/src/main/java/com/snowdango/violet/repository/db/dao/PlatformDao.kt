@@ -1,4 +1,4 @@
-package com.snowdango.violet.repository.dao
+package com.snowdango.violet.repository.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete

@@ -3,7 +3,7 @@ package com.snowdango.violet.usecase.db.history
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.snowdango.violet.repository.SongHistoryDatabase
+import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.usecase.db.mock.MockHistory
 import com.snowdango.violet.usecase.db.mock.MockSong
 import com.snowdango.violet.usecase.db.song.GetSong

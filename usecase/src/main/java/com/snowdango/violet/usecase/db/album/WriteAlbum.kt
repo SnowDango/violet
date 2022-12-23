@@ -1,7 +1,7 @@
 package com.snowdango.violet.usecase.db.album
 
 import com.snowdango.violet.domain.entity.albums.Album
-import com.snowdango.violet.repository.SongHistoryDatabase
+import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -26,5 +26,5 @@ class WriteAlbum(private val db: SongHistoryDatabase) {
     suspend fun deleteAlbumById(id: Long) = withContext(Dispatchers.IO) {
         db.albumDao.deleteAlbumById(id)
     }
-    
+
 }

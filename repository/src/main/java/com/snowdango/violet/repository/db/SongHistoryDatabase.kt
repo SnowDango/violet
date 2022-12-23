@@ -1,4 +1,4 @@
-package com.snowdango.violet.repository
+package com.snowdango.violet.repository.db
 
 import android.content.Context
 import androidx.room.Database
@@ -12,8 +12,8 @@ import com.snowdango.violet.domain.entity.histories.History
 import com.snowdango.violet.domain.entity.platforms.Platform
 import com.snowdango.violet.domain.entity.songs.Song
 import com.snowdango.violet.domain.entity.songs.SongTitleFts
-import com.snowdango.violet.repository.converter.LocalDateTimeConverter
-import com.snowdango.violet.repository.dao.*
+import com.snowdango.violet.repository.db.converter.LocalDateTimeConverter
+import com.snowdango.violet.repository.db.dao.*
 
 const val DatabaseName = "song_history_db"
 

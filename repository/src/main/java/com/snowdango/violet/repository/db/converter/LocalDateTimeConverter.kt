@@ -1,4 +1,4 @@
-package com.snowdango.violet.repository.converter
+package com.snowdango.violet.repository.db.converter
 
 import androidx.room.TypeConverter
 import kotlinx.datetime.*
