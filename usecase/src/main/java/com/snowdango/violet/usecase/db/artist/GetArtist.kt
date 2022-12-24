@@ -30,4 +30,8 @@ class GetArtist(private val db: SongHistoryDatabase) {
             return@withContext db.artistDao.getArtistsWithAlbums(from, size)
         }
 
+    suspend fun containsById(id: Long): Boolean = withContext(Dispatchers.IO) {
+        return@withContext db.artistDao.getArtist(id).isNotEmpty()
+    }
+
 }

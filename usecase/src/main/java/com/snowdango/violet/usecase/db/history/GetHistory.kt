@@ -29,4 +29,8 @@ class GetHistory(private val db: SongHistoryDatabase) {
             return@withContext db.historyDao.getHistoriesWithSong(from, size)
         }
 
+    suspend fun containsById(id: Long): Boolean = withContext(Dispatchers.IO) {
+        return@withContext db.historyDao.getHistory(id).isNotEmpty()
+    }
+
 }
