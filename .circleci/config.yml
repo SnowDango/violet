@@ -50,6 +50,7 @@ jobs:
           command: ./gradlew assembleRelease
 
 workflows:
+  version: 2
   tests:
     jobs:
       - unit-and-ui-tests:
