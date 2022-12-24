@@ -41,5 +41,10 @@ android {
 
 dependencies {
 
+    implementation(project(":usecase"))
+    implementation(project(":domain"))
+    implementation(project(":repository"))
+
+    implementation(libs.bundles.paging)
 
 }
