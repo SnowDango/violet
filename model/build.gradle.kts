@@ -45,6 +45,14 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":repository"))
 
+    // paging
     implementation(libs.bundles.paging)
+
+    // junit5
+    testImplementation(libs.bundles.junit5Test)
+    testRuntimeOnly(libs.bundles.junit5TestRuntime)
+
+    // android test
+    androidTestImplementation(libs.bundles.androidxTest)
 
 }
