@@ -55,13 +55,13 @@ workflows:
     jobs:
       - unit-and-ui-tests:
         filters:
-          - release/*
-  deploy-staging:
-    jobs:
-      - deploy-gate:
           branches:
             only:
               - develop
+              - release/*
+  deploy-staging:
+    jobs:
+      - deploy-gate:
         filters:
           branches:
             only:

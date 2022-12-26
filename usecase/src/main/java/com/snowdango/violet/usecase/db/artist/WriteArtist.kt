@@ -22,4 +22,5 @@ class WriteArtist(private val db: SongHistoryDatabase) {
     suspend fun deleteArtistById(id: Long) = withContext(Dispatchers.IO) {
         db.artistDao.deleteArtistById(id)
     }
+
 }
