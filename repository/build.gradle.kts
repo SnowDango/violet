@@ -44,7 +44,7 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain"))
+    api(project(":domain"))
 
     // room
     implementation(libs.bundles.room)

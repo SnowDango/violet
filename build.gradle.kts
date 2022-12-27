@@ -8,7 +8,6 @@ buildscript {
         classpath(libs.bundles.gradle)
         classpath(libs.bundles.jacoco)
         classpath(libs.bundles.deployGate)
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
     }
 }
 

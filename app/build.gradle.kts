@@ -51,6 +51,12 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.2"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -78,13 +84,17 @@ deploygate {
 
 dependencies {
     // module
-    implementation(project(":usecase"))
+    api(project(":model"))
 
     // default
     implementation(libs.bundles.androidxDef)
 
     // compose
     implementation(libs.bundles.compose)
+
+    // permission dispatcher
+    implementation(libs.bundles.permissionDispacher)
+    kapt(libs.bundles.permissionDispatcherProcessor)
 
     // debug
     debugImplementation(libs.bundles.composeDebug)
