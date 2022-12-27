@@ -2,6 +2,7 @@ package com.snowdango.violet
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.app.NotificationManagerCompat
@@ -15,11 +16,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             // TODO create navHost
         }
-        startListenerService()
+        startService()
     }
 
-    private fun startListenerService() {
+
+    private fun startService() {
         if (!NotificationManagerCompat.getEnabledListenerPackages(this).contains(packageName)) {
+            val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+            startActivity(intent)
+        } else {
             val intent = Intent(this, MusicNotificationListenerService::class.java)
             startForegroundService(intent)
         }
