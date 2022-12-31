@@ -12,8 +12,14 @@ import android.service.notification.StatusBarNotification
 import androidx.core.app.NotificationCompat
 import com.snowdango.violet.Const
 import com.snowdango.violet.R
+import com.snowdango.violet.domain.last.LastSong
+import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.extention.getMediaController
-import com.snowdango.violet.repository.platform.Platforms
+import com.snowdango.violet.model.SaveSongHistoryModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MusicNotificationListenerService : NotificationListenerService() {
 
@@ -49,20 +55,35 @@ class MusicNotificationListenerService : NotificationListenerService() {
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         val notification = sbn?.notification
+        Timber.d(notification.toString())
         notification?.let {
             if (notification.category != Notification.CATEGORY_TRANSPORT ||
-                Platforms.platforms.any { it.packageName == packageName }
+                !PlatformType.values().any { platform -> platform.packageName == sbn.packageName }
             ) {
                 return
             }
-            val mediaId: String = getMediaId() ?: return
+            val data = getData(sbn.packageName)
+            val model = SaveSongHistoryModel(applicationContext)
+            CoroutineScope(Dispatchers.Default).launch {
+                data?.let { model.saveSongHistory(it) }
+            }
         }
         super.onNotificationPosted(sbn)
     }
 
-    private fun getMediaId(): String? {
+    private fun getData(packageName: String): LastSong? {
         val mediaController = applicationContext.getMediaController(packageName)
-        return mediaController?.metadata?.getString(MediaMetadata.METADATA_KEY_MEDIA_ID)
+        val metadata = mediaController?.metadata ?: return null
+        val queue = mediaController.queue?.firstOrNull() ?: return null
+        return LastSong(
+            mediaId = metadata.getString(MediaMetadata.METADATA_KEY_MEDIA_ID),
+            title = metadata.getString(MediaMetadata.METADATA_KEY_TITLE),
+            artist = metadata.getString(MediaMetadata.METADATA_KEY_ARTIST),
+            album = metadata.getString(MediaMetadata.METADATA_KEY_ALBUM),
+            albumArtist = metadata.getString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST),
+            platform = PlatformType.values().firstOrNull { it.packageName == packageName },
+            queueId = queue.queueId
+        )
     }
 
     override fun onUnbind(intent: Intent?): Boolean {

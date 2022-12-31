@@ -96,6 +96,11 @@ dependencies {
     implementation(libs.bundles.permissionDispacher)
     kapt(libs.bundles.permissionDispatcherProcessor)
 
+    // datastore
+    implementation(libs.bundles.datastore)
+
+    implementation(libs.bundles.timber)
+
     // debug
     debugImplementation(libs.bundles.composeDebug)
 

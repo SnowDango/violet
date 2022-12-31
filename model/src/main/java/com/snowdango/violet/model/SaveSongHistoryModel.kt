@@ -1,12 +1,18 @@
 package com.snowdango.violet.model
 
-import android.app.Notification
 import android.content.Context
+import com.snowdango.violet.domain.last.LastSong
+import com.snowdango.violet.usecase.datastore.CheckLastSong
+import timber.log.Timber
 
-class SaveSongHistoryModel(val context: Context) {
+class SaveSongHistoryModel(private val context: Context) {
 
-    fun saveSongHistory(notification: Notification, packageName: String) {
-        
+    suspend fun saveSongHistory(data: LastSong) {
+
+        val checkLastSong = CheckLastSong(context)
+        checkLastSong.checkLastSong(data) {
+            Timber.d("is change song.")
+        }
     }
 
 }

@@ -22,6 +22,12 @@ compose-runtime = "1.3.2"
 
 permission-dispatcher = "4.9.2"
 
+datastore = "1.0.0"
+
+koin = "3.3.2"
+
+timber = "5.0.1"
+
 room = "2.4.3"
 datetime = "0.4.0"
 moshi = "1.14.0"
@@ -74,6 +80,15 @@ compose-ui-test-mani = { module = "androidx.compose.ui:ui-test-manifest", versio
 # permission-dispatcher
 permission-dispatcher = { module = "com.github.permissions-dispatcher:permissionsdispatcher", version.ref = "permission-dispatcher" }
 permission-dispatcher-processor = { module = "com.github.permissions-dispatcher:permissionsdispatcher-processor", version.ref = "permission-dispatcher" }
+
+# datastore
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
+# koin
+koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+
+# timber
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 # Room
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
@@ -140,6 +155,12 @@ composeDebug = ["compose-ui-test-mani"]
 
 permissionDispacher = ["permission-dispatcher"]
 permissionDispatcherProcessor = ["permission-dispatcher-processor"]
+
+datastore = ["datastore-preferences"]
+
+koin = ["koin"]
+
+timber = ["timber"]
 
 room = ["room-runtime", "room-ktx"]
 roomKapt = ["room-compiler"]

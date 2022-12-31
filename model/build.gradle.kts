@@ -45,6 +45,7 @@ dependencies {
     // paging
     implementation(libs.bundles.paging)
 
+    implementation(libs.bundles.timber)
     // junit5
     testImplementation(libs.bundles.junit5Test)
     testRuntimeOnly(libs.bundles.junit5TestRuntime)
