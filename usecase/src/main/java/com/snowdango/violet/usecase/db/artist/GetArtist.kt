@@ -12,6 +12,10 @@ class GetArtist(private val db: SongHistoryDatabase) {
         return@withContext db.artistDao.getArtist(id).firstOrNull()
     }
 
+    suspend fun getArtistByName(name: String): Artist? = withContext(Dispatchers.IO) {
+        return@withContext db.artistDao.getArtistByName(name).firstOrNull()
+    }
+
     suspend fun getArtists(from: Long, size: Long): List<Artist> = withContext(Dispatchers.IO) {
         return@withContext db.artistDao.getArtists(from, size)
     }
@@ -32,6 +36,10 @@ class GetArtist(private val db: SongHistoryDatabase) {
 
     suspend fun containsById(id: Long): Boolean = withContext(Dispatchers.IO) {
         return@withContext db.artistDao.getArtist(id).isNotEmpty()
+    }
+
+    suspend fun containsByName(name: String): Boolean = withContext(Dispatchers.IO) {
+        return@withContext db.artistDao.getArtistByName(name).isNotEmpty()
     }
 
 }

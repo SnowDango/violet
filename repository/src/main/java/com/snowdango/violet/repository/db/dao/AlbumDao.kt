@@ -27,6 +27,9 @@ interface AlbumDao {
     @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :from,:size")
     suspend fun getAlbums(from: Long, size: Long): List<Album>
 
+    @Query("SELECT * FROM `$AlbumsTableName` WHERE title = :title")
+    suspend fun getAlbumByTitle(title: String): List<Album>
+
     @Query("DELETE FROM `$AlbumsTableName` WHERE id = :id")
     suspend fun deleteAlbumById(id: Long)
 

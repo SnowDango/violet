@@ -20,6 +20,7 @@ class LastSongDataStore(private val context: Context) : KoinComponent {
     private val albumArtist = stringPreferencesKey("last_album_artist")
     private val platform = stringPreferencesKey("last_platform")
     private val queueIdKey = longPreferencesKey("last_queue_id")
+    private val genreKey = stringPreferencesKey("last_genre")
 
     suspend fun saveLastSong(lastSong: LastSong) {
         dataStore.edit { preferences: MutablePreferences ->
@@ -30,6 +31,7 @@ class LastSongDataStore(private val context: Context) : KoinComponent {
             preferences[albumArtist] = lastSong.albumArtist ?: ""
             preferences[platform] = lastSong.platform?.name ?: ""
             preferences[queueIdKey] = lastSong.queueId ?: 0
+            preferences[genreKey] = lastSong.genre ?: ""
         }
     }
 
@@ -43,7 +45,8 @@ class LastSongDataStore(private val context: Context) : KoinComponent {
             preferences[albumArtist],
             PlatformType.values().lastOrNull { it.packageName == preferences[platform] }
                 ?: PlatformType.AppleMusic,
-            preferences[queueIdKey]
+            preferences[queueIdKey],
+            preferences[genreKey]
         )
     }
 }

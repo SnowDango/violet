@@ -80,7 +80,8 @@ class MusicNotificationListenerService : NotificationListenerService() {
             album = metadata.getString(MediaMetadata.METADATA_KEY_ALBUM),
             albumArtist = metadata.getString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST),
             platform = PlatformType.values().firstOrNull { it.packageName == packageName },
-            queueId = queue.queueId
+            queueId = queue.queueId,
+            genre = metadata.getString(MediaMetadata.METADATA_KEY_GENRE)
         )
     }
 
