@@ -99,8 +99,6 @@ dependencies {
     // datastore
     implementation(libs.bundles.datastore)
 
-    implementation(libs.bundles.timber)
-
     // debug
     debugImplementation(libs.bundles.composeDebug)
 

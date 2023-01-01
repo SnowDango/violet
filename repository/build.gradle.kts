@@ -50,9 +50,10 @@ dependencies {
     implementation(libs.bundles.datastore)
 
     // room
-    implementation(libs.bundles.room)
     kapt(libs.bundles.roomKapt)
 
+    // timber
+    api(libs.bundles.timber)
     // koin
     api(libs.bundles.koin)
 

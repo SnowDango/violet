@@ -43,7 +43,6 @@ dependencies {
     api(project(":repository"))
 
     // room
-    implementation(libs.bundles.room)
     kapt(libs.bundles.roomKapt)
 
     // datetime

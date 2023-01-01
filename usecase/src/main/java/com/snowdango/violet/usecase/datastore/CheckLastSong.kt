@@ -10,7 +10,7 @@ class CheckLastSong(private val context: Context) {
 
     private val mutex = Mutex()
 
-    suspend fun checkLastSong(lastSong: LastSong, isDifferentCallback: () -> Unit) {
+    suspend fun checkLastSong(lastSong: LastSong, callback: Callback) {
         var isDifferent = false
         mutex.withLock {
             val datastore = LastSongDataStore(context)
@@ -19,8 +19,12 @@ class CheckLastSong(private val context: Context) {
             datastore.saveLastSong(lastSong)
         }
         if (isDifferent) {
-            isDifferentCallback()
+            callback.isDifferent()
         }
+    }
+
+    interface Callback {
+        suspend fun isDifferent()
     }
 
 }

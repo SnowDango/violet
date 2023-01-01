@@ -40,7 +40,7 @@ android {
 dependencies {
 
     // room
-    implementation(libs.bundles.room)
+    api(libs.bundles.room)
     kapt(libs.bundles.roomKapt)
 
     implementation(libs.bundles.moshi)
