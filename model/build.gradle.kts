@@ -43,7 +43,7 @@ dependencies {
 
     api(project(":usecase"))
     // paging
-    implementation(libs.bundles.paging)
+    api(libs.bundles.paging)
 
     implementation(libs.bundles.timber)
     // junit5

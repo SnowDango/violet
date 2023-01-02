@@ -51,6 +51,12 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+    viewBinding {
+        enable = true
+    }
+    dataBinding {
+        enable = true
+    }
     buildFeatures {
         compose = true
     }
@@ -85,6 +91,9 @@ deploygate {
 dependencies {
     // module
     api(project(":model"))
+
+    // navigation
+    implementation(libs.bundles.navigation)
 
     // default
     implementation(libs.bundles.androidxDef)
