@@ -1,6 +1,5 @@
 package com.snowdango.violet.repository.datastore
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import com.snowdango.violet.domain.last.LastSong
@@ -9,7 +8,7 @@ import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class LastSongDataStore(private val context: Context) : KoinComponent {
+class LastSongDataStore : KoinComponent {
 
     private val dataStore: DataStore<Preferences> by inject()
 

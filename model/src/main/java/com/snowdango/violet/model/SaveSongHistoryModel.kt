@@ -1,6 +1,5 @@
 package com.snowdango.violet.model
 
-import android.content.Context
 import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.domain.entity.artists.Artist
 import com.snowdango.violet.domain.entity.histories.History
@@ -28,14 +27,14 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 
-class SaveSongHistoryModel(private val context: Context) : KoinComponent {
+class SaveSongHistoryModel : KoinComponent {
 
     private val db: SongHistoryDatabase by inject()
     private val apiRepository: ApiRepository by inject()
 
     suspend fun saveSongHistory(data: LastSong) {
 
-        val checkLastSong = CheckLastSong(context)
+        val checkLastSong = CheckLastSong()
         val isChange = checkLastSong.checkLastSong(data)
         if (isChange) {
             getSongData(data)

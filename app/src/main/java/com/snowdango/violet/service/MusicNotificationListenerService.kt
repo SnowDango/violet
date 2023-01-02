@@ -61,7 +61,7 @@ class MusicNotificationListenerService : NotificationListenerService() {
                 return
             }
             val data = getData(sbn.packageName)
-            val model = SaveSongHistoryModel(applicationContext)
+            val model = SaveSongHistoryModel()
             CoroutineScope(Dispatchers.Default).launch {
                 data?.let { model.saveSongHistory(it) }
             }

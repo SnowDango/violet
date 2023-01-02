@@ -1,6 +1,5 @@
 package com.snowdango.violet.usecase.datastore
 
-import android.content.Context
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.memory.InMemoryStore
 import com.snowdango.violet.repository.datastore.LastSongDataStore
@@ -11,10 +10,10 @@ import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class CheckLastSong(private val context: Context) : KoinComponent {
+class CheckLastSong : KoinComponent {
 
     private val mutex = Mutex()
-    private val datastore = LastSongDataStore(context)
+    private val datastore = LastSongDataStore()
     private val inMemoryStore: InMemoryStore by inject()
 
     suspend fun checkLastSong(lastSong: LastSong): Boolean = withContext(Dispatchers.IO) {
