@@ -82,6 +82,7 @@ navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material" }
 compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-material" }
 compose-material3-window = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
 
@@ -170,7 +171,7 @@ paging = ["paging-runtime", "paging-compose"]
 
 navigation = ["navigation-fragment-ktx", "navigation-ui-ktx", "compose-navigation"]
 
-compose = ["compose-compiler", "compose-ui", "compose-material3", "compose-material-icons-extended", "compose-material3-window", "activity-compose", "life-cycle-viewmodel-compose", "runtime-livedata-compose"]
+compose = ["compose-compiler", "compose-ui", "compose-material3", "compose-material-icons-extended", "compose-material3-window", "activity-compose", "life-cycle-viewmodel-compose", "runtime-livedata-compose", "compose-material"]
 composeDebug = ["compose-ui-test-mani"]
 
 permissionDispacher = ["permission-dispatcher"]
