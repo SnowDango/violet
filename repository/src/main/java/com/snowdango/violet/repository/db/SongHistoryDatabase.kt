@@ -13,6 +13,7 @@ import com.snowdango.violet.domain.entity.platforms.Platform
 import com.snowdango.violet.domain.entity.songs.Song
 import com.snowdango.violet.domain.entity.songs.SongTitleFts
 import com.snowdango.violet.repository.db.converter.LocalDateTimeConverter
+import com.snowdango.violet.repository.db.converter.PlatformTypeConverter
 import com.snowdango.violet.repository.db.dao.*
 
 const val DatabaseName = "song_history_db"
@@ -30,7 +31,10 @@ const val DatabaseName = "song_history_db"
     version = 1,
     exportSchema = false
 )
-@TypeConverters(LocalDateTimeConverter::class)
+@TypeConverters(
+    LocalDateTimeConverter::class,
+    PlatformTypeConverter::class
+)
 abstract class SongHistoryDatabase : RoomDatabase() {
 
     abstract val songDao: SongDao

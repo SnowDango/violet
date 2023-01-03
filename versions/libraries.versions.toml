@@ -8,9 +8,11 @@ gradle-junit5 = "1.8.2.1"
 androidx-core-ktx = "1.9.0"
 androidx-appcompat = "1.5.1"
 android-material = "1.7.0"
-constraintlayout = "2.1.4"
 paging = "3.1.1"
 paging-compose = "1.0.0-alpha17"
+
+constraintlayout = "2.1.4"
+constraintlayout-compose = "1.0.1"
 
 navigation = "2.5.3"
 
@@ -28,6 +30,8 @@ datastore = "1.0.0"
 koin = "3.3.2"
 
 timber = "5.0.1"
+
+landscapist = "2.1.0"
 
 room = "2.4.3"
 datetime = "0.4.0"
@@ -61,10 +65,13 @@ jacoco-core = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco" }
 # androidx
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 android-material = { module = "com.google.android.material:material", version.ref = "android-material" }
 paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
 paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
+
+# constraintlayout
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayout-compose" }
 
 # navigation
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
@@ -92,6 +99,9 @@ datastore-preferences = { module = "androidx.datastore:datastore-preferences", v
 
 # koin
 koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+
+# landscapist
+landscapist-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapist" }
 
 # timber
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
@@ -152,7 +162,9 @@ deploygate = { module = "com.deploygate:gradle", version.ref = "deploy-gate" }
 gradle = ["android-build-gradle", "kotlin-gradle-plugin", "gradle-junit5-plugin"]
 jacoco = ["jacoco-core"]
 
-androidxDef = ["androidx-core-ktx", "androidx-appcompat", "androidx-constraintlayout", "android-material"]
+androidxDef = ["androidx-core-ktx", "androidx-appcompat", "android-material"]
+
+constraintLayout = ["androidx-constraintlayout", "constraintlayout-compose"]
 
 paging = ["paging-runtime", "paging-compose"]
 
@@ -169,6 +181,8 @@ datastore = ["datastore-preferences"]
 koin = ["koin"]
 
 timber = ["timber"]
+
+landscapist = ["landscapist-glide"]
 
 room = ["room-runtime", "room-ktx"]
 roomKapt = ["room-compiler"]

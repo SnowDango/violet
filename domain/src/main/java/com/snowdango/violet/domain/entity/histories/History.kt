@@ -14,6 +14,8 @@ data class History(
     val id: Long = 0,
     @ColumnInfo(name = "song_id")
     val songId: Long = -1,
+    @ColumnInfo(name = "media_id")
+    val mediaId: String,
     @ColumnInfo(name = "datetime")
     val dateTime: LocalDateTime,
 )

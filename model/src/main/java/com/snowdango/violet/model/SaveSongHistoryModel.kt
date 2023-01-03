@@ -27,6 +27,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 
+// TODO need refactoring
+
 class SaveSongHistoryModel : KoinComponent {
 
     private val db: SongHistoryDatabase by inject()
@@ -46,43 +48,57 @@ class SaveSongHistoryModel : KoinComponent {
             data.mediaId?.let { mediaId ->
                 Timber.d(data.toString())
                 val getPlatform = GetPlatform(db)
-                val isAlreadySaveMeta = getPlatform.containsByMediaId(mediaId, data.platform!!.name)
+                val isAlreadySaveMeta = getPlatform.containsByMediaId(mediaId, data.platform!!)
+                // is already save meta data
                 val songId: Long? = if (!isAlreadySaveMeta) {
                     val response = apiRepository.getSongLink(platform, id = mediaId, type = "song")
                     if (response != null) {
+                        // request songlink api
                         val songLinkData = response.entitiesByUniqueId[response.entityUniqueId]
+                        //save album artist
                         val albumArtistId = saveArtist(data.albumArtist)
+                        // save album
                         val albumId =
                             saveAlbum(data.album, albumArtistId, songLinkData?.thumbnailUrl ?: "")
-                        val artistId = saveArtist(songLinkData?.artistName ?: data.artist)
+                        //save song artist
+                        val artistId = saveArtist(data.artist ?: songLinkData?.artistName)
+                        //save song
                         val songId = saveSong(
-                            songLinkData?.title ?: data.title,
+                            data.title ?: songLinkData?.title,
                             artistId,
                             albumId,
                             songLinkData?.thumbnailUrl,
                             data.genre
                         )
-                        response.linksByPlatform.filter {
-                            PlatformType.values().any { type -> type.songLink == it.key }
-                        }.forEach { (key, platform) ->
-                            val platformType =
-                                PlatformType.values().first { type -> type.songLink == key }
+                        // save platform
+                        response.entitiesByUniqueId.filter {
+                            PlatformType.values().any { type ->
+                                it.key.startsWith(type.songLinkEntityString)
+                            }
+                        }.forEach { (key, songEntity) ->
+                            val platformType = PlatformType.values()
+                                .first { type -> key.startsWith(type.songLinkEntityString) }
+                            val linkPlatform = songEntity.platforms.first {
+                                PlatformType.values().any { platform -> platform.songLink == it }
+                            }
                             savePlatform(
                                 songId,
-                                platformType.name,
-                                getMediaIdByUniqueId(platform.entityUniqueId, platformType),
-                                platform.url
+                                platformType,
+                                getMediaIdByUniqueId(songEntity.id, platformType),
+                                response.linksByPlatform[linkPlatform]?.url ?: ""
                             )
                         }
                         songId
                     } else {
+                        // TODO not api response work
                         null
                     }
                 } else {
                     getPlatform.getPlatformWithSong(mediaId)?.song?.firstOrNull()?.id
                 }
+                //save history
                 songId?.let {
-                    saveHistory(it)
+                    saveHistory(it, mediaId)
                 }
             }
         }
@@ -141,7 +157,7 @@ class SaveSongHistoryModel : KoinComponent {
 
     private suspend fun savePlatform(
         songId: Long,
-        platform: String,
+        platformType: PlatformType,
         mediaId: String,
         url: String,
     ) = withContext(Dispatchers.IO) {
@@ -149,7 +165,7 @@ class SaveSongHistoryModel : KoinComponent {
         writePlatform.insertPlatform(
             Platform(
                 songId = songId,
-                platform = platform,
+                platform = platformType,
                 mediaId = mediaId,
                 url = url
             )
@@ -160,23 +176,17 @@ class SaveSongHistoryModel : KoinComponent {
         uniqueId: String,
         platformType: PlatformType
     ): String {
-        return when (platformType) {
-            PlatformType.AppleMusic -> {
-                uniqueId.replace("ITUNES_SONG::", "")
-            }
-            PlatformType.Spotify -> {
-                uniqueId.replace("SPOTIFY_SONG::", "")
-            }
-        }
+        return uniqueId.replace(platformType.songLinkEntityString + "::", "")
     }
 
-    private suspend fun saveHistory(songId: Long) = withContext(Dispatchers.IO) {
+    private suspend fun saveHistory(songId: Long, mediaId: String) = withContext(Dispatchers.IO) {
         val writeHistory = WriteHistory(db)
         val clock = Clock.System.now()
         writeHistory.insertHistory(
             History(
                 songId = songId,
-                dateTime = clock.toLocalDateTime(TimeZone.currentSystemDefault())
+                dateTime = clock.toLocalDateTime(TimeZone.currentSystemDefault()),
+                mediaId = mediaId
             )
         )
     }

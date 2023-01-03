@@ -3,6 +3,7 @@ package com.snowdango.violet.domain.entity.platforms
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.snowdango.violet.domain.platform.PlatformType
 
 const val PlatformsTableName = "platforms"
 
@@ -14,7 +15,7 @@ data class Platform(
     @ColumnInfo(name = "song_id")
     val songId: Long = -1,
     @ColumnInfo(name = "platform")
-    val platform: String = "",
+    val platform: PlatformType?,
     @ColumnInfo(name = "media_id")
     val mediaId: String = "",
     @ColumnInfo(name = "url")

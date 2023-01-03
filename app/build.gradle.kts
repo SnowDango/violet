@@ -92,6 +92,12 @@ dependencies {
     // module
     api(project(":model"))
 
+    // constraintlayout
+    implementation(libs.bundles.constraintLayout)
+
+    // landscapist
+    implementation(libs.bundles.landscapist)
+
     // navigation
     implementation(libs.bundles.navigation)
 

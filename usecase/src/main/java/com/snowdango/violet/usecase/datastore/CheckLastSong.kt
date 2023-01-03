@@ -9,6 +9,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
 
 class CheckLastSong : KoinComponent {
 
@@ -17,13 +18,20 @@ class CheckLastSong : KoinComponent {
     private val inMemoryStore: InMemoryStore by inject()
 
     suspend fun checkLastSong(lastSong: LastSong): Boolean = withContext(Dispatchers.IO) {
-        var isDifferent = false
         mutex.withLock {
+            var isDifferent = false
             if (inMemoryStore.lastSong == null) {
                 inMemoryStore.lastSong = datastore.getLastSong()
             }
             isDifferent = inMemoryStore.lastSong?.queueId != lastSong.queueId
             if (isDifferent) {
+                Timber.d(
+                    """
+                    new song -> $lastSong
+                    memory -> ${inMemoryStore.lastSong}
+                    datastore -> ${datastore.getLastSong()}
+                """.trimIndent()
+                )
                 inMemoryStore.lastSong = lastSong
                 datastore.saveLastSong(lastSong)
             }
