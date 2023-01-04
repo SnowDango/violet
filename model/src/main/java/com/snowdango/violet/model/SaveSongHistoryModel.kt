@@ -26,12 +26,12 @@ class SaveSongHistoryModel : KoinComponent {
     private val apiRepository: ApiRepository by inject()
 
 
-    suspend fun saveSongHistory(data: LastSong) {
+    suspend fun saveSongHistory(data: LastSong, platformType: PlatformType) {
 
         val checkLastSong = CheckLastSong()
-        val isChange = checkLastSong.checkLastSong(data)
+        val isChange = checkLastSong.checkLastSong(data, platformType)
         if (isChange) {
-            getSongData(data)
+            getSongData(data, platformType)
         }
     }
 
@@ -45,7 +45,7 @@ class SaveSongHistoryModel : KoinComponent {
     }
 
 
-    private suspend fun getSongData(data: LastSong) {
+    private suspend fun getSongData(data: LastSong, platformType: PlatformType) {
         data.platform?.songLink?.let { platform ->
             data.mediaId?.let { mediaId ->
                 // is already save meta data
@@ -81,7 +81,7 @@ class SaveSongHistoryModel : KoinComponent {
                 }
                 //save history
                 songId?.let {
-                    saveHistory(it, mediaId)
+                    saveHistory(it, platformType)
                 }
             }
         }
@@ -175,8 +175,11 @@ class SaveSongHistoryModel : KoinComponent {
         return uniqueId.replace(platformType.songLinkEntityString + "::", "")
     }
 
-    private suspend fun saveHistory(songId: Long, mediaId: String): Long {
+    private suspend fun saveHistory(
+        songId: Long,
+        platformType: PlatformType
+    ): Long {
         val writeHistory = WriteHistory(db)
-        return writeHistory.insertHistory(songId, mediaId)
+        return writeHistory.insertHistory(songId, platformType)
     }
 }

@@ -5,8 +5,8 @@ import kotlinx.coroutines.sync.Mutex
 
 class InMemoryStore {
 
-    var lastSong: LastSong? = null
-    
+    var lastSong: MutableMap<String, LastSong> = mutableMapOf()
+
     val mutex = Mutex()
 
 }

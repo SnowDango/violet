@@ -18,12 +18,12 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.glide.GlideImage
-import com.snowdango.violet.domain.entity.platforms.Platform
 import com.snowdango.violet.domain.entity.songs.Song
+import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.view.view.MarqueeText
 
 @Composable
-fun SongComponent(song: Song, platform: Platform?) {
+fun GridSongComponent(song: Song, platformType: PlatformType) {
 
     ConstraintLayout(
         modifier = Modifier
@@ -75,7 +75,7 @@ fun SongComponent(song: Song, platform: Platform?) {
         )
 
         GlideImage(
-            imageModel = { "file:///android_asset/${platform?.platform?.iconAssets}.png" },
+            imageModel = { "file:///android_asset/${platformType.iconAssets}.png" },
             requestOptions = {
                 RequestOptions()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -110,10 +110,10 @@ private fun songComponentConstraintSet(): ConstraintSet {
         val appIcon = createRefFor("app-icon")
 
         constrain(thumbnail) {
-            top.linkTo(parent.top)
+            top.linkTo(parent.top, margin = 16.dp)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
-            bottom.linkTo(title.top, margin = 10.dp)
+            bottom.linkTo(title.top, margin = 8.dp)
         }
 
         constrain(title) {

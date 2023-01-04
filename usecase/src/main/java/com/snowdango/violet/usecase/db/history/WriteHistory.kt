@@ -1,6 +1,7 @@
 package com.snowdango.violet.usecase.db.history
 
 import com.snowdango.violet.domain.entity.histories.History
+import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,15 +28,16 @@ class WriteHistory(private val db: SongHistoryDatabase) {
         db.historyDao.deleteHistoryById(id)
     }
 
-    suspend fun insertHistory(songId: Long, mediaId: String) = withContext(Dispatchers.IO) {
-        val clock = Clock.System.now()
-        insertHistory(
-            History(
-                songId = songId,
-                mediaId = mediaId,
-                dateTime = clock.toLocalDateTime(TimeZone.currentSystemDefault())
+    suspend fun insertHistory(songId: Long, platformType: PlatformType) =
+        withContext(Dispatchers.IO) {
+            val clock = Clock.System.now()
+            insertHistory(
+                History(
+                    songId = songId,
+                    dateTime = clock.toLocalDateTime(TimeZone.currentSystemDefault()),
+                    platform = platformType
+                )
             )
-        )
-    }
+        }
 
 }

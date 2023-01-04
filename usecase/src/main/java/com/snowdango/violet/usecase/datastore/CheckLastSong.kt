@@ -2,6 +2,7 @@ package com.snowdango.violet.usecase.datastore
 
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.memory.InMemoryStore
+import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.repository.datastore.LastSongDataStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.withLock
@@ -12,29 +13,30 @@ import timber.log.Timber
 
 class CheckLastSong : KoinComponent {
 
-    private val datastore = LastSongDataStore()
+    private val datastore: LastSongDataStore by inject()
     private val inMemoryStore: InMemoryStore by inject()
 
-    suspend fun checkLastSong(lastSong: LastSong): Boolean = withContext(Dispatchers.IO) {
-        inMemoryStore.mutex.withLock {
-            var isDifferent = false
-            if (inMemoryStore.lastSong == null) {
-                inMemoryStore.lastSong = datastore.getLastSong()
-            }
-            isDifferent = inMemoryStore.lastSong?.queueId != lastSong.queueId
-            if (isDifferent) {
-                Timber.d(
-                    """
+    suspend fun checkLastSong(lastSong: LastSong, platformType: PlatformType): Boolean =
+        withContext(Dispatchers.IO) {
+            inMemoryStore.mutex.withLock {
+                var isDifferent = false
+                if (!inMemoryStore.lastSong.containsKey(platformType.name)) {
+                    inMemoryStore.lastSong[platformType.name] = datastore.getLastSong(platformType)
+                }
+                isDifferent = inMemoryStore.lastSong[platformType.name]?.queueId != lastSong.queueId
+                if (isDifferent) {
+                    Timber.d(
+                        """
                     new song -> $lastSong
                     memory -> ${inMemoryStore.lastSong}
-                    datastore -> ${datastore.getLastSong()}
+                    datastore -> ${datastore.getLastSong(platformType)}
                 """.trimIndent()
-                )
-                inMemoryStore.lastSong = lastSong
-                datastore.saveLastSong(lastSong)
+                    )
+                    inMemoryStore.lastSong[platformType.name] = lastSong
+                    datastore.saveLastSong(lastSong, platformType)
+                }
+                return@withContext isDifferent
             }
-            return@withContext isDifferent
         }
-    }
 
 }

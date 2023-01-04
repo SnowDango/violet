@@ -9,6 +9,7 @@ import com.snowdango.violet.domain.memory.InMemoryStore
 import com.snowdango.violet.model.SongHistoryModel
 import com.snowdango.violet.repository.api.ApiRepository
 import com.snowdango.violet.repository.api.provide.ApiProvider
+import com.snowdango.violet.repository.datastore.LastSongDataStore
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
 import org.koin.android.ext.koin.androidContext
@@ -29,7 +30,7 @@ class VioletApp : Application() {
             androidContext(applicationContext)
             modules(
                 module {
-                    single { applicationContext.dataStore }
+                    single { LastSongDataStore(applicationContext.dataStore) }
                     single { SongHistoryDatabase.getInstance(applicationContext) }
                     single { InMemoryStore() }
                     factory { ApiRepository(ApiProvider()) }

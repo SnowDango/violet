@@ -15,11 +15,11 @@ import com.snowdango.violet.R
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.extention.getMediaController
+import com.snowdango.violet.model.PurgeLastSongModel
 import com.snowdango.violet.model.SaveSongHistoryModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MusicNotificationListenerService : NotificationListenerService() {
 
@@ -64,7 +64,11 @@ class MusicNotificationListenerService : NotificationListenerService() {
             val data = getData(sbn.packageName)
             val model = SaveSongHistoryModel()
             CoroutineScope(Dispatchers.Default).launch {
-                data?.let { model.saveSongHistory(it) }
+                data?.let {
+                    model.saveSongHistory(
+                        it,
+                        PlatformType.values().first { type -> type.packageName == sbn.packageName })
+                }
             }
         }
         super.onNotificationPosted(sbn)
@@ -78,7 +82,12 @@ class MusicNotificationListenerService : NotificationListenerService() {
             ) {
                 return
             }
-            Timber.d("onNotificationRemoved packageName: ${sbn.packageName}")
+            val model = PurgeLastSongModel()
+            CoroutineScope(Dispatchers.Default).launch {
+                model.purgeLastSong(
+                    PlatformType.values().first { type -> type.packageName == sbn.packageName }
+                )
+            }
         }
         super.onNotificationRemoved(sbn)
     }

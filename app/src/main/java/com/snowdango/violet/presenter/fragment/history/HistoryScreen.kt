@@ -13,14 +13,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.snowdango.violet.view.component.SongComponent
+import com.snowdango.violet.repository.datastore.LastSongDataStore
+import com.snowdango.violet.view.component.GridSongComponent
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HistoryScreen(viewModel: HistoryViewModel) {
+fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
+
     val songHistoryItems = viewModel.songHistoryFlow.collectAsLazyPagingItems()
+    val lastSongItems = dataStore.flowLastSong().collectAsState(listOf())
     var refreshing by remember { mutableStateOf(false) }
     val state = rememberPullRefreshState(
         refreshing = refreshing,
@@ -42,10 +45,14 @@ fun HistoryScreen(viewModel: HistoryViewModel) {
             ) {
                 if (songHistoryItems.loadState.refresh != LoadState.Loading) {
                     refreshing = false
+
+                    if (lastSongItems.value.isNotEmpty()) {
+                        // TODO last song
+                    }
                     items(songHistoryItems.itemSnapshotList) { songHistory ->
                         Timber.d(songHistory.toString())
                         songHistory?.song?.let {
-                            SongComponent(it, songHistory.platform)
+                            GridSongComponent(it, songHistory.history.platform)
                         }
                     }
                 }
