@@ -1,12 +1,9 @@
 package com.snowdango.violet.model
 
-import com.snowdango.violet.domain.entity.albums.Album
-import com.snowdango.violet.domain.entity.artists.Artist
-import com.snowdango.violet.domain.entity.histories.History
-import com.snowdango.violet.domain.entity.platforms.Platform
-import com.snowdango.violet.domain.entity.songs.Song
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.platform.PlatformType
+import com.snowdango.violet.domain.response.SongApiResponse
+import com.snowdango.violet.domain.response.SongEntity
 import com.snowdango.violet.repository.api.ApiRepository
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.usecase.datastore.CheckLastSong
@@ -18,14 +15,8 @@ import com.snowdango.violet.usecase.db.history.WriteHistory
 import com.snowdango.violet.usecase.db.platform.GetPlatform
 import com.snowdango.violet.usecase.db.platform.WritePlatform
 import com.snowdango.violet.usecase.db.song.WriteSong
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import timber.log.Timber
 
 // TODO need refactoring
 
@@ -33,6 +24,7 @@ class SaveSongHistoryModel : KoinComponent {
 
     private val db: SongHistoryDatabase by inject()
     private val apiRepository: ApiRepository by inject()
+
 
     suspend fun saveSongHistory(data: LastSong) {
 
@@ -43,50 +35,40 @@ class SaveSongHistoryModel : KoinComponent {
         }
     }
 
+    private suspend fun isAlreadySaved(mediaId: String, platformType: PlatformType): Boolean {
+        val getPlatform = GetPlatform(db)
+        return getPlatform.containsByMediaId(mediaId, platformType)
+    }
+
+    private suspend fun getSongLinkData(platform: String, mediaId: String): SongApiResponse? {
+        return apiRepository.getSongLink(platform, id = mediaId, type = "song")
+    }
+
+
     private suspend fun getSongData(data: LastSong) {
         data.platform?.songLink?.let { platform ->
             data.mediaId?.let { mediaId ->
-                Timber.d(data.toString())
-                val getPlatform = GetPlatform(db)
-                val isAlreadySaveMeta = getPlatform.containsByMediaId(mediaId, data.platform!!)
                 // is already save meta data
-                val songId: Long? = if (!isAlreadySaveMeta) {
-                    val response = apiRepository.getSongLink(platform, id = mediaId, type = "song")
+                val songId: Long? = if (!isAlreadySaved(mediaId, data.platform!!)) {
+                    val response = getSongLinkData(platform, mediaId)
                     if (response != null) {
                         // request songlink api
                         val songLinkData = response.entitiesByUniqueId[response.entityUniqueId]
                         //save album artist
-                        val albumArtistId = saveArtist(data.albumArtist)
+                        val albumArtistId = saveArtist(data)
                         // save album
-                        val albumId =
-                            saveAlbum(data.album, albumArtistId, songLinkData?.thumbnailUrl ?: "")
+                        val albumId = saveAlbum(data, songLinkData, albumArtistId)
                         //save song artist
-                        val artistId = saveArtist(data.artist ?: songLinkData?.artistName)
+                        val artistId = saveArtist(data, songLinkData)
                         //save song
-                        val songId = saveSong(
-                            data.title ?: songLinkData?.title,
-                            artistId,
-                            albumId,
-                            songLinkData?.thumbnailUrl,
-                            data.genre
-                        )
+                        val songId = saveSong(data, songLinkData, albumId, artistId)
                         // save platform
                         response.entitiesByUniqueId.filter {
                             PlatformType.values().any { type ->
                                 it.key.startsWith(type.songLinkEntityString)
                             }
                         }.forEach { (key, songEntity) ->
-                            val platformType = PlatformType.values()
-                                .first { type -> key.startsWith(type.songLinkEntityString) }
-                            val linkPlatform = songEntity.platforms.first {
-                                PlatformType.values().any { platform -> platform.songLink == it }
-                            }
-                            savePlatform(
-                                songId,
-                                platformType,
-                                getMediaIdByUniqueId(songEntity.id, platformType),
-                                response.linksByPlatform[linkPlatform]?.url ?: ""
-                            )
+                            savePlatform(songId, key, songEntity, response)
                         }
                         songId
                     } else {
@@ -94,6 +76,7 @@ class SaveSongHistoryModel : KoinComponent {
                         null
                     }
                 } else {
+                    val getPlatform = GetPlatform(db)
                     getPlatform.getPlatformWithSong(mediaId)?.song?.firstOrNull()?.id
                 }
                 //save history
@@ -104,90 +87,96 @@ class SaveSongHistoryModel : KoinComponent {
         }
     }
 
-    private suspend fun saveArtist(name: String?): Long = withContext(Dispatchers.IO) {
-        if (name == null) return@withContext -1
+    private suspend fun saveArtist(data: LastSong): Long {
+        if (data.albumArtist == null) return -1L
         val getArtist = GetArtist(db)
-        val artist = getArtist.getArtistByName(name)
-        return@withContext if (artist == null) {
+        val artist = getArtist.getArtistByName(data.albumArtist!!)
+        return if (artist == null) {
             val writeArtist = WriteArtist(db)
-            writeArtist.insertArtist(Artist(name = name))
+            writeArtist.insertArtist(data.albumArtist)
         } else {
             artist.id
         }
     }
 
-    private suspend fun saveAlbum(title: String?, artistId: Long, thumbnail: String): Long =
-        withContext(Dispatchers.IO) {
-            if (title == null) return@withContext -1
-            val getAlbum = GetAlbum(db)
-            val album = getAlbum.getAlbumByTitle(title)
-            return@withContext if (album == null) {
-                val writeAlbum = WriteAlbum(db)
-                writeAlbum.insertAlbum(
-                    Album(
-                        title = title,
-                        artistId = artistId,
-                        thumbnailUrl = thumbnail
-                    )
-                )
-            } else {
-                album.id
-            }
+    private suspend fun saveArtist(data: LastSong, songEntity: SongEntity?): Long {
+        if (data.albumArtist == null && songEntity?.artistName == null) return -1L
+        val getArtist = GetArtist(db)
+        val artist = getArtist.getArtistByName(data.albumArtist ?: songEntity?.artistName!!)
+        return if (artist == null) {
+            val writeArtist = WriteArtist(db)
+            writeArtist.insertArtist(data.albumArtist)
+        } else {
+            artist.id
         }
+    }
+
+    private suspend fun saveAlbum(
+        data: LastSong,
+        songLinkData: SongEntity?,
+        albumArtistId: Long
+    ): Long {
+        if (data.album == null) return -1L
+        val getAlbum = GetAlbum(db)
+        val album = getAlbum.getAlbumByTitle(data.album!!)
+        return if (album == null) {
+            val writeAlbum = WriteAlbum(db)
+            writeAlbum.insertAlbum(
+                data.title,
+                albumArtistId,
+                songLinkData?.thumbnailUrl ?: ""
+            )
+        } else {
+            album.id
+        }
+    }
 
     private suspend fun saveSong(
-        title: String?,
+        data: LastSong,
+        songLinkData: SongEntity?,
         artistId: Long,
-        albumId: Long,
-        thumbnail: String?,
-        genre: String?
-    ): Long = withContext(Dispatchers.IO) {
-        if (title == null) return@withContext -1
-        val writeSong = WriteSong(db)
-        return@withContext writeSong.insertSong(
-            Song(
-                title = title,
-                artistId = artistId,
-                albumId = albumId,
-                thumbnailUrl = thumbnail ?: "",
-                genre = genre ?: ""
-            )
+        albumId: Long
+    ): Long {
+        if (data.title == null) return -1L
+        val getSong = WriteSong(db)
+        return getSong.insertSong(
+            data.title,
+            artistId,
+            albumId,
+            songLinkData?.thumbnailUrl,
+            data.genre
         )
     }
 
     private suspend fun savePlatform(
         songId: Long,
-        platformType: PlatformType,
-        mediaId: String,
-        url: String,
-    ) = withContext(Dispatchers.IO) {
+        songLinkId: String,
+        songEntity: SongEntity,
+        songApiResponse: SongApiResponse
+    ): Long {
+        val platformType = PlatformType.values()
+            .first { type -> songLinkId.startsWith(type.songLinkEntityString) }
+        val linkPlatform = songEntity.platforms.first {
+            PlatformType.values().any { platform -> platform.songLink == it }
+        }
         val writePlatform = WritePlatform(db)
-        writePlatform.insertPlatform(
-            Platform(
-                songId = songId,
-                platform = platformType,
-                mediaId = mediaId,
-                url = url
-            )
+        return writePlatform.insertPlatform(
+            songId,
+            platformType,
+            getMediaIdByUniqueId(songEntity.id, platformType),
+            songApiResponse.linksByPlatform[linkPlatform]?.url ?: ""
         )
     }
 
-    private suspend fun getMediaIdByUniqueId(
+    private fun getMediaIdByUniqueId(
         uniqueId: String,
         platformType: PlatformType
     ): String {
         return uniqueId.replace(platformType.songLinkEntityString + "::", "")
     }
 
-    private suspend fun saveHistory(songId: Long, mediaId: String) = withContext(Dispatchers.IO) {
+    private suspend fun saveHistory(songId: Long, mediaId: String): Long {
         val writeHistory = WriteHistory(db)
-        val clock = Clock.System.now()
-        writeHistory.insertHistory(
-            History(
-                songId = songId,
-                dateTime = clock.toLocalDateTime(TimeZone.currentSystemDefault()),
-                mediaId = mediaId
-            )
-        )
+        return writeHistory.insertHistory(songId, mediaId)
     }
 }

@@ -23,4 +23,23 @@ class WriteSong(private val db: SongHistoryDatabase) {
         db.songDao.deleteSongById(id)
     }
 
+    suspend fun insertSong(
+        title: String?,
+        artistId: Long,
+        albumId: Long,
+        thumbnail: String?,
+        genre: String?
+    ): Long = withContext(Dispatchers.IO) {
+        if (title == null) return@withContext -1L
+        insertSong(
+            Song(
+                title = title,
+                artistId = artistId,
+                albumId = albumId,
+                thumbnailUrl = thumbnail ?: "",
+                genre = genre ?: ""
+            )
+        )
+    }
+
 }
