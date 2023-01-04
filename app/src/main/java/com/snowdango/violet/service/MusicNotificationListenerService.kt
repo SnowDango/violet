@@ -19,6 +19,7 @@ import com.snowdango.violet.model.SaveSongHistoryModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MusicNotificationListenerService : NotificationListenerService() {
 
@@ -67,6 +68,19 @@ class MusicNotificationListenerService : NotificationListenerService() {
             }
         }
         super.onNotificationPosted(sbn)
+    }
+
+    override fun onNotificationRemoved(sbn: StatusBarNotification?) {
+        val notification = sbn?.notification
+        notification?.let {
+            if (notification.category != Notification.CATEGORY_TRANSPORT ||
+                !PlatformType.values().any { platform -> platform.packageName == sbn.packageName }
+            ) {
+                return
+            }
+            Timber.d("onNotificationRemoved packageName: ${sbn.packageName}")
+        }
+        super.onNotificationRemoved(sbn)
     }
 
     private fun getData(packageName: String): LastSong? {
