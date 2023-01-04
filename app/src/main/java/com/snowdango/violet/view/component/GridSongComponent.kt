@@ -1,6 +1,7 @@
 package com.snowdango.violet.view.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -47,6 +48,7 @@ fun GridSongComponent(song: Song, platformType: PlatformType) {
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
                             .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.background)
                     )
                 }
             },
@@ -54,6 +56,8 @@ fun GridSongComponent(song: Song, platformType: PlatformType) {
                 Box(modifier = Modifier.matchParentSize()) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center)
+                            .background(MaterialTheme.colorScheme.background),
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
             },
@@ -71,7 +75,8 @@ fun GridSongComponent(song: Song, platformType: PlatformType) {
                 .wrapContentHeight()
                 .layoutId("title"),
             maxLines = 1,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         GlideImage(
@@ -89,6 +94,7 @@ fun GridSongComponent(song: Song, platformType: PlatformType) {
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
                             .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.background)
                     )
                 }
             },
@@ -96,7 +102,8 @@ fun GridSongComponent(song: Song, platformType: PlatformType) {
                 .fillMaxWidth(0.08f)
                 .wrapContentHeight()
                 .aspectRatio(1f)
-                .layoutId("app-icon"),
+                .layoutId("app-icon")
+                .background(MaterialTheme.colorScheme.background),
         )
 
     }

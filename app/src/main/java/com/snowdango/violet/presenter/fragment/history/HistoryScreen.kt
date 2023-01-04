@@ -1,5 +1,6 @@
 package com.snowdango.violet.presenter.fragment.history
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -8,6 +9,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +34,10 @@ fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
             songHistoryItems.refresh()
         }
     )
-    Box(modifier = Modifier.pullRefresh(state = state)) {
+    Box(
+        modifier = Modifier.pullRefresh(state = state)
+            .background(MaterialTheme.colorScheme.background)
+    ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -41,8 +46,9 @@ fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxWidth(0.86f)
-                    .fillMaxHeight()
-            ) {
+                    .fillMaxHeight(),
+
+                ) {
                 if (songHistoryItems.loadState.refresh != LoadState.Loading) {
                     refreshing = false
 
