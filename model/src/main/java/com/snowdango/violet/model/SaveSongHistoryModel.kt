@@ -81,7 +81,7 @@ class SaveSongHistoryModel : KoinComponent {
                 }
                 //save history
                 songId?.let {
-                    saveHistory(it, platformType)
+                    saveHistory(it, platformType, data.dateTime!!)
                 }
             }
         }
@@ -177,9 +177,10 @@ class SaveSongHistoryModel : KoinComponent {
 
     private suspend fun saveHistory(
         songId: Long,
-        platformType: PlatformType
+        platformType: PlatformType,
+        datetime: Long
     ): Long {
         val writeHistory = WriteHistory(db)
-        return writeHistory.insertHistory(songId, platformType)
+        return writeHistory.insertHistory(songId, platformType, datetime)
     }
 }

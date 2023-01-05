@@ -10,5 +10,7 @@ data class LastSong(
     var albumArtist: String?,
     var platform: PlatformType?,
     var queueId: Long?,
-    var genre: String?
+    var genre: String?,
+    var dateTime: Long?,
+    var artwork: String?
 )

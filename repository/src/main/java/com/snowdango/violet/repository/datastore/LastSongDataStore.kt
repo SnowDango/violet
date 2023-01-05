@@ -34,6 +34,12 @@ class LastSongDataStore(private val dataStore: DataStore<Preferences>) : KoinCom
     private fun genreKey(platformType: PlatformType) =
         stringPreferencesKey("last_genre_${platformType.name}")
 
+    private fun dateTimeKey(platformType: PlatformType) =
+        longPreferencesKey("last_date_time_${platformType.name}")
+
+    private fun artworkKey(platformType: PlatformType) =
+        stringPreferencesKey("last_artwork_${platformType.name}")
+
 
     suspend fun saveLastSong(lastSong: LastSong, platformType: PlatformType) {
         dataStore.edit { preferences: MutablePreferences ->
@@ -45,6 +51,8 @@ class LastSongDataStore(private val dataStore: DataStore<Preferences>) : KoinCom
             preferences[platformKey(platformType)] = lastSong.platform?.name ?: ""
             preferences[queueIdKey(platformType)] = lastSong.queueId ?: -1
             preferences[genreKey(platformType)] = lastSong.genre ?: ""
+            preferences[dateTimeKey(platformType)] = lastSong.dateTime ?: -1
+            preferences[artworkKey(platformType)] = lastSong.artwork ?: ""
         }
     }
 
@@ -60,7 +68,9 @@ class LastSongDataStore(private val dataStore: DataStore<Preferences>) : KoinCom
                 .lastOrNull { it.packageName == preferences[platformKey(platformType)] }
                 ?: PlatformType.AppleMusic,
             preferences[queueIdKey(platformType)],
-            preferences[genreKey(platformType)]
+            preferences[genreKey(platformType)],
+            preferences[dateTimeKey(platformType)],
+            preferences[artworkKey(platformType)]
         )
     }
 
@@ -72,8 +82,10 @@ class LastSongDataStore(private val dataStore: DataStore<Preferences>) : KoinCom
             preferences[mediaIdKey(platformType)] = ""
             preferences[albumArtistKey(platformType)] = ""
             preferences[platformKey(platformType)] = ""
-            preferences[queueIdKey(platformType)] = 0
+            preferences[queueIdKey(platformType)] = -1
             preferences[genreKey(platformType)] = ""
+            preferences[dateTimeKey(platformType)] = -1
+            preferences[artworkKey(platformType)] = ""
         }
     }
 
@@ -89,8 +101,16 @@ class LastSongDataStore(private val dataStore: DataStore<Preferences>) : KoinCom
                     .lastOrNull { type -> type.packageName == it[platformKey(platformType)] }
                     ?: PlatformType.AppleMusic,
                 it[queueIdKey(platformType)],
-                it[genreKey(platformType)]
+                it[genreKey(platformType)],
+                it[dateTimeKey(platformType)],
+                it[artworkKey(platformType)]
             )
+        }
+    }
+
+    suspend fun updateArtwork(artwork: String?, platformType: PlatformType) {
+        dataStore.edit { preferences: MutablePreferences ->
+            preferences[artworkKey(platformType)] = artwork ?: ""
         }
     }
 }
