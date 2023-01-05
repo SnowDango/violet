@@ -3,6 +3,7 @@ package com.snowdango.violet.usecase.db.platform
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.usecase.db.mock.MockPlatform
 import junit.framework.TestCase.assertEquals
@@ -41,8 +42,8 @@ class ContainsPlatformTest {
     fun containsByMediaIdTest() = runBlocking {
         val mock = MockPlatform.singleData()
         writePlatform.insertPlatform(mock)
-        assertEquals(getPlatform.containsByMediaId(mock.mediaId, mock.platform), true)
-        assertEquals(getPlatform.containsByMediaId("test", "ojiopjqaofa"), false)
+        assertEquals(getPlatform.containsByMediaId(mock.mediaId, mock.platform!!), true)
+        assertEquals(getPlatform.containsByMediaId("test", PlatformType.Spotify), false)
     }
 
     @After
