@@ -12,5 +12,5 @@ data class HistoryWithSong(
         parentColumn = "song_id",
         entityColumn = "id"
     )
-    val song: Song
+    val song: Song,
 )

@@ -1,11 +1,9 @@
 package com.snowdango.violet.repository.db.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.snowdango.violet.domain.entity.platforms.Platform
 import com.snowdango.violet.domain.entity.platforms.PlatformsTableName
+import com.snowdango.violet.domain.relation.PlatformWithSong
 
 @Dao
 interface PlatformDao {
@@ -30,5 +28,9 @@ interface PlatformDao {
 
     @Query("SELECT * FROM `$PlatformsTableName` WHERE media_id = :mediaId")
     suspend fun getPlatformByMediaId(mediaId: String): List<Platform>
+
+    @Transaction
+    @Query("SELECT * FROM `$PlatformsTableName` WHERE media_id = :mediaId")
+    suspend fun getPlatformWithSongByMediaId(mediaId: String): List<PlatformWithSong>
 
 }

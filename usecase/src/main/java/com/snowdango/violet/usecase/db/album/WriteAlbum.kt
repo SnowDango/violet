@@ -27,4 +27,16 @@ class WriteAlbum(private val db: SongHistoryDatabase) {
         db.albumDao.deleteAlbumById(id)
     }
 
+    suspend fun insertAlbum(title: String?, artistId: Long, thumbnail: String): Long =
+        withContext(Dispatchers.IO) {
+            if (title == null) return@withContext -1L
+            insertAlbum(
+                Album(
+                    title = title,
+                    artistId = artistId,
+                    thumbnailUrl = thumbnail
+                )
+            )
+        }
+
 }

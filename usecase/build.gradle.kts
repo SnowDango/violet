@@ -39,14 +39,10 @@ android {
 
 dependencies {
 
-    // domain
-    implementation(project(":domain"))
-
     // repository
-    implementation(project(":repository"))
+    api(project(":repository"))
 
     // room
-    implementation(libs.bundles.room)
     kapt(libs.bundles.roomKapt)
 
     // datetime

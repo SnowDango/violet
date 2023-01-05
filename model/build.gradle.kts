@@ -41,13 +41,11 @@ android {
 
 dependencies {
 
-    implementation(project(":usecase"))
-    implementation(project(":domain"))
-    implementation(project(":repository"))
-
+    api(project(":usecase"))
     // paging
-    implementation(libs.bundles.paging)
+    api(libs.bundles.paging)
 
+    implementation(libs.bundles.timber)
     // junit5
     testImplementation(libs.bundles.junit5Test)
     testRuntimeOnly(libs.bundles.junit5TestRuntime)

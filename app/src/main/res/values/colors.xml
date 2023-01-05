@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="m3_primary">#FF006874</color>
+    <color name="m3_on_primary">#FFFFFFFF</color>
+    <color name="m3_primary_container">#FF97F0FF</color>
+    <color name="m3_on_primary_container">#FF001F24</color>
+    <color name="m3_secondary">#FF006685</color>
+    <color name="m3_on_secondary">#FFFFFFFF</color>
+    <color name="m3_secondary_container">#FFBFE9FF</color>
+    <color name="m3_on_secondary_container">#FF001F2A</color>
+    <color name="m3_tertiary">#FF00658C</color>
+    <color name="m3_on_tertiary">#FFFFFFFF</color>
+    <color name="m3_tertiary_container">#FFC5E7FF</color>
+    <color name="m3_on_tertiary_container">#FF001E2D</color>
+    <color name="m3_error">#FFBA1A1A</color>
+    <color name="m3_on_error">#FFFFFFFF</color>
+    <color name="m3_error_container">#FFFFDAD6</color>
+    <color name="m3_on_error_container">#FF410002</color>
+    <color name="m3_background">#FFF8FDFF</color>
+    <color name="m3_on_background">#FF001F25</color>
+    <color name="m3_surface">#FFF8FDFF</color>
+    <color name="m3_on_surface">#FF001F25</color>
+    <color name="m3_surface_variant">#FFDBE4E6</color>
+    <color name="m3_on_surface_variant">#FF3F484A</color>
+    <color name="m3_outline">#FF6F797A</color>
+    <color name="m3_inverse_surface">#FF00363F</color>
+    <color name="m3_inverse_on_surface">#FFD6F6FF</color>
+    <color name="m3_inverse_primary">#FF4FD8EB</color>
 </resources>

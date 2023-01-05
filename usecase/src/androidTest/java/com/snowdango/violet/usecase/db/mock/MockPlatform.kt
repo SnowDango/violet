@@ -1,6 +1,7 @@
 package com.snowdango.violet.usecase.db.mock
 
 import com.snowdango.violet.domain.entity.platforms.Platform
+import com.snowdango.violet.domain.platform.PlatformType
 
 object MockPlatform {
 
@@ -17,61 +18,61 @@ object MockPlatform {
     val dataList = listOf(
         Platform(
             songId = 1,
-            platform = "spotify",
+            platform = PlatformType.Spotify,
             mediaId = "hiohaiofaf",
             url = "oiphaiophiopfawhf"
         ),
         Platform(
             songId = 1,
-            platform = "apple music",
+            platform = PlatformType.AppleMusic,
             mediaId = "ophopjopafa",
             url = "nipohiophaofaw"
         ),
         Platform(
             songId = 2,
-            platform = "spotify",
+            platform = PlatformType.Spotify,
             mediaId = "niophoikjolfasf",
             url = "ipkohfioahiofawfasf"
         ),
         Platform(
             songId = 3,
-            platform = "amazon music",
+            platform = PlatformType.AppleMusic,
             mediaId = "jniophiopjfda",
             url = "hiophiopahofipawf"
         ),
         Platform(
             songId = 4,
-            platform = "nphpijopfjafsa",
+            platform = PlatformType.AppleMusic,
             mediaId = "njiolhjiopjfpoasf",
             url = "noihiohdoasdsa"
         ),
         Platform(
             songId = 4,
-            platform = "jopjopjfopjofpjopjasfsa",
+            platform = PlatformType.Spotify,
             mediaId = "jpoifhjopiajfoipwafasfsa",
             url = "iopjiopjfoiasjfoiasjfioasjfoasfas"
         ),
         Platform(
             songId = 4,
-            platform = "jopjopjopajopfjasopfjsapfsa",
+            platform = PlatformType.Spotify,
             mediaId = "mopjopajopfjawpofwsa",
             url = "mop[jopajopjasopfjsaf"
         ),
         Platform(
             songId = 5,
-            platform = "iohpiopjiopjafjasfsafsa",
+            platform = PlatformType.Spotify,
             mediaId = "opjopjopajopfjasopfas",
             url = "opjopjopjopsajfopasfopsajfpasof"
         ),
         Platform(
             songId = 6,
-            platform = "mkojopjopajopfaspfsa",
+            platform = PlatformType.Spotify,
             mediaId = "jolpjopjopsapfsafsa",
             url = "opjopjopasjopfjsaopfjasopfjsaopfjsap"
         ),
         Platform(
             songId = 7,
-            platform = "miopjpiojaspfjpoasjfas",
+            platform = PlatformType.AppleMusic,
             mediaId = "joop[jopfjasopjfopasf",
             url = "ljopjopajfopasfasfsaf"
         )

@@ -32,15 +32,15 @@ class SongLinkApiTest : Spek({
             Then("return 200 and get uniqueId") {
                 assertNotNull(response)
                 assertEquals(
-                    response?.linksByPlatform?.appleMusic?.entityUniqueId,
+                    response?.linksByPlatform?.get("appleMusic")?.entityUniqueId,
                     "ITUNES_SONG::1497506561"
                 )
                 assertEquals(
-                    response?.linksByPlatform?.youtubeMusic?.entityUniqueId,
+                    response?.linksByPlatform?.get("youtubeMusic")?.entityUniqueId,
                     "YOUTUBE_VIDEO::B5yWiieucoc"
                 )
                 assertEquals(
-                    response?.linksByPlatform?.spotify?.entityUniqueId,
+                    response?.linksByPlatform?.get("spotify")?.entityUniqueId,
                     "SPOTIFY_SONG::0gEeGR3yJU7YrnNrSHHWMb"
                 )
             }

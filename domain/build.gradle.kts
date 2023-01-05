@@ -40,13 +40,13 @@ android {
 dependencies {
 
     // room
-    implementation(libs.bundles.room)
+    api(libs.bundles.room)
     kapt(libs.bundles.roomKapt)
 
     implementation(libs.bundles.moshi)
 
     // datetime
-    implementation(libs.bundles.datetime)
+    api(libs.bundles.datetime)
 
     // junit5
     testImplementation(libs.bundles.junit5Test)

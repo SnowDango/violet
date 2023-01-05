@@ -51,6 +51,18 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+    viewBinding {
+        enable = true
+    }
+    dataBinding {
+        enable = true
+    }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.2"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -78,13 +90,29 @@ deploygate {
 
 dependencies {
     // module
-    implementation(project(":usecase"))
+    api(project(":model"))
+
+    // constraintlayout
+    implementation(libs.bundles.constraintLayout)
+
+    // landscapist
+    implementation(libs.bundles.landscapist)
+
+    // navigation
+    implementation(libs.bundles.navigation)
 
     // default
     implementation(libs.bundles.androidxDef)
 
     // compose
     implementation(libs.bundles.compose)
+
+    // permission dispatcher
+    implementation(libs.bundles.permissionDispacher)
+    kapt(libs.bundles.permissionDispatcherProcessor)
+
+    // datastore
+    implementation(libs.bundles.datastore)
 
     // debug
     debugImplementation(libs.bundles.composeDebug)

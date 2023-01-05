@@ -26,6 +26,9 @@ interface ArtistDao {
     @Query("SELECT * FROM $ArtistsTableName ORDER BY name ASC LIMIT :from,:size")
     suspend fun getArtists(from: Long, size: Long): List<Artist>
 
+    @Query("SELECT * FROM `$ArtistsTableName` WHERE name = :name")
+    suspend fun getArtistByName(name: String): List<Artist>
+
     @Query("DELETE FROM `$ArtistsTableName` WHERE id = :id")
     suspend fun deleteArtistById(id: Long)
 
