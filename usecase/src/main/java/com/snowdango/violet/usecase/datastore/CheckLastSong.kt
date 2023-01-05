@@ -34,6 +34,9 @@ class CheckLastSong : KoinComponent {
                     )
                     inMemoryStore.lastSong[platformType.name] = lastSong
                     datastore.saveLastSong(lastSong, platformType)
+                } else {
+                    inMemoryStore.lastSong[platformType.name]?.artwork = lastSong.artwork
+                    datastore.updateArtwork(lastSong.artwork, platformType)
                 }
                 return@withContext isDifferent
             }

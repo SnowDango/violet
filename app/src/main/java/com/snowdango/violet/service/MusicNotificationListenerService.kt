@@ -15,11 +15,13 @@ import com.snowdango.violet.R
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.extention.getMediaController
+import com.snowdango.violet.extention.toBase64
 import com.snowdango.violet.model.PurgeLastSongModel
 import com.snowdango.violet.model.SaveSongHistoryModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 class MusicNotificationListenerService : NotificationListenerService() {
 
@@ -96,6 +98,11 @@ class MusicNotificationListenerService : NotificationListenerService() {
         val mediaController = applicationContext.getMediaController(packageName)
         val metadata = mediaController?.metadata ?: return null
         val queue = mediaController.queue?.firstOrNull() ?: return null
+        val clock = Clock.System.now()
+        val artwork =
+            metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART) ?: metadata.getBitmap(
+                MediaMetadata.METADATA_KEY_ART
+            )
         return LastSong(
             mediaId = metadata.getString(MediaMetadata.METADATA_KEY_MEDIA_ID),
             title = metadata.getString(MediaMetadata.METADATA_KEY_TITLE),
@@ -104,7 +111,9 @@ class MusicNotificationListenerService : NotificationListenerService() {
             albumArtist = metadata.getString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST),
             platform = PlatformType.values().firstOrNull { it.packageName == packageName },
             queueId = queue.queueId,
-            genre = metadata.getString(MediaMetadata.METADATA_KEY_GENRE)
+            genre = metadata.getString(MediaMetadata.METADATA_KEY_GENRE),
+            dateTime = clock.toEpochMilliseconds(),
+            artwork = artwork?.toBase64() ?: ""
         )
     }
 

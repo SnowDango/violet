@@ -5,7 +5,7 @@ data class SongEntity(
     val type: String,
     val title: String,
     val artistName: String,
-    val thumbnailUrl: String,
+    val thumbnailUrl: String?,
     val thumbnailWidth: Int,
     val thumbnailHeight: Int,
     val apiProvider: String,

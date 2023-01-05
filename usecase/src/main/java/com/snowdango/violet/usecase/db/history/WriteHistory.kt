@@ -5,7 +5,7 @@ import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
@@ -28,13 +28,13 @@ class WriteHistory(private val db: SongHistoryDatabase) {
         db.historyDao.deleteHistoryById(id)
     }
 
-    suspend fun insertHistory(songId: Long, platformType: PlatformType) =
+    suspend fun insertHistory(songId: Long, platformType: PlatformType, datetime: Long) =
         withContext(Dispatchers.IO) {
-            val clock = Clock.System.now()
+            val instant = Instant.fromEpochMilliseconds(datetime)
             insertHistory(
                 History(
                     songId = songId,
-                    dateTime = clock.toLocalDateTime(TimeZone.currentSystemDefault()),
+                    dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault()),
                     platform = platformType
                 )
             )
