@@ -2,6 +2,7 @@ package com.snowdango.violet.view.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -14,7 +15,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun TwitterImageButton(modifier: Modifier) {
+fun TwitterImageButton(
+    modifier: Modifier,
+    clickFn: (() -> Unit)? = null,
+) {
     GlideImage(
         imageModel = { "file:///android_asset/twitter.png" },
         requestOptions = {
@@ -32,6 +36,7 @@ fun TwitterImageButton(modifier: Modifier) {
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background)
                         .clip(CircleShape)
+                        .clickable { clickFn?.invoke() }
                 )
             }
         },

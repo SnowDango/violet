@@ -34,20 +34,17 @@ fun LastSongComponent(lastSongs: List<LastSong>) {
                 .wrapContentHeight(),
             constraintSet = lastSongComponentConstraintSet()
         ) {
-
             LastSongArtWorkImage(
                 it,
                 modifier = Modifier
                     .squareConformFillMaxWidth(fraction)
                     .layoutId("artwork")
             )
-
             TwitterImageButton(
                 modifier = Modifier
                     .squareConformFillMaxWidth(fraction / 4)
                     .layoutId("twitter")
             )
-
             MarqueeText(
                 text = it.title ?: "Unknown",
                 style = MaterialTheme.typography.titleMedium,
@@ -99,40 +96,34 @@ fun lastSongComponentConstraintSet(): ConstraintSet {
         val artist = createRefFor("artist")
         val album = createRefFor("album")
         val divider = createRefFor("divider")
-
         constrain(artwork) {
             top.linkTo(parent.top, margin = 8.dp)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
             bottom.linkTo(title.top, margin = 10.dp)
         }
-
         constrain(twitter) {
             start.linkTo(artist.end)
             bottom.linkTo(title.top)
         }
-
         constrain(title) {
             top.linkTo(artwork.bottom)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
             bottom.linkTo(artist.top, margin = 8.dp)
         }
-
         constrain(artist) {
             top.linkTo(title.bottom)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
             bottom.linkTo(album.top, margin = 8.dp)
         }
-
         constrain(album) {
             top.linkTo(artist.bottom)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
             bottom.linkTo(divider.top)
         }
-
         constrain(divider) {
             top.linkTo(album.bottom, margin = 8.dp)
             start.linkTo(parent.start, margin = 8.dp)
