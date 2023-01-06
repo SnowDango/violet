@@ -3,7 +3,6 @@ package com.snowdango.violet.presenter.fragment.history
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.ExperimentalMaterialApi
@@ -17,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.snowdango.violet.repository.datastore.LastSongDataStore
+import com.snowdango.violet.view.component.EmptyAndRefreshComponent
 import com.snowdango.violet.view.component.GridSongComponent
 import com.snowdango.violet.view.component.LastSongComponent
+import com.snowdango.violet.view.component.LoadingComponent
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
 import timber.log.Timber
 
@@ -44,30 +45,44 @@ fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier
-                    .fillMaxWidth(0.86f)
-                    .fillMaxHeight(),
 
-                ) {
-                if (songHistoryItems.loadState.refresh != LoadState.Loading) {
-                    refreshing = false
-
-                    if (lastSongItems.value.isNotEmpty()) {
-                        item(span = { GridItemSpan(2) }) {
-                            LastSongComponent(lastSongItems.value)
-                        }
-                    }
-                    items(songHistoryItems.itemSnapshotList) { songHistory ->
-                        Timber.d(songHistory.toString())
-                        songHistory?.song?.let {
-                            GridSongComponent(it, songHistory.history.platform)
-                        }
-                    }
-                }
+            // NowPlaying
+            if (lastSongItems.value.isNotEmpty()) {
+                LastSongComponent(lastSongItems.value)
             }
 
+            // History
+            if (songHistoryItems.loadState.refresh != LoadState.Loading) {
+                refreshing = false
+                if (songHistoryItems.itemSnapshotList.isNotEmpty()) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        modifier = Modifier
+                            .fillMaxWidth(0.86f)
+                            .fillMaxHeight(),
+
+                        ) {
+                        items(songHistoryItems.itemSnapshotList) { songHistory ->
+                            Timber.d(songHistory.toString())
+                            songHistory?.song?.let {
+                                GridSongComponent(it, songHistory.history.platform)
+                            }
+                        }
+                    }
+                } else {
+                    EmptyAndRefreshComponent(
+                        "履歴がありません",
+                        { songHistoryItems.refresh() },
+                        Modifier.fillMaxSize(),
+                        Alignment.Center
+                    )
+                }
+            } else {
+                LoadingComponent(
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+            }
         }
         PullRefreshIndicator(
             refreshing = refreshing,

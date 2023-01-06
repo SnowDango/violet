@@ -1,6 +1,5 @@
 package com.snowdango.violet.view.component
 
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Divider
@@ -13,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.snowdango.violet.domain.last.LastSong
+import com.snowdango.violet.view.style.squareConformFillMaxWidth
 import com.snowdango.violet.view.view.LastSongArtWorkImage
 import com.snowdango.violet.view.view.MarqueeText
 import com.snowdango.violet.view.view.TwitterImageButton
@@ -28,7 +28,6 @@ fun LastSongComponent(lastSongs: List<LastSong>) {
 
     val lastSong = listenLastSongs.maxByOrNull { it.dateTime!! }
     lastSong?.let {
-
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
@@ -39,17 +38,13 @@ fun LastSongComponent(lastSongs: List<LastSong>) {
             LastSongArtWorkImage(
                 it,
                 modifier = Modifier
-                    .fillMaxWidth(fraction)
-                    .wrapContentHeight()
-                    .aspectRatio(1f)
+                    .squareConformFillMaxWidth(fraction)
                     .layoutId("artwork")
             )
 
             TwitterImageButton(
                 modifier = Modifier
-                    .fillMaxWidth(fraction / 4)
-                    .wrapContentHeight()
-                    .aspectRatio(1f)
+                    .squareConformFillMaxWidth(fraction / 4)
                     .layoutId("twitter")
             )
 
