@@ -1,6 +1,9 @@
 package com.snowdango.violet.view.component
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,7 +32,7 @@ fun EmptyAndRefreshComponent(
             Text(
                 message,
                 modifier = Modifier
-                    .fillMaxWidth(0.8f)
+                    .wrapContentWidth()
                     .wrapContentHeight(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleMedium
