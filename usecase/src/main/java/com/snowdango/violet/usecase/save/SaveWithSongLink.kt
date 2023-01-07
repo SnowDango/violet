@@ -20,7 +20,7 @@ class SaveWithSongLink : KoinComponent {
     private val apiRepository: ApiRepository by inject()
 
     // return success or failure
-    suspend fun saveSongLinkData(data: LastSong): Boolean {
+    suspend fun saveSongLinkData(data: LastSong): Long? {
         return try {
             val response = apiCall(data)
             if (response != null) {
@@ -30,12 +30,12 @@ class SaveWithSongLink : KoinComponent {
                 val artistId = saveSongArtist(data, songLinkData)
                 val songId = saveSong(data, songLinkData, albumId, artistId)
                 savePlatform(songId, response)
-                true
+                songId
             } else {
-                false
+                null
             }
         } catch (e: Exception) {
-            false
+            null
         }
     }
 
