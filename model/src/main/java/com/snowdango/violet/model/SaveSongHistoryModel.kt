@@ -7,6 +7,7 @@ import com.snowdango.violet.usecase.connect.ConnectManager
 import com.snowdango.violet.usecase.datastore.CheckLastSong
 import com.snowdango.violet.usecase.db.history.WriteHistory
 import com.snowdango.violet.usecase.db.platform.GetPlatform
+import com.snowdango.violet.usecase.save.SaveWithAppleMusic
 import com.snowdango.violet.usecase.save.SaveWithSongLink
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -33,9 +34,12 @@ class SaveSongHistoryModel : KoinComponent {
                 // is already save meta data
                 val songId: Long? = if (!isAlreadySaved(mediaId, data.platform!!)) {
                     if (connectManager.isConnectInternet()) {
-                        val saveWithSongLink = SaveWithSongLink()
-                        val songIdOrNUll = saveWithSongLink.saveSongLinkData(data)
-                        songIdOrNUll // TODO if null
+                        var songIdOrNull: Long? = null
+                        songIdOrNull = saveWithSongLink(data)
+                        if (songIdOrNull == null) {
+                            songIdOrNull = saveWithPlatform(data)
+                        }
+                        songIdOrNull
                     } else {
                         -1L // TODO after insert by workManager
                     }
@@ -47,6 +51,23 @@ class SaveSongHistoryModel : KoinComponent {
                 songId?.let {
                     saveHistory(it, platformType, data.dateTime!!)
                 }
+            }
+        }
+    }
+
+    private suspend fun saveWithSongLink(data: LastSong): Long? {
+        val saveWithSongLink = SaveWithSongLink()
+        return saveWithSongLink.saveSongLinkData(data)
+    }
+
+    private suspend fun saveWithPlatform(data: LastSong): Long? {
+        return when (data.platform) {
+            PlatformType.AppleMusic -> {
+                val saveWithAppleMusic = SaveWithAppleMusic()
+                saveWithAppleMusic.saveAppleMusic(data)
+            }
+            else -> {
+                null
             }
         }
     }
