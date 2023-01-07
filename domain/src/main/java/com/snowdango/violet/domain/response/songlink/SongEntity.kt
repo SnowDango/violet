@@ -1,4 +1,4 @@
-package com.snowdango.violet.domain.response
+package com.snowdango.violet.domain.response.songlink
 
 data class SongEntity(
     val id: String,

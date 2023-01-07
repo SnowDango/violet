@@ -2,8 +2,8 @@ package com.snowdango.violet.model
 
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.platform.PlatformType
-import com.snowdango.violet.domain.response.SongApiResponse
-import com.snowdango.violet.domain.response.SongEntity
+import com.snowdango.violet.domain.response.songlink.SongApiResponse
+import com.snowdango.violet.domain.response.songlink.SongEntity
 import com.snowdango.violet.repository.api.ApiRepository
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.usecase.datastore.CheckLastSong

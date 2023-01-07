@@ -30,6 +30,9 @@ interface AlbumDao {
     @Query("SELECT * FROM `$AlbumsTableName` WHERE title = :title")
     suspend fun getAlbumByTitle(title: String): List<Album>
 
+    @Query("SELECT * FROM `$AlbumsTableName` WHERE title = :title and artist_id = :artistId")
+    suspend fun getAlbumByTitleAndArtistId(title: String, artistId: Long): List<Album>
+
     @Query("DELETE FROM `$AlbumsTableName` WHERE id = :id")
     suspend fun deleteAlbumById(id: Long)
 
