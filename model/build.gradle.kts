@@ -24,7 +24,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-
         create("staging") {
             isMinifyEnabled = true
         }

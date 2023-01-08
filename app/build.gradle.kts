@@ -114,6 +114,9 @@ dependencies {
     // datastore
     implementation(libs.bundles.datastore)
 
+    // workmanager
+    implementation(libs.bundles.workmanager)
+
     // debug
     debugImplementation(libs.bundles.composeDebug)
 

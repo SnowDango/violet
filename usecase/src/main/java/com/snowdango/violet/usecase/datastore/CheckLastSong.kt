@@ -9,7 +9,6 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import timber.log.Timber
 
 class CheckLastSong : KoinComponent {
 
@@ -25,13 +24,6 @@ class CheckLastSong : KoinComponent {
                 }
                 isDifferent = inMemoryStore.lastSong[platformType.name]?.queueId != lastSong.queueId
                 if (isDifferent) {
-                    Timber.d(
-                        """
-                    new song -> $lastSong
-                    memory -> ${inMemoryStore.lastSong}
-                    datastore -> ${datastore.getLastSong(platformType)}
-                """.trimIndent()
-                    )
                     inMemoryStore.lastSong[platformType.name] = lastSong
                     datastore.saveLastSong(lastSong, platformType)
                 } else {

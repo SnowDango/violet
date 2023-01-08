@@ -26,6 +26,7 @@
             </intent-filter>
 
         </activity>
+
         <service
             android:name=".service.MusicNotificationListenerService"
             android:label="@string/app_name"

@@ -12,10 +12,18 @@ class GetAlbum(private val db: SongHistoryDatabase) {
     suspend fun getAlbum(id: Long = 1L): Album? = withContext(Dispatchers.IO) {
         return@withContext db.albumDao.getAlbum(id).firstOrNull()
     }
-    
+
     suspend fun getAlbumByTitle(title: String): Album? = withContext(Dispatchers.IO) {
         return@withContext db.albumDao.getAlbumByTitle(title = title).firstOrNull()
     }
+
+    suspend fun getAlbumByTitleAndArtistId(title: String, artistId: Long): Album? =
+        withContext(Dispatchers.IO) {
+            return@withContext db.albumDao.getAlbumByTitleAndArtistId(
+                title = title,
+                artistId = artistId
+            ).firstOrNull()
+        }
 
     suspend fun getAlbums(from: Long, size: Long): List<Album> = withContext(Dispatchers.IO) {
         return@withContext db.albumDao.getAlbums(from, size)

@@ -1,6 +1,6 @@
 package com.snowdango.violet.repository.api.provide.endpoint
 
-import com.snowdango.violet.domain.response.SongApiResponse
+import com.snowdango.violet.domain.response.songlink.SongApiResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

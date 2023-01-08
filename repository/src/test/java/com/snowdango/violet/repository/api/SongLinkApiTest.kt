@@ -1,6 +1,6 @@
 package com.snowdango.violet.repository.api
 
-import com.snowdango.violet.domain.response.SongApiResponse
+import com.snowdango.violet.domain.response.songlink.SongApiResponse
 import com.snowdango.violet.repository.api.provide.ApiProvider
 import kotlinx.coroutines.runBlocking
 import org.spekframework.spek2.Spek

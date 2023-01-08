@@ -6,11 +6,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.snowdango.violet.domain.memory.InMemoryStore
-import com.snowdango.violet.model.SongHistoryModel
+import com.snowdango.violet.model.paging.SongHistoryModel
 import com.snowdango.violet.repository.api.ApiRepository
 import com.snowdango.violet.repository.api.provide.ApiProvider
 import com.snowdango.violet.repository.datastore.LastSongDataStore
 import com.snowdango.violet.repository.db.SongHistoryDatabase
+import com.snowdango.violet.usecase.connect.ConnectManager
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -34,6 +35,7 @@ class VioletApp : Application() {
                     single { SongHistoryDatabase.getInstance(applicationContext) }
                     single { InMemoryStore() }
                     factory { ApiRepository(ApiProvider()) }
+                    factory { ConnectManager(get()) }
                 },
                 module {
                     factory { SongHistoryModel(get()) }
