@@ -20,6 +20,10 @@ class WriteHistory(private val db: SongHistoryDatabase) {
         db.historyDao.insertHistories(histories)
     }
 
+    suspend fun updateHistory(history: History) = withContext(Dispatchers.IO) {
+        db.historyDao.updateHistory(history)
+    }
+
     suspend fun deleteHistory(history: History) = withContext(Dispatchers.IO) {
         db.historyDao.deleteHistory(history)
     }
@@ -28,11 +32,23 @@ class WriteHistory(private val db: SongHistoryDatabase) {
         db.historyDao.deleteHistoryById(id)
     }
 
-    suspend fun insertHistory(songId: Long, platformType: PlatformType, datetime: Long) =
+    suspend fun insertHistory(songId: Long, platformType: PlatformType, datetime: Long): Long {
+        val instant = Instant.fromEpochMilliseconds(datetime)
+        return insertHistory(
+            History(
+                songId = songId,
+                dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault()),
+                platform = platformType
+            )
+        )
+    }
+
+    suspend fun updateHistory(id: Long, songId: Long, platformType: PlatformType, datetime: Long) =
         withContext(Dispatchers.IO) {
             val instant = Instant.fromEpochMilliseconds(datetime)
-            insertHistory(
+            updateHistory(
                 History(
+                    id = id,
                     songId = songId,
                     dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault()),
                     platform = platformType

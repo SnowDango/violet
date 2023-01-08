@@ -17,7 +17,7 @@ class SaveSong(private val db: SongHistoryDatabase) {
         genre: String? = null
     ): Long {
         if (data.title == null) return 1L
-        return saveSong(data.title!!, artistId, albumId, thumbnailUrl, genre)
+        return saveSong(data.title!!, artistId, albumId, thumbnailUrl, genre ?: data.genre)
     }
 
     suspend fun saveSongWithSongLink(

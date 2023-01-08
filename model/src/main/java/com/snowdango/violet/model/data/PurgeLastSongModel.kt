@@ -1,4 +1,4 @@
-package com.snowdango.violet.model
+package com.snowdango.violet.model.data
 
 import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.usecase.datastore.PurgeLastSong

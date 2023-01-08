@@ -1,6 +1,7 @@
 package com.snowdango.violet.usecase.db.after
 
 import com.snowdango.violet.domain.entity.after.AfterSaveSong
+import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,13 +25,20 @@ class WriteAfterSaveSong(private val db: SongHistoryDatabase) {
     }
 
     suspend fun insertAfterSaveSong(
-        mediaId: String,
         historyId: Long,
+        lastSong: LastSong
     ): Long {
         return insertAfterSaveSong(
             AfterSaveSong(
-                mediaId = mediaId,
-                historyId = historyId
+                historyId = historyId,
+                mediaId = lastSong.mediaId,
+                title = lastSong.title,
+                artist = lastSong.artist,
+                album = lastSong.album,
+                albumArtist = lastSong.albumArtist,
+                platformType = lastSong.platform,
+                genre = lastSong.genre,
+                dateTime = lastSong.dateTime
             )
         )
     }

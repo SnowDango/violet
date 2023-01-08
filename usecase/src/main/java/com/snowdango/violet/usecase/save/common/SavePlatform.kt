@@ -1,5 +1,6 @@
 package com.snowdango.violet.usecase.save.common
 
+import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.domain.response.songlink.SongApiResponse
 import com.snowdango.violet.repository.db.SongHistoryDatabase
@@ -38,6 +39,19 @@ class SavePlatform(private val db: SongHistoryDatabase) {
     ) {
         val writePlatform = WritePlatform(db)
         writePlatform.insertPlatform(songId, platformType, mediaId, url ?: "")
+    }
+
+    suspend fun savePlatformWithLastSong(
+        songId: Long,
+        data: LastSong
+    ) {
+        val writePlatform = WritePlatform(db)
+        writePlatform.insertPlatform(
+            songId,
+            data.platform!!,
+            data.mediaId!!,
+            ""
+        )
     }
 
     private fun getMediaIdByUniqueId(

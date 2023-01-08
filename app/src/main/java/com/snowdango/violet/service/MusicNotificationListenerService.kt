@@ -16,8 +16,8 @@ import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.extention.getMediaController
 import com.snowdango.violet.extention.toBase64
-import com.snowdango.violet.model.PurgeLastSongModel
-import com.snowdango.violet.model.SaveSongHistoryModel
+import com.snowdango.violet.model.data.PurgeLastSongModel
+import com.snowdango.violet.model.data.SaveSongHistoryModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

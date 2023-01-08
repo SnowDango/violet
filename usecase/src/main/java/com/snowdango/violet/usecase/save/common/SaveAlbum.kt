@@ -13,7 +13,7 @@ class SaveAlbum(val db: SongHistoryDatabase) {
     suspend fun saveAlbumWithLastSong(
         data: LastSong,
         albumArtistId: Long,
-        thumbnailUrl: String?
+        thumbnailUrl: String? = null
     ): Long {
         if (data.album == null) return -1L
         return saveAlbum(data.album!!, albumArtistId, thumbnailUrl)

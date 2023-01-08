@@ -1,4 +1,4 @@
-package com.snowdango.violet.model
+package com.snowdango.violet.model.paging
 
 import android.content.Context
 import androidx.paging.PagingSource

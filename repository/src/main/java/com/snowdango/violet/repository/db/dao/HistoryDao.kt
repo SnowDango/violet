@@ -16,6 +16,9 @@ interface HistoryDao {
 
     @Delete
     suspend fun deleteHistory(history: History)
+    
+    @Update
+    suspend fun updateHistory(history: History)
 
     @Query("DELETE FROM $HistoriesTableName WHERE id = :id")
     suspend fun deleteHistoryById(id: Long)

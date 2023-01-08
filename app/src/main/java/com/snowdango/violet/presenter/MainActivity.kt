@@ -7,9 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.snowdango.violet.R
 import com.snowdango.violet.databinding.ActivityMainBinding
 import com.snowdango.violet.service.MusicNotificationListenerService
+import com.snowdango.violet.worker.AfterSaveSongWorker
+import java.time.Duration
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,7 +40,17 @@ class MainActivity : AppCompatActivity() {
         } else {
             val intent = Intent(this, MusicNotificationListenerService::class.java)
             startForegroundService(intent)
+            startWorker()
         }
+    }
+
+    private fun startWorker() {
+        val manager = WorkManager.getInstance(applicationContext)
+        val request = PeriodicWorkRequest.Builder(
+            AfterSaveSongWorker::class.java,
+            Duration.ofHours(1)
+        ).build()
+        manager.enqueue(request)
     }
 
     override fun onDestroy() {

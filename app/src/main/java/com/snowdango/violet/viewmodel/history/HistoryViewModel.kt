@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.snowdango.violet.model.SongHistoryModel
+import com.snowdango.violet.model.paging.SongHistoryModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

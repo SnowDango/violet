@@ -1,4 +1,4 @@
-package com.snowdango.violet.model
+package com.snowdango.violet.model.data
 
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.platform.PlatformType
@@ -8,6 +8,7 @@ import com.snowdango.violet.usecase.datastore.CheckLastSong
 import com.snowdango.violet.usecase.db.history.WriteHistory
 import com.snowdango.violet.usecase.db.platform.GetPlatform
 import com.snowdango.violet.usecase.save.SaveWithAppleMusic
+import com.snowdango.violet.usecase.save.SaveWithLastSong
 import com.snowdango.violet.usecase.save.SaveWithSongLink
 import com.snowdango.violet.usecase.save.common.SaveAfterSaveSong
 import org.koin.core.component.KoinComponent
@@ -28,7 +29,6 @@ class SaveSongHistoryModel : KoinComponent {
         }
     }
 
-
     private suspend fun getSongData(data: LastSong, platformType: PlatformType) {
         data.platform?.songLink?.let { platform ->
             data.mediaId?.let { mediaId ->
@@ -40,9 +40,12 @@ class SaveSongHistoryModel : KoinComponent {
                         if (songIdOrNull == null) {
                             songIdOrNull = saveWithPlatform(data)
                         }
+                        if (songIdOrNull == null) {
+                            songIdOrNull = saveWithLastSong(data)
+                        }
                         songIdOrNull
                     } else {
-                        null // TODO after insert by workManager
+                        null // save afterSaveSong db
                     }
                 } else {
                     val getPlatform = GetPlatform(db)
@@ -52,7 +55,7 @@ class SaveSongHistoryModel : KoinComponent {
                 if (songId == null) {
                     val historyId = saveHistory(-1L, platformType, data.dateTime!!)
                     val saveAfterSaveSong = SaveAfterSaveSong(db)
-                    saveAfterSaveSong.saveAfterSaveSong(mediaId, historyId)
+                    saveAfterSaveSong.saveAfterSaveSong(historyId, data)
                 } else {
                     saveHistory(songId, platformType, data.dateTime!!)
                 }
@@ -75,6 +78,11 @@ class SaveSongHistoryModel : KoinComponent {
                 null
             }
         }
+    }
+
+    private suspend fun saveWithLastSong(data: LastSong): Long? {
+        val saveWithLastSong = SaveWithLastSong()
+        return saveWithLastSong.saveLastSong(data)
     }
 
     private suspend fun isAlreadySaved(mediaId: String, platformType: PlatformType): Boolean {
