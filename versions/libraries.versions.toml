@@ -27,6 +27,8 @@ permission-dispatcher = "4.9.2"
 
 datastore = "1.0.0"
 
+workmanager = "2.7.1"
+
 koin = "3.3.2"
 
 timber = "5.0.1"
@@ -97,6 +99,9 @@ permission-dispatcher-processor = { module = "com.github.permissions-dispatcher:
 
 # datastore
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
+# workmanager
+workmanager-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "workmanager" }
 
 # koin
 koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -178,6 +183,8 @@ permissionDispacher = ["permission-dispatcher"]
 permissionDispatcherProcessor = ["permission-dispatcher-processor"]
 
 datastore = ["datastore-preferences"]
+
+workmanager = ["workmanager-runtime"]
 
 koin = ["koin"]
 
