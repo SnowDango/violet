@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.snowdango.violet.domain.entity.after.AfterSaveSong
 import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.domain.entity.albums.AlbumTitleFts
 import com.snowdango.violet.domain.entity.artists.Artist
@@ -26,7 +27,8 @@ const val DatabaseName = "song_history_db"
         History::class,
         Platform::class,
         AlbumTitleFts::class,
-        SongTitleFts::class
+        SongTitleFts::class,
+        AfterSaveSong::class
     ],
     version = 1,
     exportSchema = false
@@ -42,6 +44,7 @@ abstract class SongHistoryDatabase : RoomDatabase() {
     abstract val albumDao: AlbumDao
     abstract val platformDao: PlatformDao
     abstract val historyDao: HistoryDao
+    abstract val afterSaveSongDao: AfterSaveSongDao
 
     companion object {
         @Volatile

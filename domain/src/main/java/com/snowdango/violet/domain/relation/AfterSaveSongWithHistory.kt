@@ -2,15 +2,15 @@ package com.snowdango.violet.domain.relation
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.snowdango.violet.domain.entity.after.AfterSaveSong
 import com.snowdango.violet.domain.entity.histories.History
-import com.snowdango.violet.domain.entity.songs.Song
 
-data class HistoryWithSong(
-    @Embedded val history: History,
+data class AfterSaveSongWithHistory(
+    @Embedded val afterSaveSong: AfterSaveSong,
 
     @Relation(
-        parentColumn = "song_id",
+        parentColumn = "history_id",
         entityColumn = "id"
     )
-    val song: Song?,
+    val history: History?
 )

@@ -24,7 +24,7 @@ class SaveWithAppleMusic : KoinComponent {
                 val albumArtistId = saveAlbumArtist(data)
                 val albumId = saveAlbum(data, response, albumArtistId)
                 val artistId = saveSongArtist(data, response)
-                val songId = saveSong(data, response, albumId, artistId)
+                val songId = saveSong(data, response, artistId, albumId)
                 savePlatform(songId, data.mediaId!!, response)
                 songId
             } else {
@@ -64,8 +64,8 @@ class SaveWithAppleMusic : KoinComponent {
     private suspend fun saveSong(
         data: LastSong,
         appleMusicData: AppleMusicSongResult,
-        albumId: Long,
-        artistId: Long
+        artistId: Long,
+        albumId: Long
     ): Long {
         val saveSong = SaveSong(db)
         return saveSong.saveSongWithAppleMusic(data, artistId, albumId, appleMusicData)

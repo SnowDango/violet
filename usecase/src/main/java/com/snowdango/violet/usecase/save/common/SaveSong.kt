@@ -74,7 +74,7 @@ class SaveSong(private val db: SongHistoryDatabase) {
     private fun generateThumbnailUrl(url: String?): String? {
         return if (url != null) {
             val path = Path(url)
-            url.replace(path.fileName.toString(), "500x500.jpg")
+            url.replace(path.fileName.toString(), "512x512.jpg")
         } else {
             null
         }

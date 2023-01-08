@@ -21,10 +21,10 @@ import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.relation.HistoryWithSong
 import com.snowdango.violet.repository.datastore.LastSongDataStore
 import com.snowdango.violet.view.component.EmptyAndRefreshComponent
+import com.snowdango.violet.view.component.GridAfterSaveSongComponent
 import com.snowdango.violet.view.component.GridSongComponent
 import com.snowdango.violet.view.component.LastSongComponent
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -51,9 +51,9 @@ fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
             if (songHistoryItems.loadState.refresh != LoadState.Loading) {
                 refreshing = false
                 if (songHistoryItems.itemSnapshotList.isNotEmpty()) {
-                    showHistoryWithNowPlaying(lastSongItems, songHistoryItems)
+                    ShowHistoryWithNowPlaying(lastSongItems, songHistoryItems)
                 } else {
-                    showEmptyHistoryWithNowPlaying(lastSongItems, songHistoryItems)
+                    ShowEmptyHistoryWithNowPlaying(lastSongItems, songHistoryItems)
                 }
             }
         }
@@ -67,7 +67,7 @@ fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
 }
 
 @Composable
-fun showHistoryWithNowPlaying(
+fun ShowHistoryWithNowPlaying(
     lastSongItems: State<List<LastSong>>,
     songHistoryItems: LazyPagingItems<HistoryWithSong>
 ) {
@@ -85,16 +85,17 @@ fun showHistoryWithNowPlaying(
         }
         // history
         items(songHistoryItems.itemSnapshotList) { songHistory ->
-            Timber.d(songHistory.toString())
-            songHistory?.song?.let {
-                GridSongComponent(it, songHistory.history.platform)
+            if (songHistory?.song != null) {
+                GridSongComponent(songHistory.song!!, songHistory.history.platform)
+            } else {
+                GridAfterSaveSongComponent(songHistory?.history?.platform!!)
             }
         }
     }
 }
 
 @Composable
-fun showEmptyHistoryWithNowPlaying(
+fun ShowEmptyHistoryWithNowPlaying(
     lastSongItems: State<List<LastSong>>,
     songHistoryItems: LazyPagingItems<HistoryWithSong>
 ) {

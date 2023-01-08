@@ -9,6 +9,7 @@ import com.snowdango.violet.usecase.db.history.WriteHistory
 import com.snowdango.violet.usecase.db.platform.GetPlatform
 import com.snowdango.violet.usecase.save.SaveWithAppleMusic
 import com.snowdango.violet.usecase.save.SaveWithSongLink
+import com.snowdango.violet.usecase.save.common.SaveAfterSaveSong
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -41,15 +42,19 @@ class SaveSongHistoryModel : KoinComponent {
                         }
                         songIdOrNull
                     } else {
-                        -1L // TODO after insert by workManager
+                        null // TODO after insert by workManager
                     }
                 } else {
                     val getPlatform = GetPlatform(db)
                     getPlatform.getPlatformWithSong(mediaId)?.song?.firstOrNull()?.id
                 }
                 //save history
-                songId?.let {
-                    saveHistory(it, platformType, data.dateTime!!)
+                if (songId == null) {
+                    val historyId = saveHistory(-1L, platformType, data.dateTime!!)
+                    val saveAfterSaveSong = SaveAfterSaveSong(db)
+                    saveAfterSaveSong.saveAfterSaveSong(mediaId, historyId)
+                } else {
+                    saveHistory(songId, platformType, data.dateTime!!)
                 }
             }
         }

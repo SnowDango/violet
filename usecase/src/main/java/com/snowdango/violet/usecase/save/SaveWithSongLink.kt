@@ -28,7 +28,7 @@ class SaveWithSongLink : KoinComponent {
                 val albumArtistId = saveAlbumArtist(data)
                 val albumId = saveAlbum(data, songLinkData, albumArtistId)
                 val artistId = saveSongArtist(data, songLinkData)
-                val songId = saveSong(data, songLinkData, albumId, artistId)
+                val songId = saveSong(data, songLinkData, artistId, albumId)
                 savePlatform(songId, response)
                 songId
             } else {
