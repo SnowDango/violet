@@ -36,7 +36,7 @@ class AfterSaveSongWorker(context: Context, workerParameters: WorkerParameters) 
             it.createNotificationChannel(channel)
         }
         val notification = NotificationCompat.Builder(applicationContext, Const.WORKER_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_notification)
             .setPriority(NotificationManager.IMPORTANCE_MIN)
             .setCategory(Notification.CATEGORY_SERVICE)
             .setWhen(System.currentTimeMillis())

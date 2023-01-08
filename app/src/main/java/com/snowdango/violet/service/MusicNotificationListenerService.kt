@@ -46,7 +46,7 @@ class MusicNotificationListenerService : NotificationListenerService() {
             it.createNotificationChannel(channel)
         }
         val notification = NotificationCompat.Builder(this, Const.CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_notification)
             .setPriority(NotificationManager.IMPORTANCE_MIN)
             .setCategory(Notification.CATEGORY_SERVICE)
             .setWhen(System.currentTimeMillis())
