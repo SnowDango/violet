@@ -9,5 +9,5 @@
 .cxx
 local.properties
 release.jks
-app/.env
+release_old.jks
 app/.env

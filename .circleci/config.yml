@@ -30,7 +30,10 @@ jobs:
           command: chmod +x ./gradlew
       - run:
           name: deocede jks
-          command: touch release.jks && echo -n "${Jks_Base64}" | base64 -d > release.jks
+          command: touch release.jks && echo -n "${jks_base64}" | base64 -d > release.jks
+      - run:
+          name: decode properties
+          command: touch release.jks && echo -n "${local_properties_base64}" | base64 -d > local.properties
       - run:
           name: Upload to DeployGate
           command: ./gradlew uploadDeployGateRelease
@@ -45,7 +48,10 @@ jobs:
           command: chmod +x ./gradlew
       - run:
           name: deocede jks
-          command: touch release.jks && echo -n "${Jks_Base64}" | base64 -d > release.jks
+          command: touch release.jks && echo -n "${jks_base64}" | base64 -d > release.jks
+      - run:
+          name: decode properties
+          command: touch release.jks && echo -n "${local_properties_base64}" | base64 -d > local.properties
       - run:
           name: build apk
           command: ./gradlew assembleRelease

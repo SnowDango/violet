@@ -1,3 +1,5 @@
+import java.util.*
+
 plugins {
     id(plugs.plugins.application.get().pluginId)
     id(plugs.plugins.kotlinAndroid.get().pluginId)
@@ -11,6 +13,8 @@ android {
     namespace = "com.snowdango.violet"
     compileSdk = vers.versions.sdk.get().toInt()
     buildToolsVersion = vers.versions.buildToolsVersion.get()
+
+    val properties = readProperties(file("../local.properties"))
 
     defaultConfig {
         applicationId = "com.snowdango.violet"
@@ -29,9 +33,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("../release.jks")
-            storePassword = System.getenv("Key_Pass")
-            keyAlias = System.getenv("Key_Alias")
-            keyPassword = System.getenv("Key_Pass")
+            storePassword = properties.getProperty("release.password")
+            keyAlias = properties.getProperty("release.alias")
+            keyPassword = properties.getProperty("release.password")
         }
     }
 
@@ -73,8 +77,9 @@ android {
 }
 
 deploygate {
-    userName = System.getenv("DeployGate_UserName")
-    token = System.getenv("DeployGate_Token")
+    val properties = readProperties(file("../local.properties"))
+    userName = properties.getProperty("deploygate.user")
+    token = properties.getProperty("deploygate.token")
     apks {
         create("release") {
             sourceFile = file("build/outputs/apk/release/app-release.apk")
@@ -130,4 +135,10 @@ dependencies {
     // android junit5
     androidTestImplementation(libs.bundles.androidJunit5)
     androidTestRuntimeOnly(libs.bundles.androidJunit5Runner)
+}
+
+fun readProperties(propertiesFile: File) = Properties().apply {
+    propertiesFile.inputStream().use { fis ->
+        load(fis)
+    }
 }
