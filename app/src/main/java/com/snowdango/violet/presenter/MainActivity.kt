@@ -3,6 +3,7 @@ package com.snowdango.violet.presenter
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.Navigation
@@ -35,8 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startService() {
         if (!NotificationManagerCompat.getEnabledListenerPackages(this).contains(packageName)) {
-            val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
-            startActivity(intent)
+            descriptionPermissionDialog()
         } else {
             val intent = Intent(this, MusicNotificationListenerService::class.java)
             startForegroundService(intent)
@@ -44,8 +44,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun descriptionPermissionDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("権限の要求")
+            .setMessage("このアプリは音楽を認識するために通知を読む権限を必要とします。音楽系のサブスク以外の通知に関しては内容を一切参照したりしません。\nまた、この権限は最初にユーザーが権限を許可する必要があります。")
+            .setPositiveButton("OK") { dialog, _ ->
+                val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+                startActivity(intent)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+                finish()
+            }.show()
+    }
+
     private fun startWorker() {
-        val manager = WorkManager.getInstance(applicationContext)
+        val manager = WorkManager.getInstance(this)
         val request = PeriodicWorkRequest.Builder(
             AfterSaveSongWorker::class.java,
             Duration.ofHours(1)

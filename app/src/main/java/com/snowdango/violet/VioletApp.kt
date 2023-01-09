@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.google.android.material.color.DynamicColors
 import com.snowdango.violet.domain.memory.InMemoryStore
 import com.snowdango.violet.model.paging.SongHistoryModel
 import com.snowdango.violet.repository.api.ApiRepository
@@ -26,7 +27,7 @@ class VioletApp : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-
+        DynamicColors.applyToActivitiesIfAvailable(this)
         startKoin {
             androidContext(applicationContext)
             modules(

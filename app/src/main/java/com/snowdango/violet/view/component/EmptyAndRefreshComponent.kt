@@ -35,15 +35,19 @@ fun EmptyAndRefreshComponent(
                     .wrapContentWidth()
                     .wrapContentHeight(),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Button(
                 onClick = refreshFn,
                 modifier = Modifier
                     .wrapContentWidth()
-                    .wrapContentHeight()
+                    .wrapContentHeight(),
             ) {
-                Text("reload")
+                Text(
+                    "reload",
+                    style = MaterialTheme.typography.titleSmall
+                )
             }
         }
     }
