@@ -25,7 +25,7 @@ class HistoryFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme {
-                    HistoryScreen(viewModel, dataStore)
+                    HistoryScreen(dataStore)
                 }
             }
         }

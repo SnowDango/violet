@@ -29,7 +29,7 @@ jobs:
           name: chmod gradle
           command: chmod +x ./gradlew
       - run:
-          name: deocede jks
+          name: decode jks
           command: touch release.jks && echo -n "${jks_base64}" | base64 -d > release.jks
       - run:
           name: decode properties

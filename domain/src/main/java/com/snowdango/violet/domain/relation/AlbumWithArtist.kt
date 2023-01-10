@@ -12,5 +12,5 @@ data class AlbumWithArtist(
         parentColumn = "artist_id",
         entityColumn = "id"
     )
-    val artist: Artist
+    val artist: Artist?
 )

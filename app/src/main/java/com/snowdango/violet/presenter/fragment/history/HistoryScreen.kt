@@ -14,11 +14,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.relation.HistoryWithSong
+import com.snowdango.violet.model.data.GetSongAllMetaModel
+import com.snowdango.violet.presenter.dialog.SongDetailDialog
 import com.snowdango.violet.repository.datastore.LastSongDataStore
 import com.snowdango.violet.view.component.EmptyAndRefreshComponent
 import com.snowdango.violet.view.component.GridAfterSaveSongComponent
@@ -28,11 +31,15 @@ import com.snowdango.violet.viewmodel.history.HistoryViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
-
+fun HistoryScreen(dataStore: LastSongDataStore) {
+    val viewModel = viewModel<HistoryViewModel>()
     val songHistoryItems = viewModel.songHistoryFlow.collectAsLazyPagingItems()
     val lastSongItems = dataStore.flowLastSong().collectAsState(listOf())
+    val songAllMetaState =
+        viewModel.songAllMetaFlow.collectAsState(GetSongAllMetaModel.SongAllMetaState.None)
     var refreshing by remember { mutableStateOf(false) }
+    var isDialogShow by remember { mutableStateOf(false) }
+
     val state = rememberPullRefreshState(
         refreshing = refreshing,
         onRefresh = {
@@ -40,6 +47,7 @@ fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
             songHistoryItems.refresh()
         }
     )
+
     Box(
         modifier = Modifier.pullRefresh(state = state)
             .background(MaterialTheme.colorScheme.background)
@@ -51,7 +59,10 @@ fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
             if (songHistoryItems.loadState.refresh != LoadState.Loading) {
                 refreshing = false
                 if (songHistoryItems.itemSnapshotList.isNotEmpty()) {
-                    ShowHistoryWithNowPlaying(lastSongItems, songHistoryItems)
+                    ShowHistoryWithNowPlaying(lastSongItems, songHistoryItems) {
+                        viewModel.loadSongAllMeta(it)
+                        isDialogShow = true
+                    }
                 } else {
                     ShowEmptyHistoryWithNowPlaying(lastSongItems, songHistoryItems)
                 }
@@ -64,12 +75,17 @@ fun HistoryScreen(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
             modifier = Modifier.align(Alignment.TopCenter)
         )
     }
+
+    ShowAllMetaDialog(isDialogShow, songAllMetaState.value) {
+        isDialogShow = false
+    }
 }
 
 @Composable
 fun ShowHistoryWithNowPlaying(
     lastSongItems: State<List<LastSong>>,
-    songHistoryItems: LazyPagingItems<HistoryWithSong>
+    songHistoryItems: LazyPagingItems<HistoryWithSong>,
+    onClick: (id: Long) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -86,7 +102,7 @@ fun ShowHistoryWithNowPlaying(
         // history
         items(songHistoryItems.itemSnapshotList) { songHistory ->
             if (songHistory?.song != null) {
-                GridSongComponent(songHistory.song!!, songHistory.history.platform)
+                GridSongComponent(songHistory.song!!, songHistory.history.platform, onClick)
             } else {
                 GridAfterSaveSongComponent(songHistory?.history?.platform!!)
             }
@@ -99,6 +115,7 @@ fun ShowEmptyHistoryWithNowPlaying(
     lastSongItems: State<List<LastSong>>,
     songHistoryItems: LazyPagingItems<HistoryWithSong>
 ) {
+    val viewModel = viewModel<HistoryViewModel>()
     Column(
         modifier = Modifier
             .fillMaxWidth(0.86f)
@@ -115,6 +132,17 @@ fun ShowEmptyHistoryWithNowPlaying(
             Modifier.fillMaxSize(),
             Alignment.Center
         )
+    }
+}
+
+@Composable
+fun ShowAllMetaDialog(
+    isShow: Boolean,
+    songAllMetaState: GetSongAllMetaModel.SongAllMetaState,
+    onDismiss: () -> Unit
+) {
+    if (isShow && songAllMetaState is GetSongAllMetaModel.SongAllMetaState.Success) {
+        SongDetailDialog(songAllMetaState.songAllMeta, onDismiss = onDismiss)
     }
 }
 
