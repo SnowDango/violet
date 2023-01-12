@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.domain.entity.artists.Artist
+import com.snowdango.violet.domain.entity.platforms.Platform
 import com.snowdango.violet.domain.entity.songs.Song
 
 data class SongAllMeta(
@@ -20,5 +21,11 @@ data class SongAllMeta(
         entityColumn = "id",
         entity = Album::class
     )
-    val albumWithArtist: AlbumWithArtist
+    val albumWithArtist: AlbumWithArtist,
+
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "song_id"
+    )
+    val platforms: List<Platform>
 )

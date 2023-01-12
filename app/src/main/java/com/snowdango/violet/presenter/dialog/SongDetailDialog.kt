@@ -14,6 +14,7 @@ import androidx.compose.ui.window.Dialog
 import com.snowdango.violet.domain.relation.SongAllMeta
 import com.snowdango.violet.view.view.ArtWorkImage
 import com.snowdango.violet.view.view.ArtWorkImageShape
+import com.snowdango.violet.view.view.DividerOnText
 
 @Composable
 fun SongDetailDialog(
@@ -52,24 +53,24 @@ fun SongDetailDialog(
                     shape = ArtWorkImageShape.ROUNDED,
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer
                 )
-                SongDetailMetaText(
-                    text = "title: ${songAllMeta.song.title}"
-                )
-                SongDetailMetaText(
-                    text = "artist: ${songAllMeta.artist.name}"
-                )
-                SongDetailMetaText(
-                    text = "album: ${songAllMeta.albumWithArtist.album.title}"
-                )
+                // title
+                SongDetailMetaDivider("Title")
+                SongDetailMetaText(songAllMeta.song.title)
+                // artist
+                SongDetailMetaDivider("Artist")
+                SongDetailMetaText(songAllMeta.artist.name)
+                // album
+                SongDetailMetaDivider("Album")
+                SongDetailMetaText(songAllMeta.albumWithArtist.album.title)
+                // album artist
                 songAllMeta.albumWithArtist.artist?.let {
-                    SongDetailMetaText(
-                        text = "album artist: ${it.name}"
-                    )
+                    SongDetailMetaDivider("Album Artist")
+                    SongDetailMetaText(it.name)
                 }
+                // genre
                 if (songAllMeta.song.genre.isNotBlank()) {
-                    SongDetailMetaText(
-                        text = "genre: ${songAllMeta.song.genre}"
-                    )
+                    SongDetailMetaDivider("Genre")
+                    SongDetailMetaText(songAllMeta.song.genre)
                 }
             }
         }
@@ -77,11 +78,25 @@ fun SongDetailDialog(
 }
 
 @Composable
+fun SongDetailMetaDivider(text: String) {
+    DividerOnText(
+        textString = text,
+        textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        backGroundColor = MaterialTheme.colorScheme.primaryContainer,
+        dividerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .wrapContentHeight()
+            .padding(0.dp, 5.dp, 0.dp, 5.dp)
+    )
+}
+
+@Composable
 fun SongDetailMetaText(text: String) {
     Text(
         text = text,
         modifier = Modifier
-            .wrapContentWidth()
+            .fillMaxWidth(0.9f)
             .wrapContentHeight()
             .padding(16.dp, 0.dp, 16.dp, 4.dp),
         color = MaterialTheme.colorScheme.onPrimaryContainer,
