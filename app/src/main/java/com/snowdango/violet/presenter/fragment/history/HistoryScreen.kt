@@ -79,7 +79,8 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth(0.86f)
-                    .fillMaxHeight()
+                    .fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 // NowPlaying
                 if (lastSongItems.value.isNotEmpty()) {
