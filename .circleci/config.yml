@@ -13,6 +13,9 @@ jobs:
       - run:
           name: chmod gradle
           command: chmod +x ./gradlew
+      - run:
+          name: decode properties
+          command: touch release.jks && echo -n "${LOCAL_PROPERTIES_BASE64}" | base64 -d > local.properties
       - android/run-tests:
           test-command: ./gradlew lint testDebug --continue
       - android/start-emulator-and-run-tests:
