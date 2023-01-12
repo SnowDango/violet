@@ -33,5 +33,8 @@ class HistoryViewModel : ViewModel(), KoinComponent {
         _songAllMetaState.emit(getSongAllMetaModel.getSongAllMeta(id))
     }
 
+    fun purgeSongAllMeta() = viewModelScope.launch {
+        _songAllMetaState.emit(GetSongAllMetaModel.SongAllMetaState.None)
+    }
 
 }

@@ -16,10 +16,15 @@ import com.snowdango.violet.view.view.ArtWorkImage
 import com.snowdango.violet.view.view.ArtWorkImageShape
 
 @Composable
-fun SongDetailDialog(songAllMeta: SongAllMeta, onDismiss: () -> Unit) {
+fun SongDetailDialog(
+    songAllMeta: SongAllMeta,
+    onDismissRequest: () -> Unit
+) {
 
     Dialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            onDismissRequest.invoke()
+        }
     ) {
         Box(
             modifier = Modifier
@@ -47,56 +52,39 @@ fun SongDetailDialog(songAllMeta: SongAllMeta, onDismiss: () -> Unit) {
                     shape = ArtWorkImageShape.ROUNDED,
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer
                 )
-                Text(
-                    text = "title: ${songAllMeta.song.title}",
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .wrapContentHeight()
-                        .padding(horizontal = 16.dp),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    textAlign = TextAlign.Center
+                SongDetailMetaText(
+                    text = "title: ${songAllMeta.song.title}"
                 )
-                Text(
-                    text = "artist: ${songAllMeta.artist.name}",
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .wrapContentHeight()
-                        .padding(horizontal = 16.dp),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    textAlign = TextAlign.Center
+                SongDetailMetaText(
+                    text = "artist: ${songAllMeta.artist.name}"
                 )
-                Text(
-                    text = "album: ${songAllMeta.albumWithArtist.album.title}",
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .wrapContentHeight()
-                        .padding(horizontal = 16.dp),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    textAlign = TextAlign.Center
+                SongDetailMetaText(
+                    text = "album: ${songAllMeta.albumWithArtist.album.title}"
                 )
                 songAllMeta.albumWithArtist.artist?.let {
-                    Text(
-                        text = "album artist: ${it.name}",
-                        modifier = Modifier
-                            .wrapContentWidth()
-                            .wrapContentHeight()
-                            .padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        textAlign = TextAlign.Center
+                    SongDetailMetaText(
+                        text = "album artist: ${it.name}"
                     )
                 }
                 if (songAllMeta.song.genre.isNotBlank()) {
-                    Text(
-                        text = "genre: ${songAllMeta.song.genre}",
-                        modifier = Modifier
-                            .wrapContentWidth()
-                            .wrapContentHeight()
-                            .padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        textAlign = TextAlign.Center
+                    SongDetailMetaText(
+                        text = "genre: ${songAllMeta.song.genre}"
                     )
                 }
             }
         }
     }
+}
+
+@Composable
+fun SongDetailMetaText(text: String) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .wrapContentWidth()
+            .wrapContentHeight()
+            .padding(16.dp, 0.dp, 16.dp, 4.dp),
+        color = MaterialTheme.colorScheme.onPrimaryContainer,
+        textAlign = TextAlign.Center
+    )
 }

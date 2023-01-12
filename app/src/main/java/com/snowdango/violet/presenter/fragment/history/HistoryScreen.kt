@@ -6,20 +6,13 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.snowdango.violet.domain.last.LastSong
-import com.snowdango.violet.domain.relation.HistoryWithSong
 import com.snowdango.violet.model.data.GetSongAllMetaModel
 import com.snowdango.violet.presenter.dialog.SongDetailDialog
 import com.snowdango.violet.repository.datastore.LastSongDataStore
@@ -27,122 +20,92 @@ import com.snowdango.violet.view.component.EmptyAndRefreshComponent
 import com.snowdango.violet.view.component.GridAfterSaveSongComponent
 import com.snowdango.violet.view.component.GridSongComponent
 import com.snowdango.violet.view.component.LastSongComponent
+import com.snowdango.violet.view.view.RefreshBox
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HistoryScreen(dataStore: LastSongDataStore) {
     val viewModel = viewModel<HistoryViewModel>()
+
     val songHistoryItems = viewModel.songHistoryFlow.collectAsLazyPagingItems()
     val lastSongItems = dataStore.flowLastSong().collectAsState(listOf())
     val songAllMetaState =
         viewModel.songAllMetaFlow.collectAsState(GetSongAllMetaModel.SongAllMetaState.None)
-    var refreshing by remember { mutableStateOf(false) }
+
     var isDialogShow by remember { mutableStateOf(false) }
 
-    val state = rememberPullRefreshState(
-        refreshing = refreshing,
-        onRefresh = {
-            refreshing = true
-            songHistoryItems.refresh()
-        }
-    )
-
-    Box(
-        modifier = Modifier.pullRefresh(state = state)
-            .background(MaterialTheme.colorScheme.background)
+    RefreshBox(
+        onRefresh = { songHistoryItems.refresh() },
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background),
+        onFinish = { songHistoryItems.loadState.refresh != LoadState.Loading }
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (songHistoryItems.loadState.refresh != LoadState.Loading) {
-                refreshing = false
-                if (songHistoryItems.itemSnapshotList.isNotEmpty()) {
-                    ShowHistoryWithNowPlaying(lastSongItems, songHistoryItems) {
-                        viewModel.loadSongAllMeta(it)
-                        isDialogShow = true
+        if (songHistoryItems.itemSnapshotList.isNotEmpty()) {
+
+            Box(
+                modifier = Modifier.fillMaxWidth()
+                    .fillMaxHeight(),
+                contentAlignment = Alignment.Center
+            ) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier
+                        .fillMaxWidth(0.86f)
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    // NowPlaying
+                    if (lastSongItems.value.isNotEmpty()) {
+                        item(span = { GridItemSpan(2) }) {
+                            LastSongComponent(lastSongItems.value)
+                        }
                     }
-                } else {
-                    ShowEmptyHistoryWithNowPlaying(lastSongItems, songHistoryItems)
+                    // history
+                    items(songHistoryItems.itemSnapshotList) { songHistory ->
+                        if (songHistory?.song != null) {
+                            GridSongComponent(songHistory.song!!, songHistory.history.platform) {
+                                viewModel.loadSongAllMeta(it)
+                                isDialogShow = true
+                            }
+                        } else {
+                            GridAfterSaveSongComponent(songHistory?.history?.platform!!)
+                        }
+                    }
                 }
             }
-        }
-        // push refresh indicator
-        PullRefreshIndicator(
-            refreshing = refreshing,
-            state = state,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
-    }
 
-    ShowAllMetaDialog(isDialogShow, songAllMetaState.value) {
-        isDialogShow = false
-    }
-}
+        } else {
 
-@Composable
-fun ShowHistoryWithNowPlaying(
-    lastSongItems: State<List<LastSong>>,
-    songHistoryItems: LazyPagingItems<HistoryWithSong>,
-    onClick: (id: Long) -> Unit
-) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier = Modifier
-            .fillMaxWidth(0.86f)
-            .fillMaxHeight()
-    ) {
-        // NowPlaying
-        if (lastSongItems.value.isNotEmpty()) {
-            item(span = { GridItemSpan(2) }) {
-                LastSongComponent(lastSongItems.value)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(0.86f)
+                    .fillMaxHeight()
+            ) {
+                // NowPlaying
+                if (lastSongItems.value.isNotEmpty()) {
+                    LastSongComponent(lastSongItems.value)
+                }
+                // empty view
+                EmptyAndRefreshComponent(
+                    "履歴がありません",
+                    { songHistoryItems.refresh() },
+                    Modifier.fillMaxSize(),
+                    Alignment.Center
+                )
             }
+
         }
-        // history
-        items(songHistoryItems.itemSnapshotList) { songHistory ->
-            if (songHistory?.song != null) {
-                GridSongComponent(songHistory.song!!, songHistory.history.platform, onClick)
-            } else {
-                GridAfterSaveSongComponent(songHistory?.history?.platform!!)
+
+        when (songAllMetaState.value) {
+            is GetSongAllMetaModel.SongAllMetaState.Success -> {
+                SongDetailDialog(
+                    (songAllMetaState.value as GetSongAllMetaModel.SongAllMetaState.Success).songAllMeta
+                ) {
+                    viewModel.purgeSongAllMeta()
+                }
             }
+            else -> {}
         }
-    }
-}
-
-@Composable
-fun ShowEmptyHistoryWithNowPlaying(
-    lastSongItems: State<List<LastSong>>,
-    songHistoryItems: LazyPagingItems<HistoryWithSong>
-) {
-    val viewModel = viewModel<HistoryViewModel>()
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(0.86f)
-            .fillMaxHeight()
-    ) {
-        // NowPlaying
-        if (lastSongItems.value.isNotEmpty()) {
-            LastSongComponent(lastSongItems.value)
-        }
-        //
-        EmptyAndRefreshComponent(
-            "履歴がありません",
-            { songHistoryItems.refresh() },
-            Modifier.fillMaxSize(),
-            Alignment.Center
-        )
-    }
-}
-
-@Composable
-fun ShowAllMetaDialog(
-    isShow: Boolean,
-    songAllMetaState: GetSongAllMetaModel.SongAllMetaState,
-    onDismiss: () -> Unit
-) {
-    if (isShow && songAllMetaState is GetSongAllMetaModel.SongAllMetaState.Success) {
-        SongDetailDialog(songAllMetaState.songAllMeta, onDismiss = onDismiss)
     }
 }
 
