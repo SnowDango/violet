@@ -64,22 +64,22 @@ workflows:
   tests:
     jobs:
       - unit-and-ui-tests:
-        filters:
-          branches:
-            only:
-              - develop
-              - release/*
+          filters:
+            branches:
+              only:
+                - develop
+                - release/*
   deploy-staging:
     jobs:
       - deploy-gate:
-        filters:
-          branches:
-            only:
-              - release/*
+          filters:
+            branches:
+              only:
+                - release/*
   release:
     jobs:
       - release-deploy:
-        filters:
-          branches:
-            only:
-              - master
+          filters:
+            branches:
+              only:
+                - master
