@@ -68,7 +68,7 @@ workflows:
     jobs:
       - deploy-gate:
           requires:
-            - unit-and-ui-tests
+            - tests
           filters:
             branches:
               only:
@@ -77,7 +77,7 @@ workflows:
     jobs:
       - release-deploy:
           requires:
-            - unit-and-ui-tests
+            - tests
           filters:
             branches:
               only:
