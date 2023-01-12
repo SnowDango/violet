@@ -15,6 +15,7 @@ fun RefreshBox(
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier,
     onFinish: () -> Boolean,
+    contextAlignment: Alignment = Alignment.Center,
     content: @Composable () -> Unit
 ) {
 
@@ -29,12 +30,13 @@ fun RefreshBox(
     )
 
     Box(
-        modifier = modifier.pullRefresh(state = state)
+        modifier = modifier.pullRefresh(state = state),
+        contentAlignment = contextAlignment
     ) {
         if (onFinish()) {
             refreshing = false
-            content()
         }
+        content()
 
         PullRefreshIndicator(
             refreshing = refreshing,

@@ -1,8 +1,6 @@
 package com.snowdango.violet.view.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,14 +23,25 @@ import com.snowdango.violet.view.view.ArtWorkImage
 import com.snowdango.violet.view.view.ArtWorkImageShape
 import com.snowdango.violet.view.view.MarqueeText
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GridSongComponent(song: Song, platformType: PlatformType, onClick: (id: Long) -> Unit) {
+fun GridSongComponent(
+    song: Song,
+    platformType: PlatformType,
+    onClick: ((id: Long) -> Unit)? = null,
+    onLongClick: ((id: Long) -> Unit)? = null,
+    onDoubleClick: ((id: Long) -> Unit)? = null
+) {
 
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clickable { onClick(song.id) },
+            .combinedClickable(
+                onClick = { onClick?.invoke(song.id) },
+                onLongClick = { onLongClick?.invoke(song.id) },
+                onDoubleClick = { onDoubleClick?.invoke(song.id) }
+            ),
         constraintSet = songComponentConstraintSet()
     ) {
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.snowdango.violet.model.data.DeleteHistoryModel
 import com.snowdango.violet.model.data.GetSongAllMetaModel
 import com.snowdango.violet.model.paging.SongHistoryModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,6 +36,13 @@ class HistoryViewModel : ViewModel(), KoinComponent {
 
     fun purgeSongAllMeta() = viewModelScope.launch {
         _songAllMetaState.emit(GetSongAllMetaModel.SongAllMetaState.None)
+    }
+
+    fun removeHistory(id: Long) = viewModelScope.launch {
+        if (id == -1L) return@launch
+
+        val deleteHistoryModel = DeleteHistoryModel()
+        deleteHistoryModel.deleteHistory(id)
     }
 
 }
