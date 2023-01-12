@@ -64,20 +64,16 @@ workflows:
   tests:
     jobs:
       - unit-and-ui-tests
-  deploy-staging:
-    jobs:
       - deploy-gate:
           requires:
-            - tests
+            - unit-and-ui-tests
           filters:
             branches:
               only:
                 - develop
-  release:
-    jobs:
       - release-deploy:
           requires:
-            - tests
+            - unit-and-ui-tests
           filters:
             branches:
               only:
