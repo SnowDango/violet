@@ -63,23 +63,22 @@ workflows:
   version: 2
   tests:
     jobs:
-      - unit-and-ui-tests:
+      - unit-and-ui-tests
+  deploy-staging:
+    jobs:
+      - deploy-gate:
+          requires:
+            - unit-and-ui-tests
           filters:
             branches:
               only:
                 - develop
-                - release/*
-  deploy-staging:
-    jobs:
-      - deploy-gate:
-          filters:
-            branches:
-              only:
-                - release/*
   release:
     jobs:
       - release-deploy:
+          requires:
+            - unit-and-ui-tests
           filters:
             branches:
               only:
-                - master
+                - release/*
