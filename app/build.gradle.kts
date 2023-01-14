@@ -78,9 +78,9 @@ android {
 
 deploygate {
     val properties = readProperties(file("../local.properties"))
-    userName = properties.getProperty("deploygate.user")
-    token = properties.getProperty("deploygate.token")
-    apks {
+    appOwnerName = properties.getProperty("deploygate.user")
+    apiToken = properties.getProperty("deploygate.token")
+    deployments {
         create("release") {
             sourceFile = file("build/outputs/apk/release/app-release.apk")
         }
