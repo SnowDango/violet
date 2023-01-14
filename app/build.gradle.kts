@@ -112,6 +112,9 @@ dependencies {
     // compose
     implementation(libs.bundles.compose)
 
+    // flow layout
+    implementation(libs.bundles.flowLayout)
+
     // permission dispatcher
     implementation(libs.bundles.permissionDispacher)
     kapt(libs.bundles.permissionDispatcherProcessor)

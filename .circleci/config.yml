@@ -13,6 +13,9 @@ jobs:
       - run:
           name: chmod gradle
           command: chmod +x ./gradlew
+      - run:
+          name: decode properties
+          command: touch release.jks && echo -n "${LOCAL_PROPERTIES_BASE64}" | base64 -d > local.properties
       - android/run-tests:
           test-command: ./gradlew lint testDebug --continue
       - android/start-emulator-and-run-tests:
@@ -29,11 +32,11 @@ jobs:
           name: chmod gradle
           command: chmod +x ./gradlew
       - run:
-          name: deocede jks
-          command: touch release.jks && echo -n "${jks_base64}" | base64 -d > release.jks
+          name: decode jks
+          command: touch release.jks && echo -n "${JKS_BASE64}" | base64 -d > release.jks
       - run:
           name: decode properties
-          command: touch release.jks && echo -n "${local_properties_base64}" | base64 -d > local.properties
+          command: touch release.jks && echo -n "${LOCAL_PROPERTIES_BASE64}" | base64 -d > local.properties
       - run:
           name: Upload to DeployGate
           command: ./gradlew uploadDeployGateRelease
@@ -48,10 +51,10 @@ jobs:
           command: chmod +x ./gradlew
       - run:
           name: deocede jks
-          command: touch release.jks && echo -n "${jks_base64}" | base64 -d > release.jks
+          command: touch release.jks && echo -n "${JKS_BASE64}" | base64 -d > release.jks
       - run:
           name: decode properties
-          command: touch release.jks && echo -n "${local_properties_base64}" | base64 -d > local.properties
+          command: touch release.jks && echo -n "${LOCAL_PROPERTIES_BASE64}" | base64 -d > local.properties
       - run:
           name: build apk
           command: ./gradlew assembleRelease
@@ -60,23 +63,18 @@ workflows:
   version: 2
   tests:
     jobs:
-      - unit-and-ui-tests:
-        filters:
-          branches:
-            only:
-              - develop
-              - release/*
-  deploy-staging:
-    jobs:
+      - unit-and-ui-tests
       - deploy-gate:
-        filters:
-          branches:
-            only:
-              - release/*
-  release:
-    jobs:
+          requires:
+            - unit-and-ui-tests
+          filters:
+            branches:
+              only:
+                - develop
       - release-deploy:
-        filters:
-          branches:
-            only:
-              - master
+          requires:
+            - unit-and-ui-tests
+          filters:
+            branches:
+              only:
+                - release/*

@@ -80,16 +80,18 @@ fun AppTheme(
     isDynamicColor: Boolean = true,
     content: @Composable() () -> Unit
 ) {
-    val dynamicColor = isDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val colorScheme = when {
-        dynamicColor && useDarkTheme -> {
+    val colorScheme = if (isDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (useDarkTheme) {
             dynamicDarkColorScheme(LocalContext.current)
-        }
-        dynamicColor && !useDarkTheme -> {
+        } else {
             dynamicLightColorScheme(LocalContext.current)
         }
-        useDarkTheme -> DarkColors
-        else -> LightColors
+    } else {
+        if (useDarkTheme) {
+            DarkColors
+        } else {
+            LightColors
+        }
     }
     MaterialTheme(
         colorScheme = colorScheme,
