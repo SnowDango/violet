@@ -1,6 +1,6 @@
 [versions]
 # plugin
-android-gradle = "7.4.0"
+android-gradle = "7.3.1"
 kotlin = "1.7.20"
 jacoco = "0.8.8"
 gradle-junit5 = "1.8.2.1"
