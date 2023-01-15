@@ -12,8 +12,8 @@
     // kotlin version: jetpack composeが非対応のため
     {
       groupName: "kotlin version",
-      packagePatterns: [
-        "org.jetbrains.kotlin:*",
+      matchPackagePrefixes: [
+        "org.jetbrains.kotlin:"
       ],
       labels: [
         "dependencies",
