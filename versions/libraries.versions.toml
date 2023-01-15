@@ -36,7 +36,7 @@ koin = "3.3.2"
 
 timber = "5.0.1"
 
-landscapist = "2.1.0"
+landscapist = "2.1.1"
 
 room = "2.5.0"
 datetime = "0.4.0"
