@@ -6,6 +6,9 @@
   extends: [
     "config:base",
   ],
+  labels: [
+    "dependencies",
+  ],
   timezone: "Asia/Tokyo",
   prConcurrentLimit: 10,
   packageRules: [
@@ -16,7 +19,6 @@
         "org.jetbrains.kotlin:"
       ],
       labels: [
-        "dependencies",
         "kotlin-version"
       ]
     }
