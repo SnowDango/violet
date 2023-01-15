@@ -13,7 +13,7 @@
     {
       groupName: "kotlin version",
       packagePatterns: [
-        "^org.jetbrains.kotlin:"
+        "^kotlin"
       ],
       labels: [
         "dependencies",
