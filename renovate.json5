@@ -20,7 +20,8 @@
       ],
       labels: [
         "kotlin-version"
-      ]
+      ],
+      matchCurrentVersion: ">=1.7.20"
     }
   ]
 }
