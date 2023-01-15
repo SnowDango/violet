@@ -13,12 +13,12 @@
     {
       groupName: "kotlin version",
       packagePatterns: [
-        "^kotlin"
+        "org.jetbrains.kotlin:*",
       ],
       labels: [
         "dependencies",
         "kotlin-version"
-      ],
+      ]
     }
   ]
 }
