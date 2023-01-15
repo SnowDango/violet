@@ -12,14 +12,13 @@
     // kotlin version: jetpack composeが非対応のため
     {
       groupName: "kotlin version",
-      excludePackagePrefixes: [
-        "org.jetbrains.kotlin:"
+      packagePatterns: [
+        "^org.jetbrains.kotlin:"
       ],
       labels: [
         "dependencies",
         "kotlin-version"
       ],
-      allowedVersions: "<1.7.20",
     }
   ]
 }
