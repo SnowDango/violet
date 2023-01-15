@@ -33,6 +33,7 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
     val lastSongItems = dataStore.flowLastSong().collectAsState(listOf())
     val songAllMetaState =
         viewModel.songAllMetaFlow.collectAsState(GetSongAllMetaModel.SongAllMetaState.None)
+    val filterIds = remember { viewModel.filterHistoryIds }
 
     val scrollState = rememberLazyGridState()
     var isDialogShow by remember { mutableStateOf(false) }
@@ -40,13 +41,15 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
     var selectHistoryId by remember { mutableStateOf(-1L) }
 
     RefreshBox(
-        onRefresh = { songHistoryItems.refresh() },
+        onRefresh = {
+            songHistoryItems.refresh()
+            viewModel.removeFilter()
+        },
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background),
         onFinish = { songHistoryItems.loadState.refresh != LoadState.Loading },
     ) {
         if (songHistoryItems.itemSnapshotList.isNotEmpty()) {
-
             Box(
                 modifier = Modifier.fillMaxWidth()
                     .fillMaxHeight(),
@@ -71,7 +74,7 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
                         songHistoryItems.itemSnapshotList,
                         key = { it?.history?.id!! }
                     ) { songHistory ->
-                        if (songHistory?.song != null) {
+                        if (songHistory?.song != null && filterIds.contains(songHistory.history.id)) {
                             Box(modifier = Modifier.animateItemPlacement()) {
                                 GridSongComponent(
                                     songHistory.song!!,
@@ -109,7 +112,6 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
                                             .background(MaterialTheme.colorScheme.surface),
                                         onClick = {
                                             viewModel.removeHistory(songHistory.history.id)
-                                            songHistoryItems.refresh()
                                             selectHistoryId = -1L
                                             isMenuShow = false
                                         }
@@ -122,9 +124,7 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
                     }
                 }
             }
-
         } else {
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth(0.86f)
@@ -147,7 +147,6 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
             }
         }
     }
-
     when (songAllMetaState.value) {
         is GetSongAllMetaModel.SongAllMetaState.Success -> {
             SongDetailDialog(
@@ -158,6 +157,5 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
         }
         else -> {}
     }
-
 }
 

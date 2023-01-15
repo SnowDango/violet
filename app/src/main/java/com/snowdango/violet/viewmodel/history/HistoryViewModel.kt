@@ -22,6 +22,8 @@ class HistoryViewModel : ViewModel(), KoinComponent {
         MutableSharedFlow()
     val songAllMetaFlow: SharedFlow<GetSongAllMetaModel.SongAllMetaState> = _songAllMetaState
 
+    val filterHistoryIds: MutableList<Long> = mutableListOf()
+
     val songHistoryFlow = Pager(
         PagingConfig(pageSize = 100, initialLoadSize = 100)
     ) {
@@ -34,6 +36,10 @@ class HistoryViewModel : ViewModel(), KoinComponent {
         _songAllMetaState.emit(getSongAllMetaModel.getSongAllMeta(id))
     }
 
+    fun removeFilter() {
+        filterHistoryIds.clear()
+    }
+
     fun purgeSongAllMeta() = viewModelScope.launch {
         _songAllMetaState.emit(GetSongAllMetaModel.SongAllMetaState.None)
     }
@@ -43,6 +49,7 @@ class HistoryViewModel : ViewModel(), KoinComponent {
 
         val deleteHistoryModel = DeleteHistoryModel()
         deleteHistoryModel.deleteHistory(id)
+        filterHistoryIds.add(id)
     }
 
 }

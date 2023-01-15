@@ -1,0 +1,25 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  baseBranches: [
+    "develop",
+  ],
+  extends: [
+    "config:base",
+  ],
+  timezone: "Asia/Tokyo",
+  prConcurrentLimit: 10,
+  packageRules: [
+    // kotlin version: jetpack composeが非対応のため
+    {
+      groupName: "kotlin version",
+      excludePackagePrefixes: [
+        "org.jetbrains.kotlin."
+      ],
+      labels: [
+        "dependencies",
+        "kotlin-version"
+      ],
+      allowedVersions: "<1.7.20",
+    }
+  ]
+}
