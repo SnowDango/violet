@@ -16,7 +16,7 @@
     {
       groupName: "kotlin version",
       matchPackagePatterns: [
-        "org.jetbrains.kotlin:"
+        "^org\\.jetbrains\\.kotlin:"
       ],
       labels: [
         "kotlin-version"
