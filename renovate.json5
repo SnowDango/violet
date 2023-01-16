@@ -18,10 +18,13 @@
       matchPackagePrefixes: [
         "org.jetbrains.kotlin:*"
       ],
-      labels: [
-        "kotlin-version"
-      ],
-      matchCurrentVersion: ">=1.7.20"
+    },
+    // gradle version:
+    {
+      groupName: "gradle",
+      matchPackagePrefixes: [
+        "com.android.tools.build:*"
+      ]
     }
   ]
 }
