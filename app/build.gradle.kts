@@ -42,6 +42,26 @@ android {
     buildTypes {
         debug {
             isMinifyEnabled = false
+            buildConfigField(
+                "String",
+                "TWITTER_CONSUMER_KEY",
+                "\"${properties.getProperty("twitter.api_key")}\""
+            )
+            buildConfigField(
+                "String",
+                "TWITTER_CONSUMER_SECRET",
+                "\"${properties.getProperty("twitter.api_secret")}\""
+            )
+            buildConfigField(
+                "String",
+                "TWITTER_ACCESS_TOKEN",
+                "\"${properties.getProperty("twitter.client")}\""
+            )
+            buildConfigField(
+                "String",
+                "TWITTER_ACCESS_TOKEN_SECRET",
+                "\"${properties.getProperty("twitter.client_secret")}\""
+            )
         }
         create("staging") {
             isMinifyEnabled = false
@@ -53,6 +73,26 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
+            buildConfigField(
+                "String",
+                "TWITTER_CONSUMER_KEY",
+                "\"${properties.getProperty("twitter.api_key")}\""
+            )
+            buildConfigField(
+                "String",
+                "TWITTER_CONSUMER_SECRET",
+                "\"${properties.getProperty("twitter.api_secret")}\""
+            )
+            buildConfigField(
+                "String",
+                "TWITTER_ACCESS_TOKEN",
+                "\"${properties.getProperty("twitter.client")}\""
+            )
+            buildConfigField(
+                "String",
+                "TWITTER_ACCESS_TOKEN_SECRET",
+                "\"${properties.getProperty("twitter.client_secret")}\""
+            )
         }
     }
     viewBinding {
@@ -124,6 +164,9 @@ dependencies {
 
     // workmanager
     implementation(libs.bundles.workmanager)
+
+    // twitter4j
+    implementation(libs.bundles.twitter4j)
 
     // debug
     debugImplementation(libs.bundles.composeDebug)

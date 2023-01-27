@@ -4,41 +4,34 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.model.data.GetSongAllMetaModel
 import com.snowdango.violet.presenter.dialog.SongDetailDialog
+import com.snowdango.violet.presenter.fragment.history.view.EmptyHistoryListView
+import com.snowdango.violet.presenter.fragment.history.view.HistoryLongClickMenu
+import com.snowdango.violet.presenter.fragment.history.view.NotEmptyHistoryListView
 import com.snowdango.violet.repository.datastore.LastSongDataStore
-import com.snowdango.violet.view.component.EmptyAndRefreshComponent
 import com.snowdango.violet.view.component.GridAfterSaveSongComponent
 import com.snowdango.violet.view.component.GridSongComponent
-import com.snowdango.violet.view.component.LastSongComponent
 import com.snowdango.violet.view.view.RefreshBox
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
+import timber.log.Timber
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HistoryScreen(dataStore: LastSongDataStore) {
+fun HistoryScreen(dataStore: LastSongDataStore, twitterPushTweet: (lastSong: LastSong) -> Unit) {
     val viewModel = viewModel<HistoryViewModel>()
 
     val songHistoryItems = viewModel.songHistoryFlow.collectAsLazyPagingItems()
-    val lastSongItems = dataStore.flowLastSong().collectAsState(listOf())
     val songAllMetaState =
         viewModel.songAllMetaFlow.collectAsState(GetSongAllMetaModel.SongAllMetaState.None)
-    val filterIds = remember { viewModel.filterHistoryIds }
-
-    val scrollState = rememberLazyGridState()
-    var isDialogShow by remember { mutableStateOf(false) }
-    var isMenuShow by remember { mutableStateOf(false) }
-    var selectHistoryId by remember { mutableStateOf(-1L) }
+    val lastSongItems = dataStore.flowLastSong().collectAsState(listOf())
 
     RefreshBox(
         onRefresh = {
@@ -49,101 +42,14 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
             .background(MaterialTheme.colorScheme.background),
         onFinish = { songHistoryItems.loadState.refresh != LoadState.Loading },
     ) {
+        Timber.d("songHistoryItems.itemSnapshotList.size: ${songHistoryItems.itemSnapshotList.size}")
         if (songHistoryItems.itemSnapshotList.isNotEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxWidth()
-                    .fillMaxHeight(),
-                contentAlignment = Alignment.Center
-            ) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .fillMaxWidth(0.86f)
-                        .fillMaxHeight(),
-                    horizontalArrangement = Arrangement.Center,
-                    state = scrollState,
-                ) {
-                    // NowPlaying
-                    if (lastSongItems.value.isNotEmpty()) {
-                        item(span = { GridItemSpan(2) }) {
-                            LastSongComponent(lastSongItems.value)
-                        }
-                    }
-                    // history
-                    items(
-                        songHistoryItems.itemSnapshotList,
-                        key = { it?.history?.id!! }
-                    ) { songHistory ->
-                        if (songHistory?.song != null && filterIds.contains(songHistory.history.id)) {
-                            Box(modifier = Modifier.animateItemPlacement()) {
-                                GridSongComponent(
-                                    songHistory.song!!,
-                                    songHistory.history.platform,
-                                    onClick = {
-                                        viewModel.loadSongAllMeta(it)
-                                        isDialogShow = true
-                                    },
-                                    onLongClick = {
-                                        selectHistoryId = songHistory.history.id
-                                        isMenuShow = true
-                                    }
-                                )
-                                DropdownMenu(
-                                    expanded = isMenuShow && selectHistoryId == songHistory.history.id,
-                                    onDismissRequest = {
-                                        selectHistoryId = -1L
-                                        isMenuShow = false
-                                    },
-                                    modifier = Modifier
-                                        .wrapContentHeight()
-                                        .wrapContentWidth()
-                                        .background(MaterialTheme.colorScheme.surface)
-                                ) {
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(
-                                                "Delete",
-                                                color = MaterialTheme.colorScheme.onSurface
-                                            )
-                                        },
-                                        modifier = Modifier
-                                            .wrapContentWidth()
-                                            .wrapContentHeight()
-                                            .background(MaterialTheme.colorScheme.surface),
-                                        onClick = {
-                                            viewModel.removeHistory(songHistory.history.id)
-                                            selectHistoryId = -1L
-                                            isMenuShow = false
-                                        }
-                                    )
-                                }
-                            }
-                        } else {
-                            GridAfterSaveSongComponent(songHistory?.history?.platform!!)
-                        }
-                    }
-                }
+            NotEmptyHistoryListView(viewModel, songHistoryItems, lastSongItems) {
+                twitterPushTweet(it)
             }
         } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(0.86f)
-                    .fillMaxHeight(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                // NowPlaying
-                if (lastSongItems.value.isNotEmpty()) {
-                    LastSongComponent(lastSongItems.value)
-                }
-                // empty view
-                if (songHistoryItems.loadState.prepend == LoadState.NotLoading(true)) {
-                    EmptyAndRefreshComponent(
-                        "履歴がありません",
-                        { songHistoryItems.refresh() },
-                        Modifier.fillMaxSize(),
-                        Alignment.Center
-                    )
-                }
+            EmptyHistoryListView(viewModel, songHistoryItems, lastSongItems) {
+                twitterPushTweet(it)
             }
         }
     }
@@ -156,6 +62,78 @@ fun HistoryScreen(dataStore: LastSongDataStore) {
             }
         }
         else -> {}
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun NotEmptyHistoryListComponent(viewModel: HistoryViewModel, dataStore: LastSongDataStore) {
+    val songHistoryItems = viewModel.songHistoryFlow.collectAsLazyPagingItems()
+    val lastSongItems = dataStore.flowLastSong().collectAsState(listOf())
+
+    var isDialogShow by remember { mutableStateOf(false) }
+    var isMenuShow by remember { mutableStateOf(false) }
+    val filterIds = remember { viewModel.filterHistoryIds }
+    var selectHistoryId by remember { mutableStateOf(-1L) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        contentAlignment = Alignment.Center
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier
+                .fillMaxWidth(0.86f)
+                .fillMaxHeight(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            // NowPlaying
+            if (lastSongItems.value.isNotEmpty()) {
+                item(span = { GridItemSpan(2) }) {
+                    // LastSongComponent(lastSongItems.value)
+                }
+            }
+            // history
+            items(
+                songHistoryItems.itemSnapshotList,
+                key = { it?.history?.id!! }
+            ) { songHistory ->
+                if (songHistory?.song != null && filterIds.contains(songHistory.history.id)) {
+                    Box(modifier = Modifier.animateItemPlacement()) {
+                        GridSongComponent(
+                            songHistory.song!!,
+                            songHistory.history.platform,
+                            onClick = {
+                                viewModel.loadSongAllMeta(it)
+                                isDialogShow = true
+                            },
+                            onLongClick = {
+                                selectHistoryId = songHistory.history.id
+                                isMenuShow = true
+                            }
+                        )
+                        HistoryLongClickMenu(
+                            isMenuShow,
+                            selectHistoryId,
+                            songHistory,
+                            onDismiss = {
+                                selectHistoryId = -1L
+                                isMenuShow = false
+                            },
+                            deleteFn = {
+                                viewModel.removeHistory(songHistory.history.id)
+                                selectHistoryId = -1L
+                                isMenuShow = false
+                            }
+                        )
+                    }
+                } else {
+                    GridAfterSaveSongComponent(songHistory?.history?.platform!!)
+                }
+            }
+        }
     }
 }
 

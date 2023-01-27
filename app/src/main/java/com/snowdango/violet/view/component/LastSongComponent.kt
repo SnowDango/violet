@@ -12,13 +12,18 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.snowdango.violet.domain.last.LastSong
+import com.snowdango.violet.domain.token.TwitterToken
 import com.snowdango.violet.view.style.squareConformFillMaxWidth
 import com.snowdango.violet.view.view.LastSongArtWorkImage
 import com.snowdango.violet.view.view.MarqueeText
 import com.snowdango.violet.view.view.TwitterImageButton
 
 @Composable
-fun LastSongComponent(lastSongs: List<LastSong>) {
+fun LastSongComponent(
+    lastSongs: List<LastSong>,
+    twitterToken: TwitterToken,
+    twitterClick: (lastSong: LastSong) -> Unit
+) {
 
     val fraction = 0.6f
 
@@ -43,7 +48,10 @@ fun LastSongComponent(lastSongs: List<LastSong>) {
             TwitterImageButton(
                 modifier = Modifier
                     .squareConformFillMaxWidth(fraction / 4)
-                    .layoutId("twitter")
+                    .layoutId("twitter"),
+                clickFn = {
+                    twitterClick(it)
+                }
             )
             MarqueeText(
                 text = it.title ?: "Unknown",

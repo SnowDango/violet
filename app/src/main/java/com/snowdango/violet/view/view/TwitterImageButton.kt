@@ -36,7 +36,7 @@ fun TwitterImageButton(
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background)
                         .clip(CircleShape)
-                        .clickable { clickFn?.invoke() }
+                        .clickable(true) { clickFn?.invoke() }
                 )
             }
         },

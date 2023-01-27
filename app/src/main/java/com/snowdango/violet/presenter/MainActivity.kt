@@ -73,3 +73,16 @@ class MainActivity : AppCompatActivity() {
         _binding = null
     }
 }
+
+/*fun Activity.loginTwitter(scope: CoroutineScope, callback: (TwitterToken) -> Unit) {
+    val builder = ConfigurationBuilder()
+        .setDebugEnabled(com.snowdango.violet.BuildConfig.DEBUG)
+        .setOAuthConsumerKey(com.snowdango.violet.BuildConfig.TWITTER_CONSUMER_KEY)
+        .setOAuthConsumerSecret(com.snowdango.violet.BuildConfig.TWITTER_CONSUMER_SECRET)
+    val twitter = TwitterFactory(builder.build()).instance
+    try {
+        TwitterAuthDialog(this@loginTwitter, scope, twitter, callback).show()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}*/

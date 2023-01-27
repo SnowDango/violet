@@ -7,6 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.snowdango.violet.model.data.DeleteHistoryModel
 import com.snowdango.violet.model.data.GetSongAllMetaModel
+import com.snowdango.violet.model.data.TwitterTokenModel
 import com.snowdango.violet.model.paging.SongHistoryModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -17,6 +18,7 @@ import org.koin.core.component.inject
 class HistoryViewModel : ViewModel(), KoinComponent {
 
     private val songHistoryModel: SongHistoryModel by inject()
+    private val twitterTokenModel: TwitterTokenModel by inject()
 
     private val _songAllMetaState: MutableSharedFlow<GetSongAllMetaModel.SongAllMetaState> =
         MutableSharedFlow()
@@ -29,6 +31,8 @@ class HistoryViewModel : ViewModel(), KoinComponent {
     ) {
         songHistoryModel.getSongHistoriesPagingSource()
     }.flow.cachedIn(viewModelScope)
+
+    val twitterTokenFlow = twitterTokenModel.getTwitterTokenFlow()
 
     fun loadSongAllMeta(id: Long) = viewModelScope.launch {
         _songAllMetaState.emit(GetSongAllMetaModel.SongAllMetaState.Loading)
