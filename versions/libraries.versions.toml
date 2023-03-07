@@ -6,10 +6,10 @@ jacoco = "0.8.8"
 gradle-junit5 = "1.8.2.1"
 
 androidx-core-ktx = "1.9.0"
-androidx-appcompat = "1.6.0"
+androidx-appcompat = "1.6.1"
 android-material = "1.8.0"
 paging = "3.1.1"
-paging-compose = "1.0.0-alpha17"
+paging-compose = "1.0.0-alpha18"
 
 constraintlayout = "2.1.4"
 constraintlayout-compose = "1.0.1"
