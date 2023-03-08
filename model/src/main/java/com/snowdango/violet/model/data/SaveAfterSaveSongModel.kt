@@ -47,7 +47,7 @@ class SaveAfterSaveSongModel : KoinComponent {
     private suspend fun saveWithLastSong(lastSong: LastSong, historyId: Long, id: Long) {
         if (lastSong.platform != null && lastSong.mediaId != null) {
             val songId: Long? = if (!isAlreadySaved(lastSong.mediaId!!, lastSong.platform!!)) {
-                var songIdOrNull: Long? = null
+                var songIdOrNull: Long?
                 songIdOrNull = saveWithSongLink(lastSong)
                 if (songIdOrNull == null) {
                     songIdOrNull = saveWithPlatform(lastSong)
