@@ -2,31 +2,31 @@ package com.snowdango.violet.model.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.snowdango.violet.domain.relation.AlbumWithArtist
+import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.usecase.db.album.GetAlbum
 import timber.log.Timber
 
-class AlbumWithArtistPagingModel(db: SongHistoryDatabase) {
+class AlbumPagingModel(db: SongHistoryDatabase) {
 
     private val getAlbum: GetAlbum = GetAlbum(db)
 
-    fun getAlbumWithArtistPagingSource(): AlbumWithArtistPagingSource {
-        return AlbumWithArtistPagingSource(getAlbum)
+    fun getAlbumsPagingSource(): AlbumsPagingSource {
+        return AlbumsPagingSource(getAlbum)
     }
 
-    class AlbumWithArtistPagingSource(private val getAlbum: GetAlbum): PagingSource<Int, AlbumWithArtist>() {
-        override fun getRefreshKey(state: PagingState<Int, AlbumWithArtist>): Int? {
+    class AlbumsPagingSource(private val getAlbum: GetAlbum) : PagingSource<Int, Album>() {
+        override fun getRefreshKey(state: PagingState<Int, Album>): Int? {
             return state.anchorPosition?.let { anchorPosition ->
                 val anchorPage = state.closestPageToPosition(anchorPosition)
                 anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
             }
         }
 
-        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AlbumWithArtist> {
+        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Album> {
             val page = params.key ?: 0
             return try {
-                val albums = getAlbum.getAlbumsWithArtist(
+                val albums = getAlbum.getAlbums(
                     page * params.loadSize.toLong(),
                     params.loadSize.toLong()
                 )
@@ -41,5 +41,4 @@ class AlbumWithArtistPagingModel(db: SongHistoryDatabase) {
             }
         }
     }
-
 }

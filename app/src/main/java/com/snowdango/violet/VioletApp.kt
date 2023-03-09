@@ -7,12 +7,14 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.android.material.color.DynamicColors
 import com.snowdango.violet.domain.memory.InMemoryStore
+import com.snowdango.violet.model.paging.AlbumPagingModel
 import com.snowdango.violet.model.paging.SongHistoryPagingModel
 import com.snowdango.violet.repository.api.ApiRepository
 import com.snowdango.violet.repository.api.provide.ApiProvider
 import com.snowdango.violet.repository.datastore.LastSongDataStore
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.usecase.connect.ConnectManager
+import com.snowdango.violet.viewmodel.album.AlbumViewModel
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -38,12 +40,13 @@ class VioletApp : Application() {
                     factory { ApiRepository(ApiProvider()) }
                     factory { ConnectManager(get()) }
                 },
-                module {
+                module {// history
                     factory { SongHistoryPagingModel(get()) }
                     viewModel { HistoryViewModel() }
                 },
-                module {
-                    factory {}
+                module {// album
+                    factory { AlbumPagingModel(get()) }
+                    viewModel { AlbumViewModel() }
                 }
             )
         }
