@@ -7,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.snowdango.violet.model.data.DeleteHistoryModel
 import com.snowdango.violet.model.data.GetSongAllMetaModel
-import com.snowdango.violet.model.paging.SongHistoryModel
+import com.snowdango.violet.model.paging.SongHistoryPagingModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import org.koin.core.component.inject
 
 class HistoryViewModel : ViewModel(), KoinComponent {
 
-    private val songHistoryModel: SongHistoryModel by inject()
+    private val songHistoryPagingModel: SongHistoryPagingModel by inject()
 
     private val _songAllMetaState: MutableSharedFlow<GetSongAllMetaModel.SongAllMetaState> =
         MutableSharedFlow()
@@ -27,7 +27,7 @@ class HistoryViewModel : ViewModel(), KoinComponent {
     val songHistoryFlow = Pager(
         PagingConfig(pageSize = 100, initialLoadSize = 100)
     ) {
-        songHistoryModel.getSongHistoriesPagingSource()
+        songHistoryPagingModel.getSongHistoriesPagingSource()
     }.flow.cachedIn(viewModelScope)
 
     fun loadSongAllMeta(id: Long) = viewModelScope.launch {

@@ -9,13 +9,13 @@ class ConnectManager(private val context: Context) {
 
     fun isConnectInternet(): Boolean {
         val connManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val networkCapabilities = connManager.getNetworkCapabilities(connManager.activeNetwork)
-            return networkCapabilities != null
+            networkCapabilities != null
         } else {
             // below Marshmallow
             val activeNetwork = connManager.activeNetworkInfo
-            return activeNetwork?.isConnectedOrConnecting == true && activeNetwork.isAvailable
+            activeNetwork?.isConnectedOrConnecting == true && activeNetwork.isAvailable
         }
     }
 
