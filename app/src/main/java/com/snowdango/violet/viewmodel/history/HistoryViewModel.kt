@@ -23,6 +23,7 @@ class HistoryViewModel : ViewModel(), KoinComponent {
     val songAllMetaFlow: SharedFlow<GetSongAllMetaModel.SongAllMetaState> = _songAllMetaState
 
     val filterHistoryIds: MutableList<Long> = mutableListOf()
+    val filterHistoryIdFlow: MutableSharedFlow<Int> = MutableSharedFlow()
 
     val songHistoryFlow = Pager(
         PagingConfig(pageSize = 100, initialLoadSize = 100)

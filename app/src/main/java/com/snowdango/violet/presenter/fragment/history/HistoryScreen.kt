@@ -26,6 +26,7 @@ import com.snowdango.violet.view.component.GridSongComponent
 import com.snowdango.violet.view.component.LastSongComponent
 import com.snowdango.violet.view.view.RefreshBox
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
+import timber.log.Timber
 
 @Composable
 fun HistoryScreen(dataStore: LastSongDataStore) {
@@ -73,8 +74,6 @@ fun HistoryNotEmptyScreen(
 ) {
     val scrollState = rememberLazyGridState()
     var isDialogShow by remember { mutableStateOf(false) }
-    var isMenuShow by remember { mutableStateOf(false) }
-    var selectHistoryId by remember { mutableStateOf(-1L) }
     val filterIds = remember { viewModel.filterHistoryIds }
 
     Box(
@@ -100,23 +99,14 @@ fun HistoryNotEmptyScreen(
                 songHistoryItems.itemSnapshotList.filter { !filterIds.contains(it?.history?.id) },
                 key = { it?.history?.id!! }
             ) { songHistory ->
+                Timber.d(songHistory.toString())
                 SongHistory(
                     songHistory,
                     viewModel,
                     Modifier.animateItemPlacement(),
-                    isMenuShow,
-                    selectHistoryId,
                     onClick = {
                         viewModel.loadSongAllMeta(it)
                         isDialogShow = true
-                    },
-                    onLongClick = {
-                        selectHistoryId = it
-                        isMenuShow = true
-                    },
-                    onDropMenuDismissRequest = {
-                        selectHistoryId = -1L
-                        isMenuShow = false
                     }
                 )
             }
@@ -156,12 +146,9 @@ fun SongHistory(
     songHistory: HistoryWithSong?,
     viewModel: HistoryViewModel,
     modifier: Modifier,
-    isMenuShow: Boolean,
-    selectHistoryId: Long,
     onClick: ((it: Long) -> Unit)? = null,
-    onLongClick: ((it: Long) -> Unit)? = null,
-    onDropMenuDismissRequest: (() -> Unit)? = null
 ) {
+    var isMenuShow: Boolean by remember { mutableStateOf(false) }
     if (songHistory?.song != null) {
         Box(modifier = modifier) {
             GridSongComponent(
@@ -171,16 +158,15 @@ fun SongHistory(
                     onClick?.invoke(it)
                 },
                 onLongClick = {
-                    onLongClick?.invoke(it)
+                    isMenuShow = true
                 }
             )
             SongDropMenu(
                 songHistory.history.id,
                 viewModel,
                 isMenuShow,
-                selectHistoryId
             ) {
-                onDropMenuDismissRequest?.invoke()
+                isMenuShow = false
             }
         }
     } else {
@@ -193,11 +179,10 @@ fun SongDropMenu(
     historyId: Long,
     viewModel: HistoryViewModel,
     isMenuShow: Boolean,
-    selectHistoryId: Long,
     onDismissRequest: (() -> Unit)? = null
 ) {
     DropdownMenu(
-        expanded = isMenuShow && selectHistoryId == historyId,
+        expanded = isMenuShow,
         onDismissRequest = {
             onDismissRequest?.invoke()
         },
