@@ -24,6 +24,11 @@ import com.snowdango.violet.view.view.ArtWorkImageShape
 import com.snowdango.violet.view.view.MarqueeText
 import com.snowdango.violet.view.view.OnCombinedClickListener
 
+
+private const val THUMBNAIL_ID = "thumbnail"
+private const val TITLE_ID = "title"
+private const val APP_ICON_ID = "app_icon"
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GridSongComponent(
@@ -50,7 +55,7 @@ fun GridSongComponent(
             modifier = Modifier
                 .fillMaxWidth(0.71f)
                 .wrapContentHeight()
-                .layoutId("thumbnail"),
+                .layoutId(THUMBNAIL_ID),
             shape = ArtWorkImageShape.ROUNDED
         )
 
@@ -60,7 +65,7 @@ fun GridSongComponent(
             modifier = Modifier
                 .fillMaxWidth(0.71f)
                 .wrapContentHeight()
-                .layoutId("title"),
+                .layoutId(TITLE_ID),
             maxLines = 1,
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onBackground
@@ -89,7 +94,7 @@ fun GridSongComponent(
                 .fillMaxWidth(0.08f)
                 .wrapContentHeight()
                 .aspectRatio(1f)
-                .layoutId("app-icon")
+                .layoutId(APP_ICON_ID)
                 .background(MaterialTheme.colorScheme.background),
         )
 
@@ -99,9 +104,9 @@ fun GridSongComponent(
 
 private fun songComponentConstraintSet(): ConstraintSet {
     return ConstraintSet {
-        val thumbnail = createRefFor("thumbnail")
-        val title = createRefFor("title")
-        val appIcon = createRefFor("app-icon")
+        val thumbnail = createRefFor(THUMBNAIL_ID)
+        val title = createRefFor(TITLE_ID)
+        val appIcon = createRefFor(APP_ICON_ID)
 
         constrain(thumbnail) {
             top.linkTo(parent.top, margin = 16.dp)

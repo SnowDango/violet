@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -22,8 +23,13 @@ import androidx.constraintlayout.compose.ConstraintSet
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.glide.GlideImage
+import com.snowdango.violet.R
 import com.snowdango.violet.domain.platform.PlatformType
 
+
+private const val THUMBNAIL_ID = "thumbnail"
+private const val TITLE_ID = "title"
+private const val APP_ICON_ID = "app_icon"
 
 @Composable
 fun GridAfterSaveSongComponent(platformType: PlatformType) {
@@ -42,15 +48,15 @@ fun GridAfterSaveSongComponent(platformType: PlatformType) {
                 .fillMaxWidth(0.71f)
                 .wrapContentHeight()
                 .aspectRatio(1f)
-                .layoutId("thumbnail"),
+                .layoutId(THUMBNAIL_ID),
         )
         Text(
-            text = "AfterSave",
+            text = stringResource(R.string.after_save),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth(0.71f)
                 .wrapContentHeight()
-                .layoutId("title"),
+                .layoutId(TITLE_ID),
             maxLines = 1,
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onBackground
@@ -79,7 +85,7 @@ fun GridAfterSaveSongComponent(platformType: PlatformType) {
                 .fillMaxWidth(0.08f)
                 .wrapContentHeight()
                 .aspectRatio(1f)
-                .layoutId("app-icon")
+                .layoutId(APP_ICON_ID)
                 .background(MaterialTheme.colorScheme.background),
         )
 
@@ -89,9 +95,9 @@ fun GridAfterSaveSongComponent(platformType: PlatformType) {
 
 private fun afterSaveSongComponentConstraintSet(): ConstraintSet {
     return ConstraintSet {
-        val thumbnail = createRefFor("thumbnail")
-        val title = createRefFor("title")
-        val appIcon = createRefFor("app-icon")
+        val thumbnail = createRefFor(THUMBNAIL_ID)
+        val title = createRefFor(TITLE_ID)
+        val appIcon = createRefFor(APP_ICON_ID)
         constrain(thumbnail) {
             top.linkTo(parent.top, margin = 16.dp)
             start.linkTo(parent.start)

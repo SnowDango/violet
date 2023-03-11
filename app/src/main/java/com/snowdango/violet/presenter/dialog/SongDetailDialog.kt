@@ -13,9 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.snowdango.violet.R
 import com.snowdango.violet.domain.entity.platforms.Platform
 import com.snowdango.violet.domain.relation.SongAllMeta
 import com.snowdango.violet.extention.mobileSchemeUri
@@ -62,15 +64,15 @@ fun SongDetailDialog(
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer
                 )
                 // title
-                SongDetailMetaView("Title", songAllMeta.song.title)
+                SongDetailMetaView(stringResource(R.string.title), songAllMeta.song.title)
                 // artist
-                SongDetailMetaView("Artist", songAllMeta.artist.name)
+                SongDetailMetaView(stringResource(R.string.artist), songAllMeta.artist.name)
                 // album
-                SongDetailMetaView("Album", songAllMeta.albumWithArtist.album.title)
+                SongDetailMetaView(stringResource(R.string.album), songAllMeta.albumWithArtist.album.title)
                 // album artist
-                SongDetailMetaView("Album Artist", songAllMeta.albumWithArtist.artist?.name)
+                SongDetailMetaView(stringResource(R.string.album_artist), songAllMeta.albumWithArtist.artist?.name)
                 // genre
-                SongDetailMetaView("Genre", songAllMeta.song.genre)
+                SongDetailMetaView(stringResource(R.string.genre), songAllMeta.song.genre)
 
                 val platforms = songAllMeta.platforms.filter {
                     it.platform != null
@@ -91,7 +93,7 @@ fun SongDetailDialog(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SongDetailPlatformLink(platforms: List<Platform>) {
-    SongDetailMetaDivider("Link")
+    SongDetailMetaDivider(stringResource(R.string.link))
     val context = LocalContext.current
     FlowRow(
         modifier = Modifier

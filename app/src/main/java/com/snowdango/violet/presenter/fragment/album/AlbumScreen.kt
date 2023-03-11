@@ -10,10 +10,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.ItemSnapshotList
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.snowdango.violet.R
 import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.view.component.EmptyAndRefreshComponent
 import com.snowdango.violet.view.component.GridAlbumComponent
@@ -49,7 +51,7 @@ fun AlbumScreen(
                 )
             } else {
                 EmptyAndRefreshComponent(
-                    "履歴がありません",
+                    stringResource(R.string.not_found_history),
                     { albumItems.refresh() },
                     Modifier.fillMaxSize(),
                     Alignment.Center

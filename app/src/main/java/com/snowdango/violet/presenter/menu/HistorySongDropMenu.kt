@@ -9,6 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.snowdango.violet.R
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
 
 @Composable
@@ -28,7 +30,7 @@ fun HistorySongDropMenu(
     ) {
         DropdownMenuItem(
             text = {
-                Text("Delete", color = MaterialTheme.colorScheme.onSurface)
+                Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.onSurface)
             },
             modifier = Modifier
                 .wrapContentWidth()

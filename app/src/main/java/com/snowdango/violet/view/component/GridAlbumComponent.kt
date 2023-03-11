@@ -18,6 +18,9 @@ import com.snowdango.violet.view.view.ArtWorkImageShape
 import com.snowdango.violet.view.view.MarqueeText
 import com.snowdango.violet.view.view.OnCombinedClickListener
 
+private const val THUMBNAIL_ID = "thumbnail"
+private const val TITLE_ID = "title"
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GridAlbumComponent(
@@ -41,7 +44,7 @@ fun GridAlbumComponent(
             modifier = Modifier
                 .fillMaxWidth(0.71f)
                 .wrapContentHeight()
-                .layoutId("thumbnail"),
+                .layoutId(THUMBNAIL_ID),
             shape = ArtWorkImageShape.ROUNDED
         )
         MarqueeText(
@@ -50,7 +53,7 @@ fun GridAlbumComponent(
             modifier = Modifier
                 .fillMaxWidth(0.71f)
                 .wrapContentHeight()
-                .layoutId("title"),
+                .layoutId(TITLE_ID),
             maxLines = 1,
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onBackground
@@ -60,8 +63,8 @@ fun GridAlbumComponent(
 
 private fun albumComponentConstraintSet(): ConstraintSet {
     return ConstraintSet {
-        val thumbnail = createRefFor("thumbnail")
-        val title = createRefFor("title")
+        val thumbnail = createRefFor(THUMBNAIL_ID)
+        val title = createRefFor(TITLE_ID)
 
         constrain(thumbnail) {
             top.linkTo(parent.top, margin = 16.dp)

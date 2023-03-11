@@ -9,10 +9,12 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.snowdango.violet.R
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.domain.relation.HistoryWithSong
 import com.snowdango.violet.model.data.GetSongAllMetaModel
@@ -122,7 +124,7 @@ fun HistoryEmptyScreen(
         // empty view
         if (songHistoryItems.loadState.prepend == LoadState.NotLoading(true)) {
             EmptyAndRefreshComponent(
-                "履歴がありません",
+                stringResource(R.string.not_found_history),
                 { songHistoryItems.refresh() },
                 Modifier.fillMaxSize(),
                 Alignment.Center

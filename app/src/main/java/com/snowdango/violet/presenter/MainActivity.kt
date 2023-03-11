@@ -58,14 +58,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun descriptionPermissionDialog() {
         AlertDialog.Builder(this)
-            .setTitle("権限の要求")
-            .setMessage("このアプリは音楽を認識するために通知を読む権限を必要とします。音楽系のサブスク以外の通知に関しては内容を一切参照したりしません。\nまた、この権限は最初にユーザーが権限を許可する必要があります。")
-            .setPositiveButton("OK") { dialog, _ ->
+            .setTitle(resources.getString(R.string.first_permission_require_title))
+            .setMessage(resources.getString(R.string.first_permission_require_text))
+            .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ ->
                 val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
                 startActivity(intent)
                 dialog.dismiss()
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(resources.getString(R.string.cencel)) { dialog, _ ->
                 dialog.dismiss()
                 finish()
             }.show()
