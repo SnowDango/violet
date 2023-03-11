@@ -7,15 +7,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
+import com.snowdango.violet.R
 import com.snowdango.violet.domain.last.LastSong
 import com.snowdango.violet.view.style.squareConformFillMaxWidth
 import com.snowdango.violet.view.view.LastSongArtWorkImage
 import com.snowdango.violet.view.view.MarqueeText
 import com.snowdango.violet.view.view.TwitterImageButton
+
+
+private const val ARTWORK_ID = "artwork"
+private const val TWITTER_ID = "twitter"
+private const val TITLE_ID = "title"
+private const val ARTIST_ID = "artist"
+private const val ALBUM_ID = "album"
+private const val DIVIDER_ID = "divider"
 
 @Composable
 fun LastSongComponent(lastSongs: List<LastSong>) {
@@ -38,42 +48,42 @@ fun LastSongComponent(lastSongs: List<LastSong>) {
                 it,
                 modifier = Modifier
                     .squareConformFillMaxWidth(fraction)
-                    .layoutId("artwork")
+                    .layoutId(ARTWORK_ID)
             )
             TwitterImageButton(
                 modifier = Modifier
                     .squareConformFillMaxWidth(fraction / 4)
-                    .layoutId("twitter")
+                    .layoutId(TWITTER_ID)
             )
             MarqueeText(
-                text = it.title ?: "Unknown",
+                text = it.title ?: stringResource(R.string.unknow),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
                     .fillMaxWidth(fraction)
                     .wrapContentHeight()
-                    .layoutId("title"),
+                    .layoutId(TITLE_ID),
                 maxLines = 1,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
             )
             MarqueeText(
-                text = it.artist ?: "Unknown",
+                text = it.artist ?: stringResource(R.string.unknow),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier
                     .fillMaxWidth(fraction)
                     .wrapContentHeight()
-                    .layoutId("artist"),
+                    .layoutId(ARTIST_ID),
                 maxLines = 1,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
             )
             MarqueeText(
-                text = it.album ?: "Unknown",
+                text = it.album ?: stringResource(R.string.unknow),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier
                     .fillMaxWidth(fraction)
                     .wrapContentHeight()
-                    .layoutId("album"),
+                    .layoutId(ALBUM_ID),
                 maxLines = 1,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
@@ -82,7 +92,7 @@ fun LastSongComponent(lastSongs: List<LastSong>) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .layoutId("divider")
+                    .layoutId(DIVIDER_ID)
             )
         }
     }

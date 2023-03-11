@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">violet</string>
+
+    <string name="ok">OK</string>
+    <string name="cencel">Cancel</string>
+    <string name="delete">Delete</string>
+
+    <string name="title">Title</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="album_artist">Album Artist</string>
+    <string name="genre">Genre</string>
+    <string name="link">Link</string>
+
+    <string name="reload">reload</string>
+
+    <string name="unknow">UnKnow</string>
+
+    <string name="after_save">AfterSave</string>
+
+    <string name="not_found_history">履歴がありません</string>
+
+    <string name="first_permission_require_title">権限の要求</string>
+    <string name="first_permission_require_text">
+        このアプリは音楽を認識するために通知を読む権限を必要とします。音楽系のサブスク以外の通知に関しては内容を一切参照したりしません。\nまた、この権限は最初にユーザーが権限を許可する必要があります。
+    </string>
 </resources>

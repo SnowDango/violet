@@ -4,12 +4,9 @@ import com.snowdango.violet.domain.relation.SongAllMeta
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import com.snowdango.violet.usecase.db.song.GetSong
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import timber.log.Timber
 
-class GetSongAllMetaModel : KoinComponent {
-
-    private val db: SongHistoryDatabase by inject()
+class GetSongAllMetaModel(private val db: SongHistoryDatabase) : KoinComponent {
 
     suspend fun getSongAllMeta(id: Long): SongAllMetaState {
         return try {

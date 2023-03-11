@@ -3,6 +3,7 @@ package com.snowdango.violet.repository.db.dao
 import androidx.room.*
 import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.domain.entity.albums.AlbumsTableName
+import com.snowdango.violet.domain.relation.AlbumAllMeta
 import com.snowdango.violet.domain.relation.AlbumWithArtist
 import com.snowdango.violet.domain.relation.AlbumWithSongs
 
@@ -55,5 +56,7 @@ interface AlbumDao {
     @Query("SELECT * FROM `$AlbumsTableName` ORDER BY id DESC LIMIT :from,:size")
     suspend fun getAlbumsWithSongs(from: Long, size: Long): List<AlbumWithSongs>
 
-
+    @Transaction
+    @Query("SELECT * FROM `$AlbumsTableName` WHERE id = :id")
+    suspend fun getAlbumAllMeta(id: Long): List<AlbumAllMeta>
 }

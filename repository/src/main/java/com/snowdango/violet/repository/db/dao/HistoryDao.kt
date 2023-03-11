@@ -16,7 +16,7 @@ interface HistoryDao {
 
     @Delete
     suspend fun deleteHistory(history: History)
-    
+
     @Update
     suspend fun updateHistory(history: History)
 
