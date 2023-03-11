@@ -22,15 +22,14 @@ import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.view.view.ArtWorkImage
 import com.snowdango.violet.view.view.ArtWorkImageShape
 import com.snowdango.violet.view.view.MarqueeText
+import com.snowdango.violet.view.view.OnCombinedClickListener
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GridSongComponent(
     song: Song,
     platformType: PlatformType,
-    onClick: ((id: Long) -> Unit)? = null,
-    onLongClick: ((id: Long) -> Unit)? = null,
-    onDoubleClick: ((id: Long) -> Unit)? = null
+    onCombinedClickListener: OnCombinedClickListener? = null
 ) {
 
     ConstraintLayout(
@@ -38,9 +37,9 @@ fun GridSongComponent(
             .fillMaxWidth()
             .wrapContentHeight()
             .combinedClickable(
-                onClick = { onClick?.invoke(song.id) },
-                onLongClick = { onLongClick?.invoke(song.id) },
-                onDoubleClick = { onDoubleClick?.invoke(song.id) }
+                onClick = { onCombinedClickListener?.onClick() },
+                onLongClick = { onCombinedClickListener?.onLongClick() },
+                onDoubleClick = { onCombinedClickListener?.onDoubleClick() }
             ),
         constraintSet = songComponentConstraintSet()
     ) {

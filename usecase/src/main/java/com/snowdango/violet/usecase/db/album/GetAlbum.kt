@@ -1,6 +1,7 @@
 package com.snowdango.violet.usecase.db.album
 
 import com.snowdango.violet.domain.entity.albums.Album
+import com.snowdango.violet.domain.relation.AlbumAllMeta
 import com.snowdango.violet.domain.relation.AlbumWithArtist
 import com.snowdango.violet.domain.relation.AlbumWithSongs
 import com.snowdango.violet.repository.db.SongHistoryDatabase
@@ -50,6 +51,10 @@ class GetAlbum(private val db: SongHistoryDatabase) {
         withContext(Dispatchers.IO) {
             return@withContext db.albumDao.getAlbumsWithArtist(from, size)
         }
+
+    suspend fun getAlbumAllMeta(id: Long): AlbumAllMeta? = withContext(Dispatchers.IO) {
+        return@withContext db.albumDao.getAlbumAllMeta(id).firstOrNull()
+    }
 
     suspend fun containsById(id: Long): Boolean = withContext(Dispatchers.IO) {
         return@withContext db.albumDao.getAlbum(id).isNotEmpty()

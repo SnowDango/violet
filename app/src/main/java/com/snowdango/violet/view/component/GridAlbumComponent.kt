@@ -16,23 +16,22 @@ import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.view.view.ArtWorkImage
 import com.snowdango.violet.view.view.ArtWorkImageShape
 import com.snowdango.violet.view.view.MarqueeText
+import com.snowdango.violet.view.view.OnCombinedClickListener
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GridAlbumComponent(
     album: Album,
-    onClick: ((id: Long) -> Unit)? = null,
-    onLongClick: ((id: Long) -> Unit)? = null,
-    onDoubleClick: ((id: Long) -> Unit)? = null
+    onCombinedClickListener: OnCombinedClickListener? = null
 ) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .combinedClickable(
-                onClick = { onClick?.invoke(album.id) },
-                onLongClick = { onLongClick?.invoke(album.id) },
-                onDoubleClick = { onDoubleClick?.invoke(album.id) }
+                onClick = { onCombinedClickListener?.onClick() },
+                onLongClick = { onCombinedClickListener?.onLongClick() },
+                onDoubleClick = { onCombinedClickListener?.onDoubleClick() }
             ),
         constraintSet = albumComponentConstraintSet()
     ) {

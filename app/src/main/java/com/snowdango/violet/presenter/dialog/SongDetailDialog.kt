@@ -30,7 +30,6 @@ fun SongDetailDialog(
     songAllMeta: SongAllMeta,
     onDismissRequest: () -> Unit
 ) {
-
     Dialog(
         onDismissRequest = {
             onDismissRequest.invoke()

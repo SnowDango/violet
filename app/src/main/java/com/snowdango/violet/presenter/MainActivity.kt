@@ -3,6 +3,7 @@ package com.snowdango.violet.presenter
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
@@ -27,6 +28,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         binding.navigationBottom.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.historyFragment, R.id.albumFragment -> {
+                    binding.navigationBottom.visibility = View.VISIBLE
+                }
+
+                else -> {
+                    binding.navigationBottom.visibility = View.GONE
+                }
+            }
+        }
     }
 
     override fun onResume() {

@@ -17,11 +17,14 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.view.component.EmptyAndRefreshComponent
 import com.snowdango.violet.view.component.GridAlbumComponent
+import com.snowdango.violet.view.view.OnCombinedClickListener
 import com.snowdango.violet.view.view.RefreshBox
 import com.snowdango.violet.viewmodel.album.AlbumViewModel
 
 @Composable
-fun AlbumScreen() {
+fun AlbumScreen(
+    onAlbumDetailNavigate: (albumId: Long) -> Unit
+) {
     val viewModel = viewModel<AlbumViewModel>()
 
     val albumItems = viewModel.albumsFlow.collectAsLazyPagingItems()
@@ -40,7 +43,10 @@ fun AlbumScreen() {
             contentAlignment = Alignment.Center
         ) {
             if (albumItems.itemSnapshotList.isNotEmpty()) {
-                LazyAlbumsView(albumItems.itemSnapshotList)
+                LazyAlbumsView(
+                    albumItems.itemSnapshotList,
+                    onAlbumDetailNavigate
+                )
             } else {
                 EmptyAndRefreshComponent(
                     "履歴がありません",
@@ -54,7 +60,10 @@ fun AlbumScreen() {
 }
 
 @Composable
-fun LazyAlbumsView(albums: ItemSnapshotList<Album>) {
+fun LazyAlbumsView(
+    albums: ItemSnapshotList<Album>,
+    onAlbumDetailNavigate: (albumId: Long) -> Unit
+) {
     val scrollState = rememberLazyGridState()
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -69,7 +78,12 @@ fun LazyAlbumsView(albums: ItemSnapshotList<Album>) {
             key = { it?.id!! }
         ) { album ->
             GridAlbumComponent(
-                album = album!!
+                album = album!!,
+                object : OnCombinedClickListener {
+                    override fun onClick() {
+                        onAlbumDetailNavigate(album.id)
+                    }
+                }
             )
         }
     }
