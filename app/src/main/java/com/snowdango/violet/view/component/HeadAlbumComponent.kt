@@ -9,10 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.snowdango.violet.R
 import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.domain.entity.artists.Artist
 import com.snowdango.violet.view.style.squareConformFillMaxWidth
@@ -53,17 +51,19 @@ fun HeadAlbumComponent(
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
-        MarqueeText(
-            text = artist?.name ?: stringResource(R.string.unknow),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier
-                .fillMaxWidth(fraction)
-                .wrapContentHeight()
-                .padding(0.dp, 0.dp, 0.dp, 8.dp),
-            maxLines = 1,
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center
-        )
+        artist?.let {
+            MarqueeText(
+                text = artist.name,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier
+                    .fillMaxWidth(fraction)
+                    .wrapContentHeight()
+                    .padding(0.dp, 0.dp, 0.dp, 8.dp),
+                maxLines = 1,
+                color = MaterialTheme.colorScheme.onBackground,
+                textAlign = TextAlign.Center
+            )
+        }
         Divider(
             modifier = Modifier
                 .fillMaxWidth()

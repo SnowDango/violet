@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.snowdango.violet.domain.relation.AlbumAllMeta
 import com.snowdango.violet.model.data.GetAlbumAllMetaModel
 import com.snowdango.violet.view.component.HeadAlbumComponent
+import com.snowdango.violet.view.component.ListSongComponent
 import com.snowdango.violet.viewmodel.album_detail.AlbumDetailViewModel
 import timber.log.Timber
 
@@ -60,6 +62,17 @@ fun AlbumDetailSuccessScreen(albumAllMeta: AlbumAllMeta) {
                     albumAllMeta.album,
                     albumAllMeta.artist
                 )
+            }
+            if (albumAllMeta.songs.isNotEmpty()) {
+                items(
+                    albumAllMeta.songs,
+                    key = { it.song.id }
+                ) {
+                    ListSongComponent(
+                        it.song,
+                        it.artist
+                    )
+                }
             }
         }
     }

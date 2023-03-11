@@ -8,7 +8,7 @@ import com.snowdango.violet.domain.entity.songs.Song
 
 data class AlbumAllMeta(
     @Embedded val album: Album,
-    
+
     @Relation(
         parentColumn = "artist_id",
         entityColumn = "id"
@@ -17,7 +17,8 @@ data class AlbumAllMeta(
 
     @Relation(
         parentColumn = "id",
-        entityColumn = "album_id"
+        entityColumn = "album_id",
+        entity = Song::class
     )
-    val songs: List<Song>
+    val songs: List<SongWithArtist>
 )
