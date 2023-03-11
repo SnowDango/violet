@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding.navigationBottom.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.historyFragment, R.id.albumFragment -> {
+                R.id.historyFragment, R.id.albumFragment, R.id.settingFragment -> {
                     binding.navigationBottom.visibility = View.VISIBLE
                 }
 

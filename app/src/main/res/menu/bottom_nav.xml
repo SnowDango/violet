@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_album"
         android:title="Album" />
 
+    <item
+        android:id="@+id/settingFragment"
+        android:icon="@drawable/ic_setting"
+        android:title="Setting" />
+
 </menu>

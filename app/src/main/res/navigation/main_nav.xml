@@ -19,4 +19,9 @@
             android:name="com.snowdango.violet.presenter.fragment.album_detail.AlbumDetailFragment"
             android:label="AlbumDetail"/>
 
+    <fragment
+            android:id="@+id/settingFragment"
+            android:name="com.snowdango.violet.presenter.fragment.setting.SettingFragment"
+            android:label="Setting"/>
+
 </navigation>

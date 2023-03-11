@@ -12,6 +12,7 @@ import com.snowdango.violet.model.data.GetAlbumAllMetaModel
 import com.snowdango.violet.model.data.GetSongAllMetaModel
 import com.snowdango.violet.model.paging.AlbumPagingModel
 import com.snowdango.violet.model.paging.SongHistoryPagingModel
+import com.snowdango.violet.presenter.fragment.setting.SettingFragment
 import com.snowdango.violet.repository.api.ApiRepository
 import com.snowdango.violet.repository.api.provide.ApiProvider
 import com.snowdango.violet.repository.datastore.LastSongDataStore
@@ -28,7 +29,8 @@ import timber.log.Timber
 
 class VioletApp : Application() {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "last_song")
+    private val Context.lastSongDataStore: DataStore<Preferences> by preferencesDataStore(name = "last_song")
+    // private val Context.settingDataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     override fun onCreate() {
         super.onCreate()
@@ -38,11 +40,13 @@ class VioletApp : Application() {
             androidContext(applicationContext)
             modules(
                 module {
-                    single { LastSongDataStore(applicationContext.dataStore) }
+                    single { LastSongDataStore(applicationContext.lastSongDataStore) }
                     single { SongHistoryDatabase.getInstance(applicationContext) }
                     single { InMemoryStore() }
                     factory { ApiRepository(ApiProvider()) }
                     factory { ConnectManager(get()) }
+                    scope<SettingFragment> {
+                    }
                 },
                 module {// history
                     factory { SongHistoryPagingModel(get()) }
