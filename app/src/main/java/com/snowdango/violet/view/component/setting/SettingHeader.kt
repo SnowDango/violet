@@ -1,5 +1,6 @@
 package com.snowdango.violet.view.component.setting
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ fun SettingHeader(title: String) {
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(20.dp, 0.dp)
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         Text(
             text = title,
@@ -26,7 +28,7 @@ fun SettingHeader(title: String) {
                 .wrapContentHeight()
                 .padding(0.dp, 28.dp, 0.dp, 0.dp),
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onSurface
         )
         Divider(
             modifier = Modifier

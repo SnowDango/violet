@@ -46,6 +46,8 @@ moshi = "1.14.0"
 retrofit = "2.9.0"
 okhttp = "4.10.0"
 
+showkace = "1.0.0-beta17"
+
 junit5 = "5.9.2"
 android-junit5 = "1.3.0"
 croutine-test = "1.6.4"
@@ -88,6 +90,8 @@ navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.
 # compose
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui" }
+compose-ui-yooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material" }
 compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-material" }
@@ -128,6 +132,10 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+
+# showkase
+showkase = { module = "com.airbnb.android:showkase", version.ref = "showkace" }
+showkase-processor = { module = "com.airbnb.android:showkase-processor", version.ref = "showkace" }
 
 # moshi
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
@@ -187,8 +195,8 @@ paging = ["paging-runtime", "paging-compose"]
 
 navigation = ["navigation-fragment-ktx", "navigation-ui-ktx", "compose-navigation"]
 
-compose = ["compose-compiler", "compose-ui", "compose-material3", "compose-material-icons-extended", "compose-material3-window", "activity-compose", "life-cycle-viewmodel-compose", "runtime-livedata-compose", "compose-material"]
-composeDebug = ["compose-ui-test-mani"]
+compose = ["compose-compiler", "compose-ui", "compose-material3", "compose-material-icons-extended", "compose-material3-window", "activity-compose", "life-cycle-viewmodel-compose", "runtime-livedata-compose", "compose-material", "compose-ui-yooling-preview"]
+composeDebug = ["compose-ui-test-mani", "compose-ui-tooling"]
 
 flowLayout = ["flow-layout"]
 
@@ -208,6 +216,9 @@ landscapist = ["landscapist-glide"]
 room = ["room-runtime", "room-ktx"]
 roomKapt = ["room-compiler"]
 roomTest = ["room-testing"]
+
+showkase = ["showkase"]
+showkaseProcessor = ["showkase-processor"]
 
 moshi = ["moshi", "moshi-kotlin"]
 retrofit = ["retrofit", "retrofit-moshi"]

@@ -10,7 +10,7 @@ import com.snowdango.violet.view.style.AppTheme
 
 class SettingFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme {
@@ -19,5 +19,5 @@ class SettingFragment : Fragment() {
             }
         }
     }
-    
+
 }

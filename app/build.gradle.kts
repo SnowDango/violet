@@ -74,6 +74,11 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    kapt {
+        arguments {
+            arg("skipPrivatePreviews", "true")
+        }
+    }
 }
 
 deploygate {
@@ -124,6 +129,10 @@ dependencies {
 
     // workmanager
     implementation(libs.bundles.workmanager)
+
+    // showkase
+    implementation(libs.bundles.showkase)
+    kapt(libs.bundles.showkaseProcessor)
 
     // debug
     debugImplementation(libs.bundles.composeDebug)
