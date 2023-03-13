@@ -22,7 +22,7 @@ import com.snowdango.violet.presenter.dialog.SongDetailDialog
 import com.snowdango.violet.presenter.fragment.history.item.SongHistoryItem
 import com.snowdango.violet.repository.datastore.LastSongDataStore
 import com.snowdango.violet.view.component.EmptyAndRefreshComponent
-import com.snowdango.violet.view.component.LastSongComponent
+import com.snowdango.violet.view.component.HeadLastSongComponent
 import com.snowdango.violet.view.view.RefreshBox
 import com.snowdango.violet.viewmodel.history.HistoryViewModel
 
@@ -87,7 +87,7 @@ fun HistoryNotEmptyScreen(
             // NowPlaying
             if (lastSongItems.value.isNotEmpty()) {
                 item(span = { GridItemSpan(2) }) {
-                    LastSongComponent(lastSongItems.value)
+                    HeadLastSongComponent(lastSongItems.value)
                 }
             }
             // history
@@ -114,12 +114,13 @@ fun HistoryEmptyScreen(
     Column(
         modifier = Modifier
             .fillMaxWidth(0.86f)
-            .fillMaxHeight(),
+            .fillMaxHeight()
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // NowPlaying
         if (lastSongItems.value.isNotEmpty()) {
-            LastSongComponent(lastSongItems.value)
+            HeadLastSongComponent(lastSongItems.value)
         }
         // empty view
         if (songHistoryItems.loadState.prepend == LoadState.NotLoading(true)) {

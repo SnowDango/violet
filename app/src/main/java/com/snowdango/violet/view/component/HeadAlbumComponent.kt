@@ -10,9 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.snowdango.violet.domain.entity.albums.Album
 import com.snowdango.violet.domain.entity.artists.Artist
+import com.snowdango.violet.view.style.AppTheme
 import com.snowdango.violet.view.style.squareConformFillMaxWidth
 import com.snowdango.violet.view.view.ArtWorkImage
 import com.snowdango.violet.view.view.ArtWorkImageShape
@@ -70,5 +72,37 @@ fun HeadAlbumComponent(
                 .wrapContentHeight()
                 .padding(8.dp)
         )
+    }
+}
+
+@Preview(group = "Album", name = "HeadAlbum")
+@Composable
+fun PreviewHeadAlbumComponent() {
+    AppTheme {
+        val album = Album(
+            id = 0,
+            title = "AlbumTitle",
+            artistId = 1,
+            thumbnailUrl = "file:///android_asset/violet.png"
+        )
+        val artist = Artist(
+            id = 1,
+            name = "Artist"
+        )
+        HeadAlbumComponent(album, artist)
+    }
+}
+
+@Preview(group = "Album", name = "HeadAlbumWithoutArtist")
+@Composable
+fun PreviewHeadAlbumComponentWithOutArtist() {
+    AppTheme {
+        val album = Album(
+            id = 0,
+            title = "AlbumTitle",
+            artistId = 1,
+            thumbnailUrl = "file:///android_asset/violet.png"
+        )
+        HeadAlbumComponent(album, null)
     }
 }

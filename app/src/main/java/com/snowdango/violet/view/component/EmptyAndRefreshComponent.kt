@@ -1,5 +1,6 @@
 package com.snowdango.violet.view.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -12,7 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import com.snowdango.violet.R
+import com.snowdango.violet.view.style.AppTheme
 
 @Composable
 fun EmptyAndRefreshComponent(
@@ -52,5 +55,19 @@ fun EmptyAndRefreshComponent(
                 )
             }
         }
+    }
+}
+
+@Preview(group = "Common", name = "EmptyAndRefresh")
+@Composable
+fun PreviewEmptyAndRefreshComponent() {
+    AppTheme {
+        EmptyAndRefreshComponent(
+            "Message",
+            refreshFn = {},
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background),
+            contentAlignment = Alignment.Center
+        )
     }
 }

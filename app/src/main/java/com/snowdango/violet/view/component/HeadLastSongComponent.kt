@@ -1,5 +1,6 @@
 package com.snowdango.violet.view.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Divider
@@ -7,17 +8,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
+import androidx.core.graphics.drawable.toBitmap
 import com.snowdango.violet.R
 import com.snowdango.violet.domain.last.LastSong
+import com.snowdango.violet.domain.platform.PlatformType
+import com.snowdango.violet.extention.toBase64
+import com.snowdango.violet.view.style.AppTheme
 import com.snowdango.violet.view.style.squareConformFillMaxWidth
 import com.snowdango.violet.view.view.LastSongArtWorkImage
 import com.snowdango.violet.view.view.MarqueeText
 import com.snowdango.violet.view.view.TwitterImageButton
+import kotlinx.datetime.Clock
 
 
 private const val ARTWORK_ID = "artwork"
@@ -28,7 +36,7 @@ private const val ALBUM_ID = "album"
 private const val DIVIDER_ID = "divider"
 
 @Composable
-fun LastSongComponent(lastSongs: List<LastSong>) {
+fun HeadLastSongComponent(lastSongs: List<LastSong>) {
 
     val fraction = 0.6f
 
@@ -42,7 +50,7 @@ fun LastSongComponent(lastSongs: List<LastSong>) {
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            constraintSet = lastSongComponentConstraintSet()
+            constraintSet = headLastSongComponentConstraintSet()
         ) {
             LastSongArtWorkImage(
                 it,
@@ -98,7 +106,7 @@ fun LastSongComponent(lastSongs: List<LastSong>) {
     }
 }
 
-fun lastSongComponentConstraintSet(): ConstraintSet {
+fun headLastSongComponentConstraintSet(): ConstraintSet {
     return ConstraintSet {
         val artwork = createRefFor("artwork")
         val twitter = createRefFor("twitter")
@@ -140,5 +148,28 @@ fun lastSongComponentConstraintSet(): ConstraintSet {
             end.linkTo(parent.end, margin = 8.dp)
             bottom.linkTo(parent.bottom, margin = 8.dp)
         }
+    }
+}
+
+@SuppressLint("UseCompatLoadingForDrawables")
+@Preview(group = "Song", name = "HeadLastSong")
+@Composable
+fun PreviewHeadLastSongComponent() {
+    AppTheme {
+        val lastSongs = listOf(
+            LastSong(
+                mediaId = "1497506561",
+                title = "Title",
+                artist = "Artist Name",
+                album = "Album Name",
+                albumArtist = "Album Artist Name",
+                platform = PlatformType.AppleMusic,
+                queueId = 1,
+                genre = "Rock",
+                dateTime = Clock.System.now().toEpochMilliseconds(),
+                artwork = LocalContext.current.resources.getDrawable(R.drawable.violet, null).toBitmap().toBase64()
+            )
+        )
+        HeadLastSongComponent(lastSongs)
     }
 }

@@ -12,7 +12,6 @@ import com.snowdango.violet.model.data.GetAlbumAllMetaModel
 import com.snowdango.violet.model.data.GetSongAllMetaModel
 import com.snowdango.violet.model.paging.AlbumPagingModel
 import com.snowdango.violet.model.paging.SongHistoryPagingModel
-import com.snowdango.violet.presenter.fragment.setting.SettingFragment
 import com.snowdango.violet.repository.api.ApiRepository
 import com.snowdango.violet.repository.api.provide.ApiProvider
 import com.snowdango.violet.repository.datastore.LastSongDataStore
@@ -39,14 +38,12 @@ class VioletApp : Application() {
         startKoin {
             androidContext(applicationContext)
             modules(
-                module {
+                module {// common
                     single { LastSongDataStore(applicationContext.lastSongDataStore) }
                     single { SongHistoryDatabase.getInstance(applicationContext) }
                     single { InMemoryStore() }
                     factory { ApiRepository(ApiProvider()) }
                     factory { ConnectManager(get()) }
-                    scope<SettingFragment> {
-                    }
                 },
                 module {// history
                     factory { SongHistoryPagingModel(get()) }
@@ -58,7 +55,7 @@ class VioletApp : Application() {
                     factory { AlbumPagingModel(get()) }
                     viewModel { AlbumViewModel() }
                 },
-                module {
+                module {// album detail
                     factory { GetAlbumAllMetaModel(get()) }
                     viewModel { AlbumDetailViewModel() }
                 }

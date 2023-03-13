@@ -1,22 +1,19 @@
 package com.snowdango.violet.util
 
-import java.text.DecimalFormat
-import kotlin.math.floor
-import kotlin.math.log10
-import kotlin.math.pow
+import android.icu.text.DecimalFormat
+import java.math.RoundingMode
 
 fun Number.toShortString(): String {
     val suffix = charArrayOf(' ', 'k', 'M', 'B', 'T', 'P', 'E')
-
-    val numValue = this.toLong()
-    val value = floor(log10(numValue.toDouble())).toInt()
-    val base = value / 3
-
-    return if (value >= 3 && base < suffix.size) {
-        DecimalFormat("#0.0").format(
-            numValue / 10.0.pow((base * 3).toDouble())
-        ) + suffix[base]
-    } else {
-        DecimalFormat("#,##0").format(numValue)
+    var num = this.toDouble()
+    var digits = 0
+    while (true) {
+        if (num < 1000) break
+        num /= 1000
+        digits++
     }
+    val formatter = DecimalFormat("###.#").also {
+        it.roundingMode = RoundingMode.DOWN.ordinal
+    }
+    return formatter.format(num) + suffix[digits]
 }

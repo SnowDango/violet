@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import com.snowdango.violet.view.view.OnCombinedClickListener
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -69,8 +68,7 @@ fun SettingEmptyItem(
     }
 }
 
-@Preview(group = "Setting Component", name = "Empty Component")
-@ShowkaseComposable(group = "Setting Component", name = "Empty Component")
+@Preview(group = "Setting", name = "SettingEmpty")
 @Composable
 fun PreviewSettingEmptyItem() {
     SettingEmptyItem("title", "description")

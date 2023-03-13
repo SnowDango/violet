@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -25,6 +26,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.snowdango.violet.R
 import com.snowdango.violet.domain.platform.PlatformType
+import com.snowdango.violet.view.style.AppTheme
 
 
 private const val THUMBNAIL_ID = "thumbnail"
@@ -37,7 +39,8 @@ fun GridAfterSaveSongComponent(platformType: PlatformType) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .background(MaterialTheme.colorScheme.background),
         constraintSet = afterSaveSongComponentConstraintSet()
     ) {
 
@@ -116,5 +119,13 @@ private fun afterSaveSongComponentConstraintSet(): ConstraintSet {
             end.linkTo(parent.end)
             bottom.linkTo(parent.bottom)
         }
+    }
+}
+
+@Preview(group = "Song", name = "AfterSaveSong")
+@Composable
+fun PreviewAfterSaveSongComponent() {
+    AppTheme {
+        GridAfterSaveSongComponent(PlatformType.AppleMusic)
     }
 }

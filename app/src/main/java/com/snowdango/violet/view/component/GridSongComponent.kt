@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.snowdango.violet.domain.entity.songs.Song
 import com.snowdango.violet.domain.platform.PlatformType
+import com.snowdango.violet.view.style.AppTheme
 import com.snowdango.violet.view.view.ArtWorkImage
 import com.snowdango.violet.view.view.ArtWorkImageShape
 import com.snowdango.violet.view.view.MarqueeText
@@ -41,6 +43,7 @@ fun GridSongComponent(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .background(MaterialTheme.colorScheme.background)
             .combinedClickable(
                 onClick = { onCombinedClickListener?.onClick() },
                 onLongClick = { onCombinedClickListener?.onLongClick() },
@@ -128,5 +131,38 @@ private fun songComponentConstraintSet(): ConstraintSet {
             end.linkTo(parent.end)
             bottom.linkTo(parent.bottom)
         }
+    }
+}
+
+@Preview(group = "Song", name = "GridSong")
+@Composable
+fun PreviewGridSongComponent() {
+    AppTheme {
+        val song = Song(
+            id = 1,
+            title = "Song Title",
+            albumId = 1,
+            artistId = 1,
+            thumbnailUrl = "file:///android_asset/violet.png",
+            genre = "Rock"
+        )
+        GridSongComponent(song, PlatformType.AppleMusic)
+    }
+}
+
+
+@Preview(group = "Song", name = "GridSongWithoutThumbnail")
+@Composable
+fun PreviewGridSongComponentNotThumb() {
+    AppTheme {
+        val song = Song(
+            id = 1,
+            title = "Song Title",
+            albumId = 1,
+            artistId = 1,
+            thumbnailUrl = "",
+            genre = "Rock"
+        )
+        GridSongComponent(song, PlatformType.AppleMusic)
     }
 }
