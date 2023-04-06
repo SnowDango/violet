@@ -5,7 +5,7 @@ kotlin = "1.8.10"
 jacoco = "0.8.8"
 gradle-junit5 = "1.8.2.1"
 
-androidx-core-ktx = "1.9.0"
+androidx-core-ktx = "1.10.0"
 androidx-appcompat = "1.6.1"
 android-material = "1.8.0"
 paging = "3.1.1"
