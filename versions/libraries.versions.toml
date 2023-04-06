@@ -30,7 +30,7 @@ permission-dispatcher = "4.9.2"
 
 datastore = "1.0.0"
 
-workmanager = "2.8.0"
+workmanager = "2.8.1"
 
 koin = "3.4.0"
 
