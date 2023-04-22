@@ -24,7 +24,7 @@ compose-activity = "1.7.0"
 compose-viewmodel = "2.6.1"
 compose-runtime = "1.4.1"
 
-flow-layout = "0.30.0"
+flow-layout = "0.30.1"
 
 permission-dispatcher = "4.9.2"
 
