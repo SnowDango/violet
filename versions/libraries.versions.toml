@@ -20,7 +20,7 @@ compose = "1.4.6"
 compose-ui = "1.4.3"
 compose-material = "1.4.3"
 compose-material3 = "1.1.0"
-compose-activity = "1.7.1"
+compose-activity = "1.7.2"
 compose-viewmodel = "2.6.1"
 compose-runtime = "1.4.3"
 
