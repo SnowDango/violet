@@ -16,7 +16,7 @@ constraintlayout-compose = "1.0.1"
 
 navigation = "2.5.3"
 
-compose = "1.4.6"
+compose = "1.4.7"
 compose-ui = "1.4.3"
 compose-material = "1.4.3"
 compose-material3 = "1.1.0"
