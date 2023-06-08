@@ -14,7 +14,7 @@ paging-compose = "1.0.0-alpha20"
 constraintlayout = "2.1.4"
 constraintlayout-compose = "1.0.1"
 
-navigation = "2.5.3"
+navigation = "2.6.0"
 
 compose = "1.4.7"
 compose-ui = "1.4.3"
