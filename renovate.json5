@@ -14,10 +14,10 @@
   packageRules: [
     // kotlin version: jetpack composeが非対応のため
     {
-      groupName: "kotlin",
-      matchPackagePrefixes: [
-        "org.jetbrains.kotlin:*"
-      ]
+      "matchPackagePrefixes": [
+        "androidx.compose.compiler", "org.jetbrains.kotlin:"
+      ],
+      "groupName": "compose and kotlin"
     },
     // gradle version: glideのbugでpost_notificationが要求されるため
     {
