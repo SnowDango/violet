@@ -4,6 +4,10 @@ plugins {
     id(plugs.plugins.kotlinKapt.get().pluginId)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     namespace = "com.snowdango.violet.usecase"
     compileSdk = vers.versions.sdk.get().toInt()

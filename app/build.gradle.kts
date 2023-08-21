@@ -9,6 +9,10 @@ plugins {
     id(plugs.plugins.deployGate.get().pluginId)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     namespace = "com.snowdango.violet"
     compileSdk = vers.versions.sdk.get().toInt()

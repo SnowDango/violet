@@ -3,6 +3,10 @@ plugins {
     id(plugs.plugins.kotlinAndroid.get().pluginId)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     namespace = "com.snowdango.violet.model"
     compileSdk = vers.versions.sdk.get().toInt()

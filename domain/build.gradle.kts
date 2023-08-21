@@ -4,6 +4,10 @@ plugins {
     id(plugs.plugins.kotlinKapt.get().pluginId)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     namespace = "com.snowdango.violet.domain"
     compileSdk = vers.versions.sdk.get().toInt()
@@ -28,6 +32,7 @@ android {
             isMinifyEnabled = true
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

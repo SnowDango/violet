@@ -6,6 +6,10 @@ plugins {
     id(plugs.plugins.jacoco.get().pluginId)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     namespace = "com.snowdango.violet.repository"
     compileSdk = vers.versions.sdk.get().toInt()
