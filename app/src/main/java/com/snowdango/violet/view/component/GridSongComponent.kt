@@ -1,6 +1,9 @@
 package com.snowdango.violet.view.component
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,13 +13,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.skydoves.landscapist.glide.GlideImage
+import coil.compose.SubcomposeAsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.snowdango.violet.domain.entity.songs.Song
 import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.view.view.ArtWorkImage
@@ -71,24 +76,23 @@ fun GridSongComponent(
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        GlideImage(
-            imageModel = { "file:///android_asset/${platformType.iconAssets}.png" },
-            requestOptions = {
-                RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .circleCrop()
-            },
-            success = { imageState ->
-                imageState.imageBitmap?.let {
-                    Image(
-                        bitmap = it,
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.background)
-                    )
-                }
+        val builder = ImageRequest.Builder(LocalContext.current)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .data("file:///android_asset/${platformType.iconAssets}.png")
+            .transformations(CircleCropTransformation())
+
+        SubcomposeAsyncImage(
+            model = builder.build(),
+            contentDescription = null,
+            success = {
+                Image(
+                    painter = it.painter,
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                )
             },
             modifier = Modifier
                 .fillMaxWidth(0.08f)
@@ -97,9 +101,7 @@ fun GridSongComponent(
                 .layoutId(APP_ICON_ID)
                 .background(MaterialTheme.colorScheme.background),
         )
-
     }
-
 }
 
 private fun songComponentConstraintSet(): ConstraintSet {

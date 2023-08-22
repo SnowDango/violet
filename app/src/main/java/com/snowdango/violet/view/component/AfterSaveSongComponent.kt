@@ -13,16 +13,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.skydoves.landscapist.glide.GlideImage
+import coil.compose.SubcomposeAsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.snowdango.violet.R
 import com.snowdango.violet.domain.platform.PlatformType
 
@@ -62,24 +63,22 @@ fun GridAfterSaveSongComponent(platformType: PlatformType) {
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        GlideImage(
-            imageModel = { "file:///android_asset/${platformType.iconAssets}.png" },
-            requestOptions = {
-                RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .circleCrop()
-            },
-            success = { imageState ->
-                imageState.imageBitmap?.let {
-                    Image(
-                        bitmap = it,
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.background)
-                    )
-                }
+        val builder = ImageRequest.Builder(LocalContext.current)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .data("file:///android_asset/${platformType.iconAssets}.png")
+            .transformations(CircleCropTransformation())
+
+        SubcomposeAsyncImage(
+            model = builder.build(),
+            contentDescription = null,
+            success = {
+                Image(
+                    painter = it.painter,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                )
             },
             modifier = Modifier
                 .fillMaxWidth(0.08f)
@@ -88,9 +87,7 @@ fun GridAfterSaveSongComponent(platformType: PlatformType) {
                 .layoutId(APP_ICON_ID)
                 .background(MaterialTheme.colorScheme.background),
         )
-
     }
-
 }
 
 private fun afterSaveSongComponentConstraintSet(): ConstraintSet {

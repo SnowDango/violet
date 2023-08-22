@@ -10,35 +10,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.skydoves.landscapist.glide.GlideImage
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
+
 
 @Composable
 fun TwitterImageButton(
     modifier: Modifier,
     clickFn: (() -> Unit)? = null,
 ) {
-    GlideImage(
-        imageModel = { "file:///android_asset/twitter.png" },
-        requestOptions = {
-            RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .circleCrop()
-        },
-        success = { imageState ->
-            imageState.imageBitmap?.let {
-                Image(
-                    bitmap = it,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background)
-                        .clip(CircleShape)
-                        .clickable { clickFn?.invoke() }
-                )
-            }
+    val builder = ImageRequest.Builder(LocalContext.current)
+        .data("file:///android_asset/twitter.png")
+        .transformations(CircleCropTransformation())
+    SubcomposeAsyncImage(
+        model = builder.build(),
+        contentDescription = null,
+        success = {
+            Image(
+                painter = it.painter,
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+                    .clip(CircleShape)
+                    .clickable { clickFn?.invoke() }
+            )
         },
         modifier = modifier
     )

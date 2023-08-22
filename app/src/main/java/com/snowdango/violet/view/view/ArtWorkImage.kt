@@ -83,49 +83,6 @@ fun ArtWorkImage(
         modifier = shapeModifier
     )
 
-
-    /*GlideImage(
-        imageModel = { thumbnailUrl },
-        requestOptions = {
-            val options = RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-            when (shape) {
-                ArtWorkImageShape.CIRCLE -> options.circleCrop()
-                ArtWorkImageShape.ROUNDED -> options.transform(CenterCrop(), RoundedCorners(80))
-            }
-        },
-        success = { imageState ->
-            imageState.imageBitmap?.let {
-                Image(
-                    bitmap = it,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(backgroundColor)
-                )
-            }
-        },
-        loading = {
-            Box(modifier = Modifier.matchParentSize()) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                        .background(backgroundColor),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-        },
-        failure = {
-            PlatformTypeImage(
-                platformType,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(backgroundColor)
-            )
-        },
-        modifier = shapeModifier
-    )*/
-
 }
 
 enum class ArtWorkImageShape {

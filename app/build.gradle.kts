@@ -103,8 +103,7 @@ dependencies {
     // constraintlayout
     implementation(libs.bundles.constraintLayout)
 
-    // landscapist
-    implementation(libs.bundles.landscapist)
+    // coil
     implementation(libs.bundles.coil)
 
     // navigation
