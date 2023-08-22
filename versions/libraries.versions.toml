@@ -1,6 +1,6 @@
 [versions]
 # plugin
-android-gradle = "7.3.1"
+android-gradle = "7.4.2"
 kotlin = "1.8.10"
 jacoco = "0.8.10"
 gradle-junit5 = "1.9.3.0"
@@ -37,6 +37,7 @@ koin = "3.4.2"
 timber = "5.0.1"
 
 landscapist = "2.1.9"
+coil-compose = "2.4.0"
 
 room = "2.5.2"
 datetime = "0.4.0"
@@ -114,6 +115,7 @@ koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 
 # landscapist
 landscapist-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapist" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 
 # timber
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
@@ -199,6 +201,7 @@ koin = ["koin"]
 timber = ["timber"]
 
 landscapist = ["landscapist-glide"]
+coil = ["coil-compose"]
 
 room = ["room-runtime", "room-ktx"]
 roomKapt = ["room-compiler"]
