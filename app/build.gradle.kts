@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import java.util.*
 
 plugins {
@@ -74,6 +75,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    kotlinExtension.jvmToolchain(17)
 }
 
 deploygate {
