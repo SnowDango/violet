@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
-
 plugins {
     id(plugs.plugins.library.get().pluginId)
     id(plugs.plugins.kotlinAndroid.get().pluginId)
@@ -39,7 +37,11 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    kotlinExtension.jvmToolchain(17)
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
 }
 
 dependencies {
