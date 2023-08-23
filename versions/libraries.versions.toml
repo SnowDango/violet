@@ -46,7 +46,7 @@ okhttp = "4.11.0"
 
 junit5 = "5.10.0"
 android-junit5 = "1.3.0"
-croutine-test = "1.7.2"
+croutine-test = "1.7.3"
 spek = "2.0.19"
 mockk = "1.13.7"
 androidx-test = "1.5.2"
