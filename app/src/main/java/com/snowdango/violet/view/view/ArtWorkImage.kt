@@ -14,11 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
-import com.skydoves.landscapist.glide.GlideImage
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.SubcomposeAsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import com.snowdango.violet.domain.platform.PlatformType
 
 @Composable
@@ -34,32 +35,24 @@ fun ArtWorkImage(
         ArtWorkImageShape.CIRCLE -> modifier
             .aspectRatio(1f)
             .clip(CircleShape)
+
         ArtWorkImageShape.ROUNDED -> modifier
             .aspectRatio(1f)
     }
 
-    GlideImage(
-        imageModel = { thumbnailUrl },
-        requestOptions = {
-            val options = RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+    val builder = ImageRequest.Builder(LocalContext.current)
+        .memoryCachePolicy(CachePolicy.ENABLED)
+        .data(thumbnailUrl)
+        .transformations(
             when (shape) {
-                ArtWorkImageShape.CIRCLE -> options.circleCrop()
-                ArtWorkImageShape.ROUNDED -> options.transform(CenterCrop(), RoundedCorners(80))
+                ArtWorkImageShape.CIRCLE -> CircleCropTransformation()
+                ArtWorkImageShape.ROUNDED -> RoundedCornersTransformation(80f)
             }
-        },
-        success = { imageState ->
-            imageState.imageBitmap?.let {
-                Image(
-                    bitmap = it,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(backgroundColor)
-                )
-            }
-        },
+        )
+
+    SubcomposeAsyncImage(
+        model = builder.build(),
+        contentDescription = null,
         loading = {
             Box(modifier = Modifier.matchParentSize()) {
                 CircularProgressIndicator(
@@ -69,7 +62,17 @@ fun ArtWorkImage(
                 )
             }
         },
-        failure = {
+        success = {
+            Image(
+                painter = it.painter,
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor)
+            )
+        },
+        error = {
             PlatformTypeImage(
                 platformType,
                 modifier = Modifier
