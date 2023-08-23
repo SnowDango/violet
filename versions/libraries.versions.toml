@@ -36,7 +36,6 @@ koin = "3.4.2"
 
 timber = "5.0.1"
 
-landscapist = "2.1.9"
 coil-compose = "2.4.0"
 
 room = "2.5.2"
@@ -113,8 +112,7 @@ workmanager-runtime = { module = "androidx.work:work-runtime-ktx", version.ref =
 # koin
 koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 
-# landscapist
-landscapist-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapist" }
+# coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 
 # timber
@@ -200,7 +198,6 @@ koin = ["koin"]
 
 timber = ["timber"]
 
-landscapist = ["landscapist-glide"]
 coil = ["coil-compose"]
 
 room = ["room-runtime", "room-ktx"]
