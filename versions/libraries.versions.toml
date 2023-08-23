@@ -1,7 +1,7 @@
 [versions]
 # plugin
 android-gradle = "8.0.0"
-kotlin = "1.8.10"
+kotlin = "1.9.10"
 jacoco = "0.8.10"
 gradle-junit5 = "1.9.3.0"
 
@@ -16,7 +16,7 @@ constraintlayout-compose = "1.0.1"
 
 navigation = "2.6.0"
 
-compose = "1.4.8"
+compose = "1.5.2"
 compose-ui = "1.4.3"
 compose-material = "1.4.3"
 compose-material3 = "1.1.1"
