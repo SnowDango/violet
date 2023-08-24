@@ -99,7 +99,7 @@ fun SongDetailPlatformLink(platforms: List<Platform>) {
         modifier = Modifier
             .fillMaxWidth(0.9f),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Top
+        verticalArrangement = Arrangement.Top
     ) {
         platforms.forEach { platform ->
             PlatformTypeImage(

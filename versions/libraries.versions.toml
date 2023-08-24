@@ -1,7 +1,7 @@
 [versions]
 # plugin
 android-gradle = "8.0.0"
-kotlin = "1.8.10"
+kotlin = "1.8.22"
 jacoco = "0.8.10"
 gradle-junit5 = "1.9.3.0"
 
@@ -16,9 +16,10 @@ constraintlayout-compose = "1.0.1"
 
 navigation = "2.6.0"
 
-compose = "1.4.8"
-compose-ui = "1.4.3"
-compose-material = "1.4.3"
+compose-bom = "2023.08.00"
+compose-compiler = "1.4.8"
+compose-ui = "1.5.0"
+compose-material = "1.5.0"
 compose-material3 = "1.1.1"
 compose-activity = "1.7.2"
 compose-viewmodel = "2.6.1"
@@ -38,7 +39,7 @@ timber = "5.0.1"
 
 coil-compose = "2.4.0"
 
-room = "2.5.2"
+room = "2.5.1"
 datetime = "0.4.0"
 moshi = "1.15.0"
 retrofit = "2.9.0"
@@ -84,7 +85,8 @@ navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-kt
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 
 # compose
-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material" }
@@ -182,7 +184,7 @@ paging = ["paging-runtime", "paging-compose"]
 
 navigation = ["navigation-fragment-ktx", "navigation-ui-ktx", "compose-navigation"]
 
-compose = ["compose-compiler", "compose-ui", "compose-material3", "compose-material-icons-extended", "compose-material3-window", "activity-compose", "life-cycle-viewmodel-compose", "runtime-livedata-compose", "compose-material"]
+compose = ["compose-bom", "compose-compiler", "compose-ui", "compose-material3", "compose-material-icons-extended", "compose-material3-window", "activity-compose", "life-cycle-viewmodel-compose", "runtime-livedata-compose", "compose-material"]
 composeDebug = ["compose-ui-test-mani"]
 
 flowLayout = ["flow-layout"]
