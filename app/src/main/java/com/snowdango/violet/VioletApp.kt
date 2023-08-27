@@ -16,6 +16,7 @@ import com.snowdango.violet.repository.api.ApiRepository
 import com.snowdango.violet.repository.api.provide.ApiProvider
 import com.snowdango.violet.repository.datastore.LastSongDataStore
 import com.snowdango.violet.repository.db.SongHistoryDatabase
+import com.snowdango.violet.repository.file.ArtworkFileManager
 import com.snowdango.violet.usecase.connect.ConnectManager
 import com.snowdango.violet.viewmodel.album.AlbumViewModel
 import com.snowdango.violet.viewmodel.album_detail.AlbumDetailViewModel
@@ -43,6 +44,7 @@ class VioletApp : Application() {
                     single { InMemoryStore() }
                     factory { ApiRepository(ApiProvider()) }
                     factory { ConnectManager(get()) }
+                    factory { ArtworkFileManager(applicationContext) }
                 },
                 module {// history
                     factory { SongHistoryPagingModel(get()) }

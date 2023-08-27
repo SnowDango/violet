@@ -13,6 +13,7 @@ import com.snowdango.violet.usecase.save.SaveWithSongLink
 import com.snowdango.violet.usecase.save.common.SaveAfterSaveSong
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
 
 // TODO need refactoring
 
@@ -30,9 +31,10 @@ class SaveSongHistoryModel : KoinComponent {
     }
 
     private suspend fun getSongData(data: LastSong, platformType: PlatformType) {
+        Timber.d(data.toString())
         data.platform?.songLink?.let { platform ->
             data.mediaId?.let { mediaId ->
-                // is already save meta data
+                // is already saved metadata
                 val songId: Long? = if (!isAlreadySaved(mediaId, data.platform!!)) {
                     if (connectManager.isConnectInternet()) {
                         var songIdOrNull: Long? = null
@@ -74,6 +76,7 @@ class SaveSongHistoryModel : KoinComponent {
                 val saveWithAppleMusic = SaveWithAppleMusic()
                 saveWithAppleMusic.saveAppleMusic(data)
             }
+
             else -> {
                 null
             }

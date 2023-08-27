@@ -5,12 +5,14 @@ import com.snowdango.violet.domain.response.songlink.SongApiResponse
 import com.snowdango.violet.domain.response.songlink.SongEntity
 import com.snowdango.violet.repository.api.ApiRepository
 import com.snowdango.violet.repository.db.SongHistoryDatabase
+import com.snowdango.violet.repository.file.ArtworkFileManager
 import com.snowdango.violet.usecase.save.common.SaveAlbum
 import com.snowdango.violet.usecase.save.common.SaveArtist
 import com.snowdango.violet.usecase.save.common.SavePlatform
 import com.snowdango.violet.usecase.save.common.SaveSong
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
 
 // when songlink api call successful
 
@@ -18,9 +20,11 @@ class SaveWithSongLink : KoinComponent {
 
     private val db: SongHistoryDatabase by inject()
     private val apiRepository: ApiRepository by inject()
+    private val artworkFileManager: ArtworkFileManager by inject()
 
     // return success or failure
     suspend fun saveSongLinkData(data: LastSong): Long? {
+        Timber.d("saveSongLinkData")
         return try {
             val response = apiCall(data)
             if (response != null) {
@@ -28,7 +32,7 @@ class SaveWithSongLink : KoinComponent {
                 val albumArtistId = saveAlbumArtist(data)
                 val albumId = saveAlbum(data, songLinkData, albumArtistId)
                 val artistId = saveSongArtist(data, songLinkData)
-                val songId = saveSong(data, songLinkData, artistId, albumId)
+                val songId = saveSong(data, songLinkData, artistId, albumId.albumId, albumId.thumbnailUrl)
                 savePlatform(songId, response)
                 songId
             } else {
@@ -61,20 +65,27 @@ class SaveWithSongLink : KoinComponent {
     private suspend fun saveAlbum(
         data: LastSong,
         songLinkData: SongEntity?,
-        albumArtistId: Long
-    ): Long {
+        albumArtistId: Long,
+        thumbnail: String? = null
+    ): SaveAlbum.AlbumSaveResult {
         val saveAlbum = SaveAlbum(db)
-        return saveAlbum.saveAlbumWithSongLink(data, songLinkData, albumArtistId)
+        return saveAlbum.saveAlbumWithSongLink(
+            data,
+            songLinkData,
+            albumArtistId,
+            thumbnail
+        )
     }
 
     private suspend fun saveSong(
         data: LastSong,
         songLinkData: SongEntity?,
         artistId: Long,
-        albumId: Long
+        albumId: Long,
+        thumbnail: String? = null
     ): Long {
         val saveSong = SaveSong(db)
-        return saveSong.saveSongWithSongLink(data, songLinkData, artistId, albumId)
+        return saveSong.saveSongWithSongLink(data, songLinkData, artistId, albumId, thumbnail)
     }
 
     private suspend fun savePlatform(
