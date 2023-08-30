@@ -22,6 +22,9 @@ interface AlbumDao {
     @Delete
     suspend fun deleteAlbums(albums: List<Album>)
 
+    @Query("UPDATE `$AlbumsTableName` SET thumbnail_url = :thumbnailUrl WHERE id = :id")
+    suspend fun updateThumbnailUrl(id: Long, thumbnailUrl: String)
+
     @Query("SELECT * FROM `$AlbumsTableName` WHERE id = :id")
     suspend fun getAlbum(id: Long): List<Album>
 
@@ -39,6 +42,10 @@ interface AlbumDao {
 
     @Query("SELECT COUNT(id) FROM `$AlbumsTableName`")
     suspend fun getCount(): Long
+
+    @Transaction
+    @Query("SELECT * FROM `$AlbumsTableName` WHERE title = :title")
+    suspend fun getAlbumWithArtistByTitle(title: String): List<AlbumWithArtist>
 
     @Transaction
     @Query("SELECT * FROM `$AlbumsTableName` WHERE id = :id")

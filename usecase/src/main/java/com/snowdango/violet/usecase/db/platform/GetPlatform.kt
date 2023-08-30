@@ -3,6 +3,7 @@ package com.snowdango.violet.usecase.db.platform
 import com.snowdango.violet.domain.entity.platforms.Platform
 import com.snowdango.violet.domain.platform.PlatformType
 import com.snowdango.violet.domain.relation.PlatformWithSong
+import com.snowdango.violet.domain.relation.PlatformWithSongAndAlbum
 import com.snowdango.violet.repository.db.SongHistoryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,6 +35,16 @@ class GetPlatform(private val db: SongHistoryDatabase) {
     suspend fun getPlatformWithSong(mediaId: String): PlatformWithSong? =
         withContext(Dispatchers.IO) {
             return@withContext db.platformDao.getPlatformWithSongByMediaId(mediaId).firstOrNull()
+        }
+
+    suspend fun getPlatformsWithSong(mediaId: String): List<PlatformWithSong> =
+        withContext(Dispatchers.IO) {
+            return@withContext db.platformDao.getPlatformWithSongByMediaId(mediaId)
+        }
+
+    suspend fun getPlatformWithSongAndAlbum(mediaId: String): PlatformWithSongAndAlbum? =
+        withContext(Dispatchers.IO) {
+            return@withContext db.platformDao.getPlatformWithSongAndAlbumByMediaId(mediaId).firstOrNull()
         }
 
 }

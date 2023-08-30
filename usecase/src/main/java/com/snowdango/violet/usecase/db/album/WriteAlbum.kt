@@ -39,4 +39,8 @@ class WriteAlbum(private val db: SongHistoryDatabase) {
             )
         }
 
+    suspend fun updateThumbnailUrl(id: Long, thumbnail: String) = withContext(Dispatchers.IO) {
+        db.albumDao.updateThumbnailUrl(id, thumbnail)
+    }
+
 }

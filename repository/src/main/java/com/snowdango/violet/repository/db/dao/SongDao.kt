@@ -19,6 +19,9 @@ interface SongDao {
     @Delete
     suspend fun deleteSong(song: Song)
 
+    @Query("UPDATE $SongsTableName SET thumbnail_url = :thumbnailUrl WHERE id = :id")
+    suspend fun updateThumbnailUrl(id: Long, thumbnailUrl: String)
+
     @Query("DELETE FROM $SongsTableName WHERE id = :id")
     suspend fun deleteSongById(id: Long)
 

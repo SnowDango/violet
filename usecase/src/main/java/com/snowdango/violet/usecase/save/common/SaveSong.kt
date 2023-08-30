@@ -24,14 +24,15 @@ class SaveSong(private val db: SongHistoryDatabase) {
         data: LastSong,
         songEntity: SongEntity?,
         artistId: Long,
-        albumId: Long
+        albumId: Long,
+        thumbnail: String?
     ): Long {
         if (data.title == null && songEntity?.title == null) return 1L
         return saveSong(
             data.title ?: songEntity?.title!!,
             artistId,
             albumId,
-            songEntity?.thumbnailUrl,
+            songEntity?.thumbnailUrl ?: thumbnail,
             data.genre
         )
     }
@@ -40,7 +41,8 @@ class SaveSong(private val db: SongHistoryDatabase) {
         data: LastSong,
         artistId: Long,
         albumId: Long,
-        response: AppleMusicSongResult
+        response: AppleMusicSongResult,
+        thumbnail: String? = null
     ): Long {
         if (data.title == null && response.trackName == null) return 1L
         return saveSong(
@@ -48,7 +50,8 @@ class SaveSong(private val db: SongHistoryDatabase) {
             artistId,
             albumId,
             generateThumbnailUrl(
-                response.artworkUrl100 ?: response.artworkUrl60 ?: response.artworkUrl30
+                response.artworkUrl100 ?: response.artworkUrl60 ?: response.artworkUrl30,
+                thumbnail
             ),
             response.primaryGenreName
         )
@@ -71,12 +74,12 @@ class SaveSong(private val db: SongHistoryDatabase) {
         )
     }
 
-    private fun generateThumbnailUrl(url: String?): String? {
+    private fun generateThumbnailUrl(url: String?, thumbnailUrl: String?): String? {
         return if (url != null) {
             val path = Path(url)
             url.replace(path.fileName.toString(), "512x512.jpg")
         } else {
-            null
+            thumbnailUrl
         }
     }
 
