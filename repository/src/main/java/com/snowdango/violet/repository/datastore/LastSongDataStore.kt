@@ -113,4 +113,22 @@ class LastSongDataStore(private val dataStore: DataStore<Preferences>) : KoinCom
             preferences[artworkKey(platformType)] = artwork ?: ""
         }
     }
+
+    suspend fun updateTitle(title: String?, platformType: PlatformType) {
+        dataStore.edit { preferences: MutablePreferences ->
+            preferences[titleKey(platformType)] = title ?: ""
+        }
+    }
+
+    suspend fun updateArtist(artist: String?, platformType: PlatformType) {
+        dataStore.edit { preferences: MutablePreferences ->
+            preferences[artistKey(platformType)] = artist ?: ""
+        }
+    }
+
+    suspend fun updateAlbum(album: String?, platformType: PlatformType) {
+        dataStore.edit { preferences: MutablePreferences ->
+            preferences[albumKey(platformType)] = album ?: ""
+        }
+    }
 }

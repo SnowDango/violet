@@ -22,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import timber.log.Timber
 
 class MusicNotificationListenerService : NotificationListenerService() {
 
@@ -63,10 +64,11 @@ class MusicNotificationListenerService : NotificationListenerService() {
             ) {
                 return
             }
-            val data = getData(sbn.packageName)
-            val model = SaveSongHistoryModel()
             CoroutineScope(Dispatchers.Default).launch {
+                val data = getData(sbn.packageName)
+                Timber.d(data.toString())
                 data?.let {
+                    val model = SaveSongHistoryModel()
                     model.saveSongHistory(
                         it,
                         PlatformType.values().first { type -> type.packageName == sbn.packageName })
@@ -84,8 +86,8 @@ class MusicNotificationListenerService : NotificationListenerService() {
             ) {
                 return
             }
-            val model = PurgeLastSongModel()
             CoroutineScope(Dispatchers.Default).launch {
+                val model = PurgeLastSongModel()
                 model.purgeLastSong(
                     PlatformType.values().first { type -> type.packageName == sbn.packageName }
                 )

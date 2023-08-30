@@ -26,6 +26,13 @@ class GetAlbum(private val db: SongHistoryDatabase) {
             ).firstOrNull()
         }
 
+    suspend fun getAlbumWithArtistByTitle(title: String, artistName: String): AlbumWithArtist? =
+        withContext(Dispatchers.IO) {
+            return@withContext db.albumDao.getAlbumWithArtistByTitle(title).firstOrNull {
+                it.artist?.name == artistName
+            }
+        }
+
     suspend fun getAlbums(from: Long, size: Long): List<Album> = withContext(Dispatchers.IO) {
         return@withContext db.albumDao.getAlbums(from, size)
     }

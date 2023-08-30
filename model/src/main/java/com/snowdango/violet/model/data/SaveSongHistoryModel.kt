@@ -7,6 +7,7 @@ import com.snowdango.violet.usecase.connect.ConnectManager
 import com.snowdango.violet.usecase.datastore.CheckLastSong
 import com.snowdango.violet.usecase.db.history.WriteHistory
 import com.snowdango.violet.usecase.db.platform.GetPlatform
+import com.snowdango.violet.usecase.save.FixThumbnail
 import com.snowdango.violet.usecase.save.SaveWithAppleMusic
 import com.snowdango.violet.usecase.save.SaveWithLastSong
 import com.snowdango.violet.usecase.save.SaveWithSongLink
@@ -27,42 +28,48 @@ class SaveSongHistoryModel : KoinComponent {
         val isChange = checkLastSong.checkLastSong(data, platformType)
         if (isChange) {
             getSongData(data, platformType)
+        } else {
+            fixSongThumbnail(data)
         }
     }
 
     private suspend fun getSongData(data: LastSong, platformType: PlatformType) {
         Timber.d(data.toString())
-        data.platform?.songLink?.let { platform ->
-            data.mediaId?.let { mediaId ->
-                // is already saved metadata
-                val songId: Long? = if (!isAlreadySaved(mediaId, data.platform!!)) {
-                    if (connectManager.isConnectInternet()) {
-                        var songIdOrNull: Long? = null
-                        songIdOrNull = saveWithSongLink(data)
-                        if (songIdOrNull == null) {
-                            songIdOrNull = saveWithPlatform(data)
-                        }
-                        if (songIdOrNull == null) {
-                            songIdOrNull = saveWithLastSong(data)
-                        }
-                        songIdOrNull
-                    } else {
-                        null // save afterSaveSong db
-                    }
-                } else {
-                    val getPlatform = GetPlatform(db)
-                    getPlatform.getPlatformWithSong(mediaId)?.song?.firstOrNull()?.id
+        if (data.platform?.songLink == null || data.mediaId == null) return
+        // is already saved metadata
+        val songId: Long? = if (!isAlreadySaved(data.mediaId!!, data.platform!!)) {
+            if (connectManager.isConnectInternet()) {
+                var songIdOrNull: Long?
+                songIdOrNull = saveWithSongLink(data)
+                if (songIdOrNull == null) {
+                    songIdOrNull = saveWithPlatform(data)
                 }
-                //save history
-                if (songId == null) {
-                    val historyId = saveHistory(-1L, platformType, data.dateTime!!)
-                    val saveAfterSaveSong = SaveAfterSaveSong(db)
-                    saveAfterSaveSong.saveAfterSaveSong(historyId, data)
-                } else {
-                    saveHistory(songId, platformType, data.dateTime!!)
+                if (songIdOrNull == null) {
+                    songIdOrNull = saveWithLastSong(data)
                 }
+                songIdOrNull
+            } else {
+                null // save afterSaveSong db
             }
+        } else {
+            val getPlatform = GetPlatform(db)
+            getPlatform.getPlatformWithSong(data.mediaId!!)?.song?.firstOrNull()?.id
         }
+        //save history
+        if (songId == null) {
+            val historyId = saveHistory(-1L, platformType, data.dateTime!!)
+            val saveAfterSaveSong = SaveAfterSaveSong(db)
+            saveAfterSaveSong.saveAfterSaveSong(historyId, data)
+        } else {
+            saveHistory(songId, platformType, data.dateTime!!)
+        }
+    }
+
+    private suspend fun fixSongThumbnail(data: LastSong) {
+        if (data.platform?.songLink == null || data.mediaId == null || data.artwork == null) return
+
+        val fixSongHistoryModel = FixThumbnail()
+        fixSongHistoryModel.fixSongData(data)
     }
 
     private suspend fun saveWithSongLink(data: LastSong): Long? {
