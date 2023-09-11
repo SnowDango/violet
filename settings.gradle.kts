@@ -20,7 +20,13 @@ pluginManagement {
 }
 
 include(":app")
+
+// presenter
+include(":presenter:common")
+include(":presenter:album")
+include(":presenter:history")
+
+include(":model")
+include(":usecase")
 include(":repository")
 include(":domain")
-include(":usecase")
-include(":model")

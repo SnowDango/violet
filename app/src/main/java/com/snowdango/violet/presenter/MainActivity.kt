@@ -3,12 +3,10 @@ package com.snowdango.violet.presenter
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
-import androidx.navigation.Navigation
-import androidx.navigation.ui.setupWithNavController
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.snowdango.violet.R
@@ -17,27 +15,15 @@ import com.snowdango.violet.service.MusicNotificationListenerService
 import com.snowdango.violet.worker.AfterSaveSongWorker
 import java.time.Duration
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        binding.navigationBottom.setupWithNavController(navController)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.historyFragment, R.id.albumFragment -> {
-                    binding.navigationBottom.visibility = View.VISIBLE
-                }
-
-                else -> {
-                    binding.navigationBottom.visibility = View.GONE
-                }
-            }
+        setContent {
+            MainScreen()
         }
     }
 

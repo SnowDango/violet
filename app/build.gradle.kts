@@ -95,7 +95,12 @@ deploygate {
 
 dependencies {
     // module
+    implementation(project(":presenter:history"))
+    implementation(project(":presenter:album"))
     api(project(":model"))
+
+    // koin
+    implementation(libs.bundles.koin)
 
     // constraintlayout
     implementation(libs.bundles.constraintLayout)

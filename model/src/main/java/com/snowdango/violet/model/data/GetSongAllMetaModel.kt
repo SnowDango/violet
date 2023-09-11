@@ -30,5 +30,4 @@ class GetSongAllMetaModel(private val db: SongHistoryDatabase) : KoinComponent {
         data class Error(val throwable: Throwable) : SongAllMetaState()
     }
 
-
 }

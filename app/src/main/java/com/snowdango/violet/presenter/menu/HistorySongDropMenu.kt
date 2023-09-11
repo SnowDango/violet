@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.snowdango.violet.R
-import com.snowdango.violet.viewmodel.history.HistoryViewModel
+import com.snowdango.violet.presenter.history.HistoryViewModel
 
 @Composable
 fun HistorySongDropMenu(
