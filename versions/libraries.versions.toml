@@ -16,7 +16,7 @@ constraintlayout-compose = "1.0.1"
 
 navigation = "2.7.2"
 
-compose-bom = "2023.09.00"
+compose-bom = "2023.09.02"
 compose-compiler = "1.4.8"
 compose-ui = "1.5.1"
 compose-material = "1.5.1"
