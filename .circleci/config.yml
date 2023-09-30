@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.2
 
 orbs:
   android: circleci/android@2.3.0
