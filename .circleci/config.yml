@@ -2,6 +2,48 @@ version: 2.1
 
 orbs:
   android: circleci/android@2.3.0
+  slack: circleci/slack@4.4.4
+
+commands:
+  setup-jdk17:
+    description: |
+      Installs OpenJDK 17 and sets JAVA_HOME.
+    steps:
+      - run:
+          name: Install OpenJDK 17
+          command: |
+            sudo apt-get update && sudo apt-get install openjdk-17-jdk
+            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
+            echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/' >> ~/.circlerc
+  decode-properties:
+    description: |
+      Decodes local.properties from base64.
+    steps:
+      - run:
+          name: decode properties
+          command: touch release.jks && echo -n "${LOCAL_PROPERTIES_BASE64}" | base64 -d > local.properties
+  decode-jks:
+    description: |
+      Decodes release.jks from base64.
+    steps:
+      - run:
+          name: decode jks
+          command: touch release.jks && echo -n "${JKS_BASE64}" | base64 -d > release.jks
+  slack-success:
+    description:
+      Sends a slack message on success.
+    steps:
+      - slack/notify:
+          event: pass
+          template: basic_success_1
+  slack-failure:
+    description:
+      Sends a slack message on failure.
+    steps:
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
 jobs:
   unit-and-ui-tests:
@@ -10,75 +52,54 @@ jobs:
       tag: 2021.10.1
     steps:
       - checkout
-      - run:
-          name: Install OpenJDK 17
-          command: |
-            sudo apt-get update && sudo apt-get install openjdk-17-jdk
-            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
-            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
-            echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/' >> ~/.circlerc
+      - setup-jdk17
       - run:
           name: chmod gradle
           command: chmod +x ./gradlew
-      - run:
-          name: decode properties
-          command: touch release.jks && echo -n "${LOCAL_PROPERTIES_BASE64}" | base64 -d > local.properties
+      - decode-properties
       - android/run-tests:
           test-command: ./gradlew lint testDebug --continue
       - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-29;google_apis;x86_64
           memory: 4096
+      - slack-failure
+      - slack-success
   deploy-gate:
     executor:
       name: android/android-machine
       tag: 2021.10.1
     steps:
       - checkout
-      - run:
-          name: Install OpenJDK 17
-          command: |
-            sudo apt-get update && sudo apt-get install openjdk-17-jdk
-            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
-            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
-            echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/' >> ~/.circlerc
+      - setup-jdk17
       - run:
           name: chmod gradle
           command: chmod +x ./gradlew
-      - run:
-          name: decode jks
-          command: touch release.jks && echo -n "${JKS_BASE64}" | base64 -d > release.jks
-      - run:
-          name: decode properties
-          command: touch release.jks && echo -n "${LOCAL_PROPERTIES_BASE64}" | base64 -d > local.properties
+      - decode-jks
+      - decode-properties
       - run:
           name: Upload to DeployGate
           command: ./gradlew uploadDeployGateRelease
+      - slack-failure
+      - slack-success
   release-deploy:
     executor:
       name: android/android-machine
       tag: 2021.10.1
     steps:
       - checkout
-      - run:
-          name: Install OpenJDK 17
-          command: |
-            sudo apt-get update && sudo apt-get install openjdk-17-jdk
-            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
-            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
-            echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/' >> ~/.circlerc
+      - setup-jdk17
       - run:
           name: chmod gradle
           command: chmod +x ./gradlew
-      - run:
-          name: deocede jks
-          command: touch release.jks && echo -n "${JKS_BASE64}" | base64 -d > release.jks
-      - run:
-          name: decode properties
-          command: touch release.jks && echo -n "${LOCAL_PROPERTIES_BASE64}" | base64 -d > local.properties
+      - decode-jks
+      - decode-properties
       - run:
           name: build apk
           command: ./gradlew assembleRelease
+      - slack-failure
+      - slack-success
+
 
 workflows:
   version: 2
