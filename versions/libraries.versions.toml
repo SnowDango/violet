@@ -33,7 +33,7 @@ datastore = "1.0.0"
 
 workmanager = "2.8.1"
 
-koin = "3.4.3"
+koin = "3.5.0"
 
 timber = "5.0.1"
 
