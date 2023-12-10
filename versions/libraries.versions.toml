@@ -45,7 +45,7 @@ moshi = "1.15.0"
 retrofit = "2.9.0"
 okhttp = "4.12.0"
 
-junit5 = "5.10.0"
+junit5 = "5.10.1"
 android-junit5 = "1.3.0"
 croutine-test = "1.7.3"
 spek = "2.0.19"
