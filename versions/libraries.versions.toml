@@ -2,7 +2,7 @@
 # plugin
 android-gradle = "8.0.0"
 kotlin = "1.8.22"
-jacoco = "0.8.10"
+jacoco = "0.8.11"
 gradle-junit5 = "1.10.0.0"
 
 androidx-core-ktx = "1.12.0"
