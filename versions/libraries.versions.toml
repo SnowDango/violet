@@ -22,7 +22,7 @@ compose-ui = "1.5.4"
 compose-material = "1.5.1"
 compose-material3 = "1.1.2"
 compose-activity = "1.8.2"
-compose-viewmodel = "2.6.2"
+compose-viewmodel = "2.7.0"
 compose-runtime = "1.5.4"
 
 flow-layout = "0.32.0"
